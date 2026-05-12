@@ -304,15 +304,15 @@
         <form id="contactForm">
           <div class="mb-3">
             <label for="name" class="form-label">Họ và tên</label>
-            <input type="text" class="form-control" id="name" placeholder="Nhập tên của bạn" autocomplete="name">
+            <input type="text" class="form-control" id="name" name="from_name" placeholder="Nhập tên của bạn" autocomplete="name">
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="example@example.com" autocomplete="email">
+            <input type="email" class="form-control" id="email" name="from_email" placeholder="example@example.com" autocomplete="email">
           </div>
           <div class="mb-3">
             <label for="message" class="form-label">Lời nhắn</label>
-            <textarea class="form-control" id="message" rows="5" placeholder="Viết lời nhắn của bạn..."></textarea>
+            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Viết lời nhắn của bạn..."></textarea>
           </div>
           <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> Gửi</button>
         </form>
@@ -465,19 +465,20 @@
   </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom JS -->
-<script src="js/main.js"></script>
-<script src="js/script.js"></script>
-
+<!-- EmailJS SDK -- Phải load TRƯỚC các script custom -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
   (function(){
       emailjs.init("PU-XG9rPWqN8OwKZl");
   })();
 </script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS -->
+<script src="js/main.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 </html>

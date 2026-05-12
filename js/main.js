@@ -1,4 +1,4 @@
-﻿// Typing Effect
+// Typing Effect
 function initTypingEffect() {
   const typingElement = document.querySelector('.typing-text');
   if (!typingElement) return;
@@ -88,6 +88,13 @@ document.addEventListener('DOMContentLoaded', function() {
              console.error('EmailJS Error:', error);
              submitBtn.innerText = originalBtnText;
           });
+      } // end if (name && email && message)
+    }); // end contactForm.addEventListener
+  } // end if (contactForm)
+
+  // Khởi chạy Robot Pet sau khi DOM đã sẵn sàng
+  initRobotPet();
+}); // end DOMContentLoaded
 
 // Robot Pet Functions
 function initRobotPet() {
