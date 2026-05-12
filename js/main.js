@@ -58,28 +58,36 @@ document.addEventListener('DOMContentLoaded', function() {
       const message = document.getElementById('message').value;
       
       if (name && email && message) {
-        successMessage.classList.remove('d-none');
-        successMessage.style.animation = 'slideInDown 0.5s ease';
-        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        contactForm.reset();
-        
-        setTimeout(() => {
-          successMessage.style.animation = 'fadeOut 0.5s ease';
-          setTimeout(() => {
-            successMessage.classList.add('d-none');
-            successMessage.style.animation = '';
-          }, 500);
-        }, 5000);
-      } else {
-        alert('Vui lòng điền đầy đủ thông tin!');
-      }
-    });
-  }
-  
-  // Robot Pet Animation
-  initRobotPet();
-});
+          const submitBtn = contactForm.querySelector('button[type="submit"]');
+          const originalBtnText = submitBtn.innerText;
+          submitBtn.innerText = 'Đang gửi...';
+
+          // Thay TEMPLATE_ID bằng ID thực tế của bạn trên EmailJS
+          emailjs.send("service_vhcqrve", "template_v0k8rw4", {
+              name: name,
+              email: email,
+              message: message,
+          })
+          .then(function(response) {
+            successMessage.classList.remove('d-none');
+            successMessage.style.animation = 'slideInDown 0.5s ease';
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            contactForm.reset();
+            submitBtn.innerText = originalBtnText;
+            
+            setTimeout(() => {
+              successMessage.style.animation = 'fadeOut 0.5s ease';
+              setTimeout(() => {
+                successMessage.classList.add('d-none');
+                successMessage.style.animation = '';
+              }, 500);
+            }, 5000);
+          }, function(error) {
+             alert("Gửi email thất bại. Vui lòng thử lại sau!");
+             console.error('EmailJS Error:', error);
+             submitBtn.innerText = originalBtnText;
+          });
 
 // Robot Pet Functions
 function initRobotPet() {
