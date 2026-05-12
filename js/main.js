@@ -62,20 +62,14 @@ document.addEventListener('DOMContentLoaded', function() {
           const originalBtnText = submitBtn.innerText;
           submitBtn.innerText = 'Đang gửi...';
 
-          // 1. Gửi email thông báo cho BẠN (Chủ sở hữu)
+          // Gửi email thông báo cho BẠN và auto-reply cho KHÁCH
+          // (Cấu hình "To Email" trong EmailJS Dashboard: nguyentrithuong471@gmail.com,{{email}})
           emailjs.send("service_vhcqrve", "template_v0k8rw4", {
               name: name,
               email: email,
               message: message,
           })
           .then(function(response) {
-            // 2. Gửi email phản hồi tự động cho KHÁCH HÀNG
-            // Thay "template_xxx" bằng Template ID email mẫu bạn vừa tạo ở Bước 1
-            emailjs.send("service_vhcqrve", "YOUR_AUTO_REPLY_TEMPLATE_ID", {
-                name: name,
-                email: email, // EmailJS sẽ gửi tới địa chỉ này dựa trên {{email}} trong template
-            });
-
             successMessage.classList.remove('d-none');
             successMessage.style.animation = 'slideInDown 0.5s ease';
             successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -523,7 +517,7 @@ function initChatbot() {
     
     // Contact
     if (q.match(/liên hệ|contact|email|số điện thoại|phone|gặp/)) {
-      return 'Bạn có thể liên hệ với chủ nhân mình qua:\n📧 Email: thuong.230234@tbd.edu.vn\n📱 Phone: +84 935 253 359\nHoặc kéo xuống phần "Liên hệ" ở dưới nhé! 😊';
+      return 'Bạn có thể liên hệ với chủ nhân mình qua:\n📧 Email: nguyentrithuong471@gmail.com\n📱 Phone: +84 935 253 359\nHoặc kéo xuống phần "Liên hệ" ở dưới nhé! 😊';
     }
     
     // About AI/robot
