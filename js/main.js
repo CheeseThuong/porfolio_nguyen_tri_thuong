@@ -62,13 +62,20 @@ document.addEventListener('DOMContentLoaded', function() {
           const originalBtnText = submitBtn.innerText;
           submitBtn.innerText = 'Đang gửi...';
 
-          // Thay TEMPLATE_ID bằng ID thực tế của bạn trên EmailJS
+          // 1. Gửi email thông báo cho BẠN (Chủ sở hữu)
           emailjs.send("service_vhcqrve", "template_v0k8rw4", {
               name: name,
               email: email,
               message: message,
           })
           .then(function(response) {
+            // 2. Gửi email phản hồi tự động cho KHÁCH HÀNG
+            // Thay "template_xxx" bằng Template ID email mẫu bạn vừa tạo ở Bước 1
+            emailjs.send("service_vhcqrve", "YOUR_AUTO_REPLY_TEMPLATE_ID", {
+                name: name,
+                email: email, // EmailJS sẽ gửi tới địa chỉ này dựa trên {{email}} trong template
+            });
+
             successMessage.classList.remove('d-none');
             successMessage.style.animation = 'slideInDown 0.5s ease';
             successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
