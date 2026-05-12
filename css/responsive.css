@@ -1,0 +1,256 @@
+/*
+=============================
+RESPONSIVE CSS - NGUYỄN TRÍ THƯỢNG CV
+Tối ưu hóa giao diện cho các thiết bị khác nhau
+=============================
+*/
+
+/* ========== MOBILE FIRST APPROACH ========== */
+
+/* Extra Small devices (phones, 576px and down) */
+@media (max-width: 575.98px) {
+  /* Hero Section */
+  .hero h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+  
+  .hero p {
+    font-size: 1rem !important;
+    margin-bottom: 1rem;
+  }
+  
+  .hero .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem;
+  }
+  
+  /* Avatar */
+  .avatar {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  
+  /* Profile Section */
+  .profile-section {
+    padding: 40px 0 !important;
+  }
+  
+  .profile-card {
+    padding: 20px !important;
+    margin: 0 15px;
+  }
+  
+  /* Sections */
+  .section {
+    padding: 40px 0 !important;
+  }
+  
+  /* Cards */
+  .card {
+    margin-bottom: 1rem;
+  }
+  
+  /* Social Links */
+  .social-links {
+    gap: 15px !important;
+  }
+  
+  .social-links a {
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 18px !important;
+  }
+  
+  /* Table responsive */
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+  
+  /* Navigation */
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .avatar {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .profile-card {
+    padding: 30px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .profile-section {
+    padding: 60px 0;
+  }
+  
+  /* Stack columns on tablet */
+  .profile-card .row > div {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  /* Default styles already optimized for desktop */
+  
+  /* Enhanced hover effects for desktop */
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(212, 165, 116, 0.3);
+  }
+  
+  .avatar:hover {
+    transform: scale(1.08);
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+  
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+  
+  .hero p {
+    font-size: 1.3rem;
+  }
+  
+  .profile-card {
+    padding: 50px;
+  }
+}
+
+/* ========== LANDSCAPE ORIENTATION ========== */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 0;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .profile-section {
+    padding: 40px 0;
+  }
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+  .navbar,
+  .social-links,
+  .btn,
+  .modal {
+    display: none !important;
+  }
+  
+  .hero {
+    height: auto;
+    background: none !important;
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+  
+  .hero::before {
+    display: none;
+  }
+  
+  .profile-section {
+    background: none !important;
+    color: #000 !important;
+  }
+  
+  .profile-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: #000 !important;
+  }
+  
+  .card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+  
+  .section {
+    page-break-inside: avoid;
+  }
+}
+
+/* ========== ACCESSIBILITY IMPROVEMENTS ========== */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --primary-color: #8b4513;
+    --secondary-color: #654321;
+    --accent-color: #daa520;
+    --dark-color: #4a3429;
+    --text-primary: #000000;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .card {
+    border: 2px solid var(--dark-color) !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light-bg: #1a1a1a;
+    --text-primary: #e0e0e0;
+    --text-light: #ffffff;
+  }
+  
+  body {
+    background: var(--light-bg);
+    color: var(--text-primary);
+  }
+  
+  .card {
+    background: #2a2a2a;
+    color: var(--text-primary);
+  }
+  
+  .table {
+    color: var(--text-primary);
+  }
+}

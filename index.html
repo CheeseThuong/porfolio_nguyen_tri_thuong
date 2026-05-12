@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Nguyễn Trí Thượng</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Custom CSS với cache busting để đảm bảo CSS mới được tải -->
+  <link rel="stylesheet" href="css/style.css?v=1.0.1">
+  <link rel="stylesheet" href="css/responsive.css?v=1.0.1">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Nguyễn Trí Thượng</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Kỹ năng</a></li>
+        <li class="nav-item"><a class="nav-link" href="#hobbies">Sở thích</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero hero-premium">
+  <div class="hero-premium__overlay"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-7 hero-premium__content">
+        <span class="hero-premium__eyebrow">Sinh viên năm 3</span>
+        <h1 class="hero-premium__title">Nguyễn Trí Thượng</h1>
+        <p class="hero-premium__lead">
+          <span class="typing-text"></span>
+          <span class="typing-cursor">|</span>
+        </p>
+        <div class="hero-premium__cta">
+          <a href="#contact" class="btn btn-lg btn-primary me-3">Liên hệ</a>
+          <a href="#about" class="btn btn-lg btn-outline-light">Tìm hiểu thêm</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <aside class="hero-premium__card">
+          <div class="hero-premium__avatar">
+            <img src="images/avatar.jpg" alt="Nguyễn Trí Thượng">
+          </div>
+          <h3 class="hero-premium__card-title">Sinh viên AI</h3>
+          <p class="hero-premium__card-text">Đang học lập trình về Trí tuệ nhân tạo và muốn tìm hiểu về lập trình web.</p>
+          <ul class="hero-premium__card-list">
+            <li><i class="fas fa-envelope"></i><a href="mailto:thuong.230234@tbd.edu.vn">thuong.230234@tbd.edu.vn</a></li>
+            <li><i class="fas fa-phone"></i><a href="tel:+84935253359">+84 935 253 359</a></li>
+            <li><i class="fas fa-location-dot"></i>Nha Trang, Việt Nam</li>
+          </ul>
+          <div class="hero-premium__card-links">
+            <a href="https://github.com/CheeseThuong" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- About Section -->
+<section id="about" class="section bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4"><i class="fas fa-user-circle text-primary"></i> Giới thiệu</h2>
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="lead">Tôi là sinh viên năm 3 ngành Trí tuệ nhân tạo tại Đại học Thái Bình Dương.</p>
+        <ul class="list-unstyled">
+          <li><i class="fas fa-check-circle text-success"></i> Chuyên về Machine Learning và Deep Learning</li>
+          <li><i class="fas fa-check-circle text-success"></i> Phân tích dữ liệu với Python, Pandas, NumPy</li>
+          <li><i class="fas fa-check-circle text-success"></i> Xây dựng mô hình AI và Neural Networks</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-4 text-center">
+          <h4 class="mb-3"><i class="fas fa-graduation-cap text-primary"></i> Thông tin học tập</h4>
+          <div class="row">
+            <div class="col-6">
+              <h3 class="text-primary">Năm 3</h3>
+              <small>Sinh viên</small>
+            </div>
+            <div class="col-6">
+              <h3 class="text-success">AI</h3>
+              <small>Chuyên ngành</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Goals Section -->
+<section id="goals" class="section">
+  <div class="container">
+    <h2 class="text-center mb-4"><i class="fas fa-bullseye text-primary"></i> Mục tiêu</h2>
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h4><i class="fas fa-graduation-cap text-primary"></i> Ngắn hạn</h4>
+          <p>Hoàn thành chương trình đại học tốt.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h4><i class="fas fa-robot text-success"></i> Kỹ năng</h4>
+          <p>Nâng cao kỹ năng AI, Machine Learning và Data Science.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h4><i class="fas fa-briefcase text-primary"></i> Dài hạn</h4>
+          <p>Trở thành chuyên gia AI/ML Engineer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section skills-section">
+  <div class="container">
+    <h2 class="text-center mb-4"><i class="fas fa-brain text-primary"></i> Kỹ năng AI</h2>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <article class="skill-meter">
+          <div class="skill-meter__header">
+            <h3 class="skill-meter__title"><i class="fab fa-python"></i> Python</h3>
+            <span class="skill-meter__level">75%</span>
+          </div>
+          <div class="skill-meter__bar">
+            <div class="skill-meter__progress" style="--progress:75%"></div>
+          </div>
+          <p class="skill-meter__desc">Thành thạo Python cho AI, xử lý dữ liệu và lập trình tổng quát.</p>
+        </article>
+      </div>
+      <div class="col-lg-6">
+        <article class="skill-meter">
+          <div class="skill-meter__header">
+            <h3 class="skill-meter__title"><i class="fas fa-robot"></i> Machine Learning</h3>
+            <span class="skill-meter__level">65%</span>
+          </div>
+          <div class="skill-meter__bar">
+            <div class="skill-meter__progress" style="--progress:65%"></div>
+          </div>
+          <p class="skill-meter__desc">Sử dụng Scikit-learn, các thuật toán ML và xây dựng mô hình dự đoán.</p>
+        </article>
+      </div>
+      <div class="col-lg-6">
+        <article class="skill-meter">
+          <div class="skill-meter__header">
+            <h3 class="skill-meter__title"><i class="fas fa-project-diagram"></i> Deep Learning</h3>
+            <span class="skill-meter__level">60%</span>
+          </div>
+          <div class="skill-meter__bar">
+            <div class="skill-meter__progress" style="--progress:60%"></div>
+          </div>
+          <p class="skill-meter__desc">Làm việc với TensorFlow, Keras, Neural Networks và CNN.</p>
+        </article>
+      </div>
+      <div class="col-lg-6">
+        <article class="skill-meter">
+          <div class="skill-meter__header">
+            <h3 class="skill-meter__title"><i class="fas fa-chart-line"></i> Data Analysis</h3>
+            <span class="skill-meter__level">70%</span>
+          </div>
+          <div class="skill-meter__bar">
+            <div class="skill-meter__progress" style="--progress:70%"></div>
+          </div>
+          <p class="skill-meter__desc">Phân tích dữ liệu với Pandas, NumPy, Matplotlib và Seaborn.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toolkit Section -->
+<section id="toolkit" class="section bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4"><i class="fas fa-toolbox text-primary"></i> Công cụ AI</h2>
+    <div class="toolkit-grid">
+      <div class="toolkit-item">
+        <i class="fab fa-python"></i>
+        <span>Python</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fas fa-brain"></i>
+        <span>TensorFlow</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fas fa-project-diagram"></i>
+        <span>Keras</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fas fa-chart-bar"></i>
+        <span>Pandas</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fas fa-square-root-alt"></i>
+        <span>NumPy</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fas fa-chart-line"></i>
+        <span>Scikit-learn</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fab fa-github"></i>
+        <span>GitHub</span>
+      </div>
+      <div class="toolkit-item">
+        <i class="fas fa-book"></i>
+        <span>Jupyter</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hobbies Section -->
+<section id="hobbies" class="section hobbies-section">
+  <div class="container">
+    <h2 class="text-center mb-4"><i class="fas fa-heart text-primary"></i> Sở thích</h2>
+    <div class="timeline" id="hobbyTimeline">
+      <div class="timeline__item" data-index="0">
+        <div class="timeline__content hobby-card hobby-card--music">
+          <div class="hobby-card__icon"><i class="fas fa-music"></i></div>
+          <h3 class="hobby-card__title">Nghe nhạc</h3>
+          <p class="hobby-card__desc">Thích nghe nhạc để thư giãn sau giờ học.</p>
+          <div class="hobby-card__tags">
+            <span class="hobby-card__tag">Chill</span>
+            <span class="hobby-card__tag">Lo-fi</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline__item" data-index="1">
+        <div class="timeline__content hobby-card hobby-card--reading">
+          <div class="hobby-card__icon"><i class="fas fa-book"></i></div>
+          <h3 class="hobby-card__title">Đọc sách</h3>
+          <p class="hobby-card__desc">Đọc sách về công nghệ và kỹ năng mềm.</p>
+          <div class="hobby-card__tags">
+            <span class="hobby-card__tag">Tech</span>
+            <span class="hobby-card__tag">Books</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline__item" data-index="2">
+        <div class="timeline__content hobby-card hobby-card--sport">
+          <div class="hobby-card__icon"><i class="fas fa-futbol"></i></div>
+          <h3 class="hobby-card__title">Thể thao</h3>
+          <p class="hobby-card__desc">Thích chơi bóng đá và chạy bộ.</p>
+          <div class="hobby-card__tags">
+            <span class="hobby-card__tag">Football</span>
+            <span class="hobby-card__tag">Running</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline__item" data-index="3">
+        <div class="timeline__content hobby-card hobby-card--code">
+          <div class="hobby-card__icon"><i class="fas fa-code"></i></div>
+          <h3 class="hobby-card__title">Lập trình</h3>
+          <p class="hobby-card__desc">Thích code và làm các dự án nhỏ.</p>
+          <div class="hobby-card__tags">
+            <span class="hobby-card__tag">Web</span>
+            <span class="hobby-card__tag">AI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4"><i class="fas fa-envelope-open-text text-primary"></i> Liên hệ</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <!-- Thông báo thành công -->
+        <div id="successMessage" class="alert alert-success d-none" role="alert">
+          <i class="fas fa-check-circle"></i> <strong>Gửi thành công!</strong> Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể!
+        </div>
+        <form id="contactForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" id="name" placeholder="Nhập tên của bạn" autocomplete="name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="example@example.com" autocomplete="email">
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Lời nhắn</label>
+            <textarea class="form-control" id="message" rows="5" placeholder="Viết lời nhắn của bạn..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> Gửi</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6 mb-4">
+        <h5 class="footer-title">Về tôi</h5>
+        <p class="footer-text">Sinh viên Trí tuệ nhân tạo tại ĐH Thái Bình Dương, đam mê Machine Learning và Data Science.</p>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-4">
+        <h5 class="footer-title">Liên kết</h5>
+        <ul class="footer-links">
+          <li><a href="#about">Giới thiệu</a></li>
+          <li><a href="#skills">Kỹ năng</a></li>
+          <li><a href="#hobbies">Sở thích</a></li>
+          <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-4">
+        <h5 class="footer-title">Kỹ năng AI</h5>
+        <ul class="footer-skills">
+          <li><i class="fab fa-python"></i> Python</li>
+          <li><i class="fas fa-robot"></i> Machine Learning</li>
+          <li><i class="fas fa-brain"></i> Deep Learning</li>
+          <li><i class="fas fa-chart-line"></i> Data Analysis</li>
+        </ul>
+      </div>
+
+      <div class="col-md-3 col-sm-6">
+        <h5 class="footer-title">Liên hệ</h5>
+        <ul class="footer-contact">
+          <li><i class="fas fa-envelope"></i> <a href="mailto:thuong.230234@tbd.edu.vn">thuong.230234@tbd.edu.vn</a></li>
+          <li><i class="fas fa-phone"></i> <a href="tel:+84935253359">+84 935 253 359</a></li>
+          <li><i class="fas fa-map-marker-alt"></i> Nha Trang, Việt Nam</li>
+        </ul>
+        
+        <div class="footer-social d-flex justify-content-center mt-3">
+          <a href="https://github.com/CheeseThuong" target="_blank" title="GitHub" class="footer-social-link">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" title="Facebook" class="footer-social-link">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" title="LinkedIn" class="footer-social-link">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="footer-divider">
+    
+    <div class="text-center pt-3">
+      <p class="footer-copyright">© 2025 Nguyễn Trí Thượng <i class="fas fa-heart text-danger"></i></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Robot Pet Chatbot -->
+<div id="robotPet" class="robot-pet">
+  <div class="thinking-bubble">
+    Đang suy nghĩ
+    <span class="thinking-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </div>
+  <div class="robot-body">
+    <div class="robot-antenna">
+      <div class="antenna-ball"></div>
+    </div>
+    <div class="robot-head">
+      <div class="robot-eyes">
+        <div class="eye left-eye">
+          <div class="pupil"></div>
+        </div>
+        <div class="eye right-eye">
+          <div class="pupil"></div>
+        </div>
+      </div>
+      <div class="robot-mouth"></div>
+    </div>
+    <div class="robot-torso">
+      <div class="robot-heart">❤️</div>
+    </div>
+    <div class="robot-arms">
+      <div class="arm left-arm"></div>
+      <div class="arm right-arm"></div>
+    </div>
+    <div class="robot-legs">
+      <div class="leg left-leg"></div>
+      <div class="leg right-leg"></div>
+    </div>
+  </div>
+  <div class="robot-shadow"></div>
+</div>
+
+<!-- Chatbot Panel -->
+<div id="chatbotPanel" class="chatbot-panel">
+  <div class="chatbot-header">
+    <div class="chatbot-header-content">
+      <div class="chatbot-avatar">🤖</div>
+      <div class="chatbot-title">
+        <h5>Robot AI Assistant</h5>
+        <span class="chatbot-status">Online</span>
+      </div>
+    </div>
+    <button id="closeChatbot" class="chatbot-close-btn" aria-label="Close chatbot">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <div id="chatMessages" class="chatbot-messages">
+    <div class="message bot-message">
+      <div class="message-avatar">🤖</div>
+      <div class="message-content">
+        <p>Mình có thể giúp gì cho bạn! 😊</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chatbot-input-area">
+    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="chatbot-input-wrapper">
+      <input 
+        type="text" 
+        id="chatInput" 
+        class="chatbot-input" 
+        placeholder="Nhập tin nhắn..."
+        autocomplete="off"
+      />
+      <button id="sendMessage" class="chatbot-send-btn" aria-label="Send message">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS -->
+<script src="js/main.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
