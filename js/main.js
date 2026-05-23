@@ -251,6 +251,89 @@ function initRobotPet() {
       e.stopPropagation();
     }
   });
+
+  // ============================================================
+  // TOUCH EVENTS — Hỗ trợ kéo thả trên thiết bị cảm ứng (mobile)
+  // TOUCH EVENTS — Support drag and drop on touch devices (mobile)
+  // ============================================================
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchDragStarted = false;
+  let isTouchDragging = false;
+  let touchOffsetX = 0;
+  let touchOffsetY = 0;
+
+  robot.addEventListener('touchstart', (e) => {
+    // Ngăn page scroll khi kéo robot — Prevent page scroll when dragging robot
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    isTouchDragging = true;
+    touchDragStarted = false;
+    
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    
+    const rect = robot.getBoundingClientRect();
+    touchOffsetX = touchStartX - rect.left;
+    touchOffsetY = touchStartY - rect.top;
+    
+    // Đặt vị trí fixed để tránh xung đột scroll — Set fixed position to avoid scroll conflict
+    robot.style.position = 'fixed';
+  }, { passive: false });
+
+  robot.addEventListener('touchmove', (e) => {
+    if (!isTouchDragging) return;
+    
+    const touch = e.touches[0];
+    const currentX = touch.clientX;
+    const currentY = touch.clientY;
+    
+    // Tính toán khoảng cách kéo — Calculate drag distance
+    const dist = Math.hypot(currentX - touchStartX, currentY - touchStartY);
+    if (dist >= 5) {
+      touchDragStarted = true;
+    }
+    
+    if (touchDragStarted) {
+      // Ngăn cuộn trang khi di chuyển robot — Prevent page scroll while moving robot
+      e.preventDefault();
+      
+      const x = currentX - touchOffsetX;
+      const y = currentY - touchOffsetY;
+      
+      // Giữ robot trong viewport — Keep robot within viewport
+      const maxX = window.innerWidth - robot.offsetWidth;
+      const maxY = window.innerHeight - robot.offsetHeight;
+      
+      const boundedX = Math.max(0, Math.min(x, maxX));
+      const boundedY = Math.max(0, Math.min(y, maxY));
+      
+      robot.style.left = boundedX + 'px';
+      robot.style.top = boundedY + 'px';
+      robot.style.right = 'auto';
+      robot.style.bottom = 'auto';
+      
+      robot.classList.add('happy');
+    }
+  }, { passive: false });
+
+  robot.addEventListener('touchend', (e) => {
+    if (isTouchDragging) {
+      // Nếu chưa drag di chuyển đủ xa (< 5px) thì coi là chạm — If not dragged far enough (< 5px), treat as tap
+      if (!touchDragStarted) {
+        const chatPanel = document.getElementById('chatbotPanel');
+        chatPanel.classList.toggle('active');
+        
+        robot.classList.add('wave');
+        setTimeout(() => robot.classList.remove('wave'), 1500);
+      }
+      
+      isTouchDragging = false;
+      touchDragStarted = false;
+      setTimeout(() => robot.classList.remove('happy'), 500);
+    }
+  }, { passive: false });
   
   // Random happy animations - Hoạt ảnh vui vẻ ngẫu nhiên
   setInterval(() => {
@@ -525,9 +608,15 @@ function initChatbot() {
       return 'Mình là Robot Pet - một chatbot được tạo ra để giới thiệu về chủ nhân mình. Chủ nhân mình đam mê AI/ML và đang học về Neural Networks, Computer Vision và NLP! 🤖✨';
     }
     
-    // Projects
+    // Projects — cập nhật để mô tả đúng các dự án thực tế
     if (q.match(/dự án|project|làm gì|portfolio|model|mô hình/)) {
-      return 'Chủ nhân mình đang làm các dự án về Machine Learning và Deep Learning. Bạn ấy xây dựng mô hình AI, phân tích dữ liệu và nghiên cứu các thuật toán ML. Còn nhiều dự án thú vị đang được phát triển! 🚀';
+      return 'Chủ nhân mình đã thực hiện nhiều dự án thú vị! 🚀\n' +
+        '• 🎙️ VietASR Pro — Nhận dạng giọng nói tiếng Việt (Wav2Vec2)\n' +
+        '• 🏦 TBD Bank Chatbot — Chatbot tư vấn ngân hàng\n' +
+        '• 🎓 Botchat hỗ trợ sinh viên — AI tra cứu học vụ\n' +
+        '• 💅 Q Nails & Ellamy Nails — Website tiệm nail\n' +
+        '• 🔮 Tarot AI — Xem bói tarot miễn phí bằng AI\n' +
+        'Xem thêm ở phần "Dự án" trên trang nhé!';
     }
     
     // Hobbies

@@ -3034,3 +3034,155 @@ footer .border-secondary {
     max-height: 350px;
   }
 }
+
+/* ============================================================
+   PROJECTS SECTION — Giao diện section dự án nổi bật
+   ============================================================ */
+
+/* Container chính của section projects */
+.projects-section {
+  background: var(--light-bg, #faf8f4);
+  padding: 80px 0;
+}
+
+/* ============================================================
+   PROJECT CARD — Card hiển thị từng dự án
+   ============================================================ */
+
+/* Card wrapper — nền kính, viền mờ, shadow nhẹ */
+.project-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid rgba(212, 165, 116, 0.25);
+  border-radius: 16px;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(93, 78, 55, 0.08);
+}
+
+/* Hover effect — nâng lên nhẹ */
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 35px rgba(212, 165, 116, 0.25);
+}
+
+/* Icon area — gradient nền theo màu primary */
+.project-card__icon {
+  background: linear-gradient(135deg, var(--primary-color, #c8956c), var(--secondary-color, #a0724a));
+  padding: 24px;
+  text-align: center;
+}
+
+.project-card__icon i {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+/* Body area — nội dung chính */
+.project-card__body {
+  padding: 20px 20px 12px;
+  flex: 1;
+}
+
+/* Tiêu đề dự án */
+.project-card__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark-color, #5d4e37);
+  margin-bottom: 8px;
+}
+
+/* Mô tả ngắn */
+.project-card__desc {
+  font-size: 0.9rem;
+  color: var(--text-muted, #8b7355);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* ============================================================
+   PROJECT TAGS — Nhãn công nghệ sử dụng
+   ============================================================ */
+
+/* Container tags */
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Tag đơn lẻ */
+.project-tag {
+  display: inline-block;
+  background: rgba(200, 149, 108, 0.12);
+  color: var(--primary-color, #c8956c);
+  border: 1px solid rgba(200, 149, 108, 0.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   PROJECT CARD FOOTER — Loại dự án
+   ============================================================ */
+
+.project-card__footer {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(212, 165, 116, 0.15);
+  background: rgba(200, 149, 108, 0.04);
+}
+
+.project-card__type {
+  font-size: 0.82rem;
+  color: var(--text-muted, #8b7355);
+  font-weight: 600;
+}
+
+.project-card__type i {
+  margin-right: 5px;
+  color: var(--primary-color, #c8956c);
+}
+
+/* ============================================================
+   DARK MODE — Project cards trong chế độ tối
+   ============================================================ */
+
+.dark-mode .project-card {
+  background: #2a2a2a;
+  border-color: rgba(212, 165, 116, 0.2);
+}
+
+.dark-mode .project-card__title {
+  color: #e0d5c5;
+}
+
+.dark-mode .project-card__desc {
+  color: #b0a090;
+}
+
+.dark-mode .project-card__footer {
+  background: rgba(255, 255, 255, 0.03);
+  border-top-color: rgba(212, 165, 116, 0.12);
+}
+
+/* ============================================================
+   RESPONSIVE — Projects section trên mobile
+   ============================================================ */
+
+@media (max-width: 575.98px) {
+  /* Giảm padding icon trên mobile nhỏ */
+  .project-card__icon {
+    padding: 18px;
+  }
+  .project-card__icon i {
+    font-size: 1.6rem;
+  }
+  .project-card__title {
+    font-size: 1rem;
+  }
+}

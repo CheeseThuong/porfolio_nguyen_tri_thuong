@@ -254,3 +254,50 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     color: var(--text-primary);
   }
 }
+
+/* ============================================================
+   ROBOT PET MOBILE — Cấu hình robot pet trên thiết bị di động
+   ============================================================ */
+@media (max-width: 767.98px) {
+  #robotPet {
+    transform: scale(0.75) !important;
+    bottom: 80px !important;
+    right: 15px !important;
+    z-index: 1500 !important;
+  }
+}
+
+/* ============================================================
+   CHATBOT PANEL MOBILE — Tối ưu hóa khung chat trên thiết bị di động
+   ============================================================ */
+@media (max-width: 767.98px) {
+  #chatbotPanel.active {
+    width: calc(100vw - 20px) !important;
+    height: 70vh !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+    border-radius: 16px !important;
+  }
+
+  .chatbot-input-area {
+    min-height: 50px !important;
+  }
+
+  .chatbot-input {
+    font-size: 16px !important;
+  }
+}
+
+/* ============================================================
+   BACK TO TOP & DARK MODE TOGGLE MOBILE — Dịch chuyển các nút điều hướng trên mobile
+   ============================================================ */
+@media (max-width: 767.98px) {
+  .back-to-top {
+    right: 15px !important;
+  }
+
+  .dark-mode-toggle {
+    right: 15px !important;
+  }
+}
