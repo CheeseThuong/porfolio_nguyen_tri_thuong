@@ -256,41 +256,83 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 }
 
 /* ============================================================
-   ROBOT PET MOBILE — Cấu hình robot pet trên thiết bị di động
+   ROBOT PET & CHATBOT MOBILE — Override cuối cùng, ghi đè mọi rule cũ
+   Final mobile overrides for robot pet and chatbot panel
    ============================================================ */
 @media (max-width: 767.98px) {
+  /* Robot: luôn hiển thị cố định góc phải — Robot: always fixed bottom-right */
   #robotPet {
-    transform: scale(0.75) !important;
-    bottom: 80px !important;
+    position: fixed !important;
     right: 15px !important;
-    z-index: 1500 !important;
+    bottom: 80px !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: 10000 !important;
+    transform: scale(0.72) !important;
+    transform-origin: bottom right !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
-}
 
-/* ============================================================
-   CHATBOT PANEL MOBILE — Tối ưu hóa khung chat trên thiết bị di động
-   ============================================================ */
-@media (max-width: 767.98px) {
-  #chatbotPanel.active {
-    width: calc(100vw - 20px) !important;
-    height: 70vh !important;
-    bottom: 10px !important;
+  /* Chatbot panel: vị trí nền — Chatbot panel: base position (hidden) */
+  #chatbotPanel {
+    position: fixed !important;
     left: 10px !important;
     right: 10px !important;
-    border-radius: 16px !important;
+    bottom: 10px !important;
+    top: auto !important;
+    width: calc(100vw - 20px) !important;
+    height: 70vh !important;
+    max-height: none !important;
+    border-radius: 18px !important;
+    z-index: 9999 !important;
   }
 
+  /* Chatbot panel khi mở — Chatbot panel when active */
+  #chatbotPanel.active {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* Robot khi chatbot mở: di chuyển lên trên chatbot panel — Robot above chatbot when open */
+  body.chatbot-open #robotPet,
+  #robotPet.chatbot-open {
+    left: 50% !important;
+    right: auto !important;
+    bottom: calc(70vh + 8px) !important;
+    top: auto !important;
+    transform: translateX(-50%) scale(0.62) !important;
+    transform-origin: bottom center !important;
+    z-index: 10001 !important;
+  }
+
+  /* Chatbot panel khi mở: giữ ở dưới — Chatbot stays at bottom when open */
+  body.chatbot-open #chatbotPanel {
+    bottom: 10px !important;
+  }
+
+  /* Vùng tin nhắn: chiều cao đủ để hiển thị — Messages area height */
+  .chatbot-messages {
+    max-height: calc(70vh - 145px) !important;
+    overflow-y: auto !important;
+  }
+
+  /* Input area: chiều cao tối thiểu — Input area minimum height */
   .chatbot-input-area {
-    min-height: 50px !important;
+    min-height: 56px !important;
   }
 
+  /* Input: font lớn hơn tránh zoom iOS — Input: larger font to prevent iOS zoom */
   .chatbot-input {
     font-size: 16px !important;
   }
 }
 
 /* ============================================================
-   BACK TO TOP & DARK MODE TOGGLE MOBILE — Dịch chuyển các nút điều hướng trên mobile
+   BACK TO TOP & DARK MODE TOGGLE MOBILE — Dịch chuyển các nút điều hướng
    ============================================================ */
 @media (max-width: 767.98px) {
   .back-to-top {

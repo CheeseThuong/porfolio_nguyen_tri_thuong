@@ -2756,6 +2756,8 @@ footer .border-secondary {
   z-index: 9998;
   transform: scale(0);
   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transform-origin: bottom right;
 }
@@ -2763,6 +2765,8 @@ footer .border-secondary {
 .chatbot-panel.active {
   transform: scale(1);
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Chatbot Header */
@@ -3011,30 +3015,8 @@ footer .border-secondary {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .robot-pet {
-    right: 15px;
-    bottom: 15px;
-    transform: scale(0.8);
-  }
-  
-  .chatbot-panel {
-    right: 15px;
-    bottom: 100px;
-    left: 15px;
-    width: auto;
-    max-height: 500px;
-  }
-  
-  .chatbot-panel.active {
-    transform: scale(1);
-  }
-  
-  .chatbot-messages {
-    max-height: 350px;
-  }
-}
-
+/* Mobile overrides cho robot/chatbot được quản lý trong responsive.css */
+/* Mobile robot/chatbot overrides are managed in responsive.css */
 /* ============================================================
    PROJECTS SECTION — Giao diện section dự án nổi bật
    ============================================================ */

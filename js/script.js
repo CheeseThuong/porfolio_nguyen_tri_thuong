@@ -137,12 +137,15 @@ document.addEventListener('DOMContentLoaded', function() {
   =============================
   */
   function animateCounters() {
-    const counters = document.querySelectorAll('.text-primary, .text-success');
-    
+    // Chỉ chọn elements có class .counter-value để tránh làm hỏng text hỗn hợp
+    // như "Năm 3" (nếu dùng .text-primary sẽ bị đảo thành "3Năm")
+    // Only target .counter-value elements, not generic .text-primary/.text-success
+    const counters = document.querySelectorAll('.counter-value');
+
     counters.forEach(counter => {
       const text = counter.textContent;
       const number = parseInt(text.match(/\d+/));
-      
+
       if (number) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(entry => {
@@ -152,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           });
         }, { threshold: 0.5 });
-        
+
         observer.observe(counter);
       }
     });

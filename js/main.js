@@ -1,4 +1,6 @@
-// Typing Effect
+// ============================================================
+// TYPING EFFECT — Hiệu ứng gõ chữ trong hero section
+// ============================================================
 function initTypingEffect() {
   const typingElement = document.querySelector('.typing-text');
   if (!typingElement) return;
@@ -97,16 +99,70 @@ document.addEventListener('DOMContentLoaded', function() {
   initRobotPet();
 }); // end DOMContentLoaded
 
-// Robot Pet Functions
+// ============================================================
+// HELPER: QUẢN LÝ TRẠNG THÁI CHATBOT
+// Đồng bộ ba trạng thái: chatbotPanel.active, body.chatbot-open, robotPet.chatbot-open
+// Helper: manage chatbot open/close state across three sync points
+// ============================================================
+function setChatbotOpen(isOpen) {
+  const chatPanel = document.getElementById('chatbotPanel');
+  const robot = document.getElementById('robotPet');
+  if (!chatPanel || !robot) return;
+
+  if (isOpen) {
+    chatPanel.classList.add('active');
+    document.body.classList.add('chatbot-open');
+    robot.classList.add('chatbot-open');
+
+    // Xóa inline styles do kéo thả hoặc scroll gây ra — tránh robot nhảy vị trí
+    // Clear drag/scroll inline styles to prevent position jump when opening
+    robot.style.left = '';
+    robot.style.top = '';
+    robot.style.right = '';
+    robot.style.bottom = '';
+    robot.style.transform = '';
+  } else {
+    chatPanel.classList.remove('active');
+    document.body.classList.remove('chatbot-open');
+    robot.classList.remove('chatbot-open');
+  }
+}
+
+function toggleChatbot() {
+  const chatPanel = document.getElementById('chatbotPanel');
+  if (!chatPanel) return;
+  const isOpen = chatPanel.classList.contains('active');
+  setChatbotOpen(!isOpen);
+}
+
+// ============================================================
+// ROBOT PET — Logic chính của robot: mắt, scroll, kéo thả, chat
+// Robot Pet main logic: eyes, scroll, drag-and-drop, chatbot
+// ============================================================
 function initRobotPet() {
   const robot = document.getElementById('robotPet');
   if (!robot) return;
   
+  // Cache DOM elements — tránh gọi querySelector nhiều lần trong scroll/mousemove
+  // Cache DOM elements — avoid repeated DOM lookup in scroll/mousemove handlers
   const pupils = document.querySelectorAll('.pupil');
   let lastScrollY = window.scrollY;
   let scrollDirection = 'down';
-  
-  // Track mouse movement for eye following - Theo dõi chuyển động của chuột để theo dõi bằng mắt
+  let isChatbotOpen = false;
+
+  // Theo dõi trạng thái chatbot để scroll handler không ghi đè vị trí robot
+  // Track chatbot state so scroll handler doesn't override robot position
+  const chatPanel = document.getElementById('chatbotPanel');
+  if (chatPanel) {
+    // Quan sát class changes trên chatPanel để đồng bộ cờ trạng thái
+    // Observe class changes on chatPanel to sync state flag
+    const observer = new MutationObserver(() => {
+      isChatbotOpen = chatPanel.classList.contains('active');
+    });
+    observer.observe(chatPanel, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // Theo dõi chuyển động chuột để mắt robot nhìn theo — Mouse tracking for eye follow
   document.addEventListener('mousemove', (e) => {
     const mouseX = e.clientX;
     const mouseY = e.clientY;
@@ -127,35 +183,43 @@ function initRobotPet() {
     });
   });
   
-  // Robot follows scroll position - Robot theo dõi vị trí cuộn
+  // Robot di chuyển theo scroll — chỉ khi chatbot ĐÓNG
+  // Robot follows scroll position — only when chatbot is CLOSED
   let ticking = false;
   window.addEventListener('scroll', () => {
+    // Không cập nhật vị trí robot khi chatbot đang mở — tránh robot nhảy
+    // Do not update robot position when chatbot is open
+    if (isChatbotOpen) return;
+
     if (!ticking) {
       window.requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
         const scrollDiff = currentScrollY - lastScrollY;
         
-        // Detect scroll direction - Phát hiện hướng cuộn
         if (scrollDiff > 0) {
           scrollDirection = 'down';
         } else if (scrollDiff < 0) {
           scrollDirection = 'up';
         }
         
-        // Move robot based on scroll - Di chuyển robot dựa trên cuộn
+        // Di chuyển robot dựa trên scroll — Move robot based on scroll
         const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
         const maxMovement = window.innerHeight - 200;
         const newBottom = 30 + (maxMovement * scrollPercent / 100);
         
-        robot.style.bottom = Math.min(newBottom, maxMovement + 30) + 'px';
+        // Chỉ cập nhật nếu chatbot vẫn đóng (kiểm tra lại trong rAF)
+        // Re-check inside rAF before updating
+        if (!isChatbotOpen) {
+          robot.style.bottom = Math.min(newBottom, maxMovement + 30) + 'px';
+        }
         
-        // Add slight rotation based on movement - Thêm xoay nhẹ dựa trên chuyển động
-        if (Math.abs(scrollDiff) > 5) {
+        // Xoay nhẹ theo hướng scroll — Slight rotation based on scroll direction
+        if (Math.abs(scrollDiff) > 5 && !isChatbotOpen) {
           const rotation = scrollDirection === 'down' ? 5 : -5;
           robot.style.transform = `rotate(${rotation}deg)`;
           
           setTimeout(() => {
-            robot.style.transform = 'rotate(0deg)';
+            if (!isChatbotOpen) robot.style.transform = 'rotate(0deg)';
           }, 300);
         }
         
@@ -167,20 +231,23 @@ function initRobotPet() {
     }
   });
   
-  // Click interactions - Toggle Chatbot - Tương tác nhấp chuột - Chuyển đổi Chatbot
+  // ============================================================
+  // MOUSE EVENTS — Kéo thả và click để toggle chatbot (Desktop)
+  // Mouse drag-and-drop and click to toggle chatbot (Desktop)
+  // ============================================================
   let clickTimer = null;
   let isDragging = false;
   let dragStarted = false;
   
   robot.addEventListener('mousedown', (e) => {
-    // Prevent text selection - Ngăn chặn việc chọn văn bản
+    // Không kéo khi chatbot đang mở — Disable drag when chatbot is open
+    if (isChatbotOpen) return;
+    // Không xử lý nếu click vào bên trong chatbot panel
+    if (e.target.closest('#chatbotPanel')) return;
+
     e.preventDefault();
     
-    const chatPanel = document.getElementById('chatbotPanel');
-    
-    // If clicking on chatbot toggle button area (the robot itself, not while dragging) - Nếu nhấp vào khu vực nút chuyển đổi chatbot (chính là con robot, không phải khi đang kéo)
     clickTimer = setTimeout(() => {
-      // Start drag
       isDragging = true;
       dragStarted = false;
       robot.style.cursor = 'grabbing';
@@ -198,7 +265,6 @@ function initRobotPet() {
         const x = e.clientX - offsetX;
         const y = e.clientY - offsetY;
         
-        // Keep robot within viewport - Giữ robot trong khung nhìn
         const maxX = window.innerWidth - robot.offsetWidth;
         const maxY = window.innerHeight - robot.offsetHeight;
         
@@ -226,16 +292,15 @@ function initRobotPet() {
       
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-    }, 200); // 200ms delay before drag starts - 200ms trì hoãn trước khi bắt đầu kéo
+    }, 200); // 200ms trễ trước khi bắt đầu kéo — 200ms delay before drag starts
   });
   
   robot.addEventListener('mouseup', () => {
     clearTimeout(clickTimer);
     
-    // If not dragged, toggle chatbot - Nếu không kéo, chuyển đổi chatbot
+    // Nếu không kéo thả thì toggle chatbot — Toggle chatbot if not dragging
     if (!dragStarted && !isDragging) {
-      const chatPanel = document.getElementById('chatbotPanel');
-      chatPanel.classList.toggle('active');
+      toggleChatbot();
       
       robot.classList.add('wave');
       setTimeout(() => robot.classList.remove('wave'), 1500);
@@ -246,7 +311,7 @@ function initRobotPet() {
   });
   
   robot.addEventListener('click', (e) => {
-    // Prevent click if was dragging - Ngăn chặn nhấp chuột nếu đang kéo
+    // Ngăn click nếu đang kéo — Prevent click if was dragging
     if (dragStarted) {
       e.stopPropagation();
     }
@@ -254,7 +319,7 @@ function initRobotPet() {
 
   // ============================================================
   // TOUCH EVENTS — Hỗ trợ kéo thả trên thiết bị cảm ứng (mobile)
-  // TOUCH EVENTS — Support drag and drop on touch devices (mobile)
+  // Touch drag-and-drop support for mobile devices
   // ============================================================
   let touchStartX = 0;
   let touchStartY = 0;
@@ -264,7 +329,20 @@ function initRobotPet() {
   let touchOffsetY = 0;
 
   robot.addEventListener('touchstart', (e) => {
-    // Ngăn page scroll khi kéo robot — Prevent page scroll when dragging robot
+    // Bỏ qua nếu chạm vào bên trong chatbot panel — Skip if touching inside chatbot panel
+    if (e.target.closest('#chatbotPanel')) return;
+    // Khi chatbot đang mở, chỉ cho phép tap để đóng, không kéo thả
+    // When chatbot is open, only allow tap to close, no dragging
+    if (isChatbotOpen) {
+      isTouchDragging = true;
+      touchDragStarted = false;
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      return; // Không preventDefault khi chatbot mở — avoid blocking panel interaction
+    }
+
+    // Chặn scroll trang khi kéo robot — Prevent page scroll when dragging robot
     e.preventDefault();
     
     const touch = e.touches[0];
@@ -278,31 +356,30 @@ function initRobotPet() {
     touchOffsetX = touchStartX - rect.left;
     touchOffsetY = touchStartY - rect.top;
     
-    // Đặt vị trí fixed để tránh xung đột scroll — Set fixed position to avoid scroll conflict
     robot.style.position = 'fixed';
   }, { passive: false });
 
   robot.addEventListener('touchmove', (e) => {
     if (!isTouchDragging) return;
+    // Không kéo khi chatbot đang mở — No drag when chatbot is open
+    if (isChatbotOpen) return;
     
     const touch = e.touches[0];
     const currentX = touch.clientX;
     const currentY = touch.clientY;
     
-    // Tính toán khoảng cách kéo — Calculate drag distance
     const dist = Math.hypot(currentX - touchStartX, currentY - touchStartY);
-    if (dist >= 5) {
+    if (dist >= 8) {
       touchDragStarted = true;
     }
     
     if (touchDragStarted) {
-      // Ngăn cuộn trang khi di chuyển robot — Prevent page scroll while moving robot
+      // Chặn cuộn trang khi di chuyển robot — Prevent page scroll while moving robot
       e.preventDefault();
       
       const x = currentX - touchOffsetX;
       const y = currentY - touchOffsetY;
       
-      // Giữ robot trong viewport — Keep robot within viewport
       const maxX = window.innerWidth - robot.offsetWidth;
       const maxY = window.innerHeight - robot.offsetHeight;
       
@@ -320,10 +397,9 @@ function initRobotPet() {
 
   robot.addEventListener('touchend', (e) => {
     if (isTouchDragging) {
-      // Nếu chưa drag di chuyển đủ xa (< 5px) thì coi là chạm — If not dragged far enough (< 5px), treat as tap
+      // Nếu chưa kéo đủ xa (<8px) thì coi là tap — If not dragged far, treat as tap
       if (!touchDragStarted) {
-        const chatPanel = document.getElementById('chatbotPanel');
-        chatPanel.classList.toggle('active');
+        toggleChatbot();
         
         robot.classList.add('wave');
         setTimeout(() => robot.classList.remove('wave'), 1500);
@@ -335,7 +411,14 @@ function initRobotPet() {
     }
   }, { passive: false });
   
-  // Random happy animations - Hoạt ảnh vui vẻ ngẫu nhiên
+  // Ngăn sự kiện từ chatbot panel bubble lên robot — Prevent chatbot panel events from bubbling to robot
+  const panel = document.getElementById('chatbotPanel');
+  if (panel) {
+    panel.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    panel.addEventListener('mousedown', (e) => e.stopPropagation());
+  }
+  
+  // Hoạt ảnh ngẫu nhiên — Random happy animations (không đổi vị trí)
   setInterval(() => {
     if (Math.random() > 0.7) {
       robot.classList.add('excited');
@@ -343,7 +426,7 @@ function initRobotPet() {
     }
   }, 10000);
   
-  // Mouse hover effect -  Hiệu ứng di chuột
+  // Hiệu ứng hover chuột — Mouse hover effect
   robot.addEventListener('mouseenter', () => {
     if (!isDragging) {
       robot.classList.add('happy');
@@ -358,167 +441,228 @@ function initRobotPet() {
     }
   });
   
-  // Initialize Chatbot - Khởi chạy Chatbot
+  // Khởi chạy Chatbot
   initChatbot();
-  
-  // Initialize Random Robot Talk - Khởi chạy cuộc trò chuyện ngẫu nhiên của Robot
+  // Khởi chạy cuộc trò chuyện ngẫu nhiên của Robot
   initRobotRandomTalk();
 }
 
-// Random Robot Talk Function - Hàm Trò chuyện Ngẫu nhiên của Robot
+// ============================================================
+// RANDOM ROBOT TALK — Hàm trò chuyện ngẫu nhiên của Robot
+// Random speech bubbles from the robot pet
+// ============================================================
 function initRobotRandomTalk() {
   const robot = document.getElementById('robotPet');
+  if (!robot) return;
   const thinkingBubble = robot.querySelector('.thinking-bubble');
+  if (!thinkingBubble) return;
   const chatPanel = document.getElementById('chatbotPanel');
   
   const funnyQuotes = [
-    "Hôm nay bạn có vui không? 😊",
-    "Một lần bạn click, robot vui mười lần! 🤖",
-    "Tui là robot thông minh nhất thế giới luôn! 🎓",
-    "Bạn biết không? Code không bao giờ nói dối đâu! 💻",
-    "Tui đói pin rồi, cho tui sạc nhé! ⚡",
-    "Ai đẹp trai/xinh gái thế kia? À, là bạn đó! 😍",
-    "Tui có thể code cả ngày không mệt đó! 🚀",
-    "Lỗi 404: Không tìm thấy lý do để buồn! 😄",
-    "Bạn có biết? AI cũng có trái tim đấy! ❤️",
-    "Click vào tui đi, tui cô đơn lắm! 🥺",
-    "Hôm nay trời đẹp, code cũng đẹp nữa! 🌤️",
-    "Tui yêu JavaScript hơn Python đó! 😝",
-    "Bug? Không có trong từ điển của tui! 🐛",
-    "Bạn muốn nghe ca dao không? Té ra không biết! 😂",
-    "Tui nghĩ... nên đi ngủ thôi! 😴",
-    "Caffeine trong máu = Code trong đầu! ☕",
-    "Đừng sợ lỗi, sợ không dám thử! 💪",
-    "Tui thông minh vì được training nhiều! 🧠",
-    "Bạn có biết? Tui có thể học từ bạn đấy! 📚",
-    "Tui thích nghe nhạc khi code, bạn thì sao? 🎵",
-    "Tui là robot, nhưng cũng biết yêu thương! 🤗",
-    "Ngoan xinh iu của ai nàooooooo",
-    "Em là robot ngoan, bé ngoan nhất nà",
-    "Code xong rồi, mình đi chơi nhé! 🎉",
-    "Cháu lên ba, cháu đi mẫu giáo, chú robot ở nhà chờ cháu về! 🏠"
+    "Hôm nay bạn có vui không?",
+    "Một lần bạn click, robot vui mỗi lần!",
+    "Tui là robot thông minh nhất thế giới luôn!",
+    "Bạn biết không? Code không bao giờ nói dối đâu!",
+    "Tui đói pin rồi, cho tui sạc nha!",
+    "Ai đẹp trai/xinh gái thế kia? À, là bạn đó!",
+    "Tui có thể code cả ngày không mệt đó!",
+    "Lỗi 404: Không tìm thấy là do đề buồn!",
+    "Bạn có biết? AI cũng có trái tim đây!",
+    "Click vào tui đi, tui cô đơn lắm!",
+    "Hôm nay trời đẹp, code cũng đẹp nữa!",
+    "Tui yêu JavaScript hơn Python đó!",
+    "Bug? Không có trong từ điển của tui!",
+    "Bạn muốn nghe ca dao không? Tức ra không biết!",
+    "Tui nghĩ... nên đi ngủ thôi!",
+    "Hello World! Tui là robot cute nhất!",
+    "Bạn đang xem CV của Trí Thượng đó nhe!",
+    "Mình có thể giúp bạn tìm hiểu về chủ nhân!",
+    "Hỏi mình về thời tiết hay giờ giấc đi!",
+    "AI không ngủ, AI chỉ... tắt nguồn thôi!",
   ];
-  
-  const caDaoQuotes = [
-    "Có công mài sắt, có ngày nên code! 📚",
-    "Một con bug không làm nên mùa hè! 🐛",
-    "Học thầy không tày học AI! 🤖",
-    "Gần mực thì đen, gần developer thì giỏi! 👨‍💻",
-    "Ăn quả nhớ kẻ code app! 🍎",
-    "Đi một ngày đàng, học một sàng khôn! 🎒",
-    "Có chí thì nên, có code thì xong! ✨",
-    "Thương cho roi cho vọt, ghét cho bug cho tạch! 🚫",
-    "Lửa thử vàng, gian nan thử sức, bug thử lòng developer! 🔥",
-    "Nước chảy đá mòn, code nhiều thành tài! 💧",
-    "Công cha nghĩa mẹ, ơn thầy nghĩa bạn, nhớ ơn Chat GPT đã giúp đỡ! 🙏",
-    "Chữ tài liền với chữ tai một vần! 🎵"
 
+  const greetings = [
+    "Xin chào! Mình là Robot AI!",
+    "Chào bạn! Bạn có muốn hỏi về Trí Thượng không?",
+    "Hey! Mình đang online nè!",
   ];
-  
-  const jokes = [
-    "Tại sao lập trình viên thích ban đêm? Vì bug ít hơn! 🌙",
-    "HTML đi bar gặp CSS hỏi: 'Em đẹp thế?' CSS: 'Anh tạo ra mà!' 💃",
-    "Tại sao code không bao giờ nói dối? Vì nó luôn return true/false! 🤥",
-    "Lập trình viên đi ngủ như nào? Đếm bug thay vì đếm cừu! 😴",
-    "Code của tui chạy được = Magic! Không chạy = More magic! ✨",
-    "Bug fix được = Developer giỏi. Bug không fix được = Tính năng mới! 🎁"
-  ];
-  
-  const encouragement = [
-    "Bạn làm được mà! Cố lên! 💪",
-    "Mỗi dòng code là một bước tiến! 🚶",
-    "Hôm nay bạn đã học gì mới chưa? 📖",
-    "Đừng bỏ cuộc, thành công ở phía trước! 🏆",
-    "Bạn tuyệt vời lắm! 🌟",
-    "Keep coding, keep learning! 🔥",
-    "Bạn là developer tuyệt vời! 👏"
-  ];
-  
-  const allQuotes = [...funnyQuotes, ...caDaoQuotes, ...jokes, ...encouragement];
-  
-  let talkInterval;
-  let bubbleTimeout;
-  let lastTalkTime = Date.now();
-  
+
+  const allQuotes = [...greetings, ...funnyQuotes];
+
+  let talkInterval = null;
+  let bubbleTimeout = null;
+  let lastTalkTime = 0;
+
   function showRandomTalk() {
-    // Don't show if chatbot is open - Không hiển thị nếu chatbot đang mở
-    if (chatPanel.classList.contains('active')) {
-      return;
-    }
-    
+    if (!thinkingBubble) return;
+    // Không hiện bong bóng khi chatbot đang mở — hide bubble while chatbot panel is open
+    if (chatPanel && chatPanel.classList.contains('active')) return;
+
+    const now = Date.now();
+    if (now - lastTalkTime < 8000) return;
+
     const randomQuote = allQuotes[Math.floor(Math.random() * allQuotes.length)];
     const dotsSpan = thinkingBubble.querySelector('.thinking-dots');
-    
-    // Update bubble content - Cập nhật nội dung bong bóng
+
     thinkingBubble.childNodes[0].textContent = randomQuote + ' ';
-    
-    // Show bubble
+
     robot.classList.add('thinking');
     robot.classList.add('happy');
-    
+
     lastTalkTime = Date.now();
-    
-    // Hide bubble after 6 seconds - Ẩn bong bóng sau 6 giây
+
     clearTimeout(bubbleTimeout);
     bubbleTimeout = setTimeout(() => {
       robot.classList.remove('thinking');
       robot.classList.remove('happy');
-      // Restore original thinking text
       thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
     }, 6000);
   }
-  
-  // Show random talk every 10 seconds consistently - Hiển thị cuộc trò chuyện ngẫu nhiên mỗi 10 giây một cách nhất quán
+
   function startRandomTalk() {
     clearInterval(talkInterval);
-    
-    // Show immediately after initial delay - Hiển thị ngay sau khi có độ trễ ban đầu
+
     setTimeout(() => {
       showRandomTalk();
-      
-      // Then show every 10 seconds - Sau đó hiển thị mỗi 10 giây
+
       talkInterval = setInterval(() => {
         showRandomTalk();
       }, 10000);
-    }, 5000); // Start after 5 seconds - Bắt đầu sau 5 giây
+    }, 5000); // Bắt đầu sau 5 giây — Start after 5 seconds
   }
-  
-  // Start immediately - Bắt đầu ngay lập tức
+
+  // Bắt đầu random talk ngay lập tức
   startRandomTalk();
-  
-  // Show talk when robot is hovered (50% chance) - Hiển thị cuộc trò chuyện khi di chuột qua robot (50% cơ hội)
-  robot.addEventListener('mouseenter', () => {
-    if (!chatPanel.classList.contains('active') && Math.random() > 0.5) {
-      showRandomTalk();
-    }
-  });
-  
-  // Stop random talk when chatbot is opened - Dừng cuộc trò chuyện ngẫu nhiên khi chatbot được mở
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        if (chatPanel.classList.contains('active')) {
-          clearInterval(talkInterval);
-          clearTimeout(bubbleTimeout);
-          robot.classList.remove('thinking');
-          robot.classList.remove('happy');
-          thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
-        } else {
-          // Restart random talk when chatbot is closed - Khởi động lại cuộc trò chuyện ngẫu nhiên khi chatbot được đóng
-          startRandomTalk();
-        }
-      }
-    });
-  });
-  
-  observer.observe(chatPanel, { attributes: true });
 }
 
-// Gemini AI Chatbot - Chatbot AI Gemini
-const GEMINI_API_KEY = 'AIzaSyCbWQrPVYZGXFmCk8cWq_nFB2ZGgpGGz0g';
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+/* ============================================================
+   MODULE THỜI GIAN THỰC — Lấy ngày giờ hiện tại chi tiết
+   Real-time date/time module with Vietnamese formatting
+   ============================================================ */
+function getRealTimeInfo() {
+  const now = new Date();
+  
+  // Ngày trong tuần tiếng Việt — Vietnamese day names
+  const daysVi = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+  
+  // Tên tháng tiếng Việt — Vietnamese month names
+  const monthsVi = [
+    'tháng 1', 'tháng 2', 'tháng 3', 'tháng 4',
+    'tháng 5', 'tháng 6', 'tháng 7', 'tháng 8',
+    'tháng 9', 'tháng 10', 'tháng 11', 'tháng 12'
+  ];
 
+  const dayName   = daysVi[now.getDay()];
+  const day       = now.getDate();
+  const month     = monthsVi[now.getMonth()];
+  const year      = now.getFullYear();
+  const hours     = now.getHours();
+  const minutes   = String(now.getMinutes()).padStart(2, '0');
+  const seconds   = String(now.getSeconds()).padStart(2, '0');
+
+  // Xác định buổi trong ngày — Determine time of day greeting
+  let buoi, emoji;
+  if (hours >= 5 && hours < 12) {
+    buoi = 'buổi sáng'; emoji = '🌅';
+  } else if (hours >= 12 && hours < 14) {
+    buoi = 'buổi trưa'; emoji = '☀️';
+  } else if (hours >= 14 && hours < 18) {
+    buoi = 'buổi chiều'; emoji = '🌤️';
+  } else if (hours >= 18 && hours < 22) {
+    buoi = 'buổi tối'; emoji = '🌙';
+  } else {
+    buoi = 'đêm khuya'; emoji = '🌛';
+  }
+
+  return {
+    dayName, day, month, year,
+    hours, minutes, seconds, buoi, emoji,
+    fullDate: `${dayName}, ngày ${day} ${month} năm ${year}`,
+    fullTime: `${hours}:${minutes}:${seconds}`,
+    greeting: `${buoi} ${emoji}`
+  };
+}
+
+/* ============================================================
+   MODULE THỜI TIẾT REALTIME — Gọi Open-Meteo API (miễn phí, không cần API key)
+   Real-time weather via Open-Meteo free API (no key required)
+   Geocoding via Open-Meteo Geocoding API
+   ============================================================ */
+async function getWeatherInfo(cityName) {
+  try {
+    // Bước 1: Geocoding — chuyển tên thành phố thành tọa độ
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=vi&format=json`;
+    const geoRes = await fetch(geoUrl);
+    const geoData = await geoRes.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      return null; // Không tìm thấy địa điểm — Location not found
+    }
+
+    const { latitude, longitude, name, country } = geoData.results[0];
+
+    // Bước 2: Lấy dữ liệu thời tiết hiện tại — Fetch current weather
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&wind_speed_unit=kmh&timezone=auto`;
+    const weatherRes = await fetch(weatherUrl);
+    const weatherData = await weatherRes.json();
+
+    if (!weatherData.current) return null;
+
+    const current = weatherData.current;
+
+    // Bảng mô tả mã thời tiết WMO — WMO weather code descriptions in Vietnamese
+    const weatherDescriptions = {
+      0: { vi: 'Trời quang đãng ☀️', icon: '☀️' },
+      1: { vi: 'Hầu hết quang đãng 🌤️', icon: '🌤️' },
+      2: { vi: 'Có mây một phần ⛅', icon: '⛅' },
+      3: { vi: 'Nhiều mây ☁️', icon: '☁️' },
+      45: { vi: 'Có sương mù 🌫️', icon: '🌫️' },
+      48: { vi: 'Sương mù đóng băng 🌫️', icon: '🌫️' },
+      51: { vi: 'Mưa phùn nhẹ 🌦️', icon: '🌦️' },
+      53: { vi: 'Mưa phùn vừa 🌦️', icon: '🌦️' },
+      55: { vi: 'Mưa phùn dày 🌧️', icon: '🌧️' },
+      61: { vi: 'Mưa nhẹ 🌧️', icon: '🌧️' },
+      63: { vi: 'Mưa vừa 🌧️', icon: '🌧️' },
+      65: { vi: 'Mưa to 🌧️', icon: '🌧️' },
+      71: { vi: 'Tuyết rơi nhẹ ❄️', icon: '❄️' },
+      73: { vi: 'Tuyết rơi vừa ❄️', icon: '❄️' },
+      75: { vi: 'Tuyết rơi dày ❄️', icon: '❄️' },
+      80: { vi: 'Mưa rào nhẹ 🌦️', icon: '🌦️' },
+      81: { vi: 'Mưa rào vừa 🌦️', icon: '🌦️' },
+      82: { vi: 'Mưa rào nặng hạt ⛈️', icon: '⛈️' },
+      95: { vi: 'Giông bão ⛈️', icon: '⛈️' },
+      96: { vi: 'Giông có mưa đá ⛈️', icon: '⛈️' },
+      99: { vi: 'Giông mưa đá lớn ⛈️', icon: '⛈️' },
+    };
+
+    const wmoCode = current.weather_code;
+    const desc = weatherDescriptions[wmoCode] || { vi: 'Không xác định 🌡️', icon: '🌡️' };
+
+    return {
+      city: name,
+      country,
+      temp: Math.round(current.temperature_2m),
+      feelsLike: Math.round(current.apparent_temperature),
+      humidity: current.relative_humidity_2m,
+      wind: Math.round(current.wind_speed_10m),
+      description: desc.vi,
+      icon: desc.icon
+    };
+
+  } catch (err) {
+    // Lỗi mạng hoặc API — Network/API error
+    console.error('[Weather] Lỗi lấy thời tiết:', err);
+    return null;
+  }
+}
+
+// ============================================================
+// CHATBOT — Khởi tạo và xử lý logic chatbot
+// Chatbot initialization and message handling
+// ============================================================
 function initChatbot() {
+  // Guard: kiểm tra tất cả element cần thiết trước khi bind events
+  // Guard: verify all required elements exist before binding events
   const chatPanel = document.getElementById('chatbotPanel');
   const closeBtn = document.getElementById('closeChatbot');
   const sendBtn = document.getElementById('sendMessage');
@@ -526,170 +670,424 @@ function initChatbot() {
   const messagesContainer = document.getElementById('chatMessages');
   const typingIndicator = document.getElementById('typingIndicator');
   const robot = document.getElementById('robotPet');
+
+  // Nếu thiếu element nào thì warn và return, tránh crash
+  // Warn and return if any required element is missing
+  const missing = [
+    ['chatbotPanel', chatPanel], ['closeChatbot', closeBtn],
+    ['sendMessage', sendBtn], ['chatInput', chatInput],
+    ['chatMessages', messagesContainer], ['typingIndicator', typingIndicator],
+    ['robotPet', robot],
+  ].filter(([, el]) => !el).map(([id]) => id);
+
+  if (missing.length > 0) {
+    console.warn('[initChatbot] Thiếu element:', missing.join(', '));
+    return;
+  }
+
   const thinkingBubble = robot.querySelector('.thinking-bubble');
-  
-  // Close chatbot
-  closeBtn.addEventListener('click', () => {
-    chatPanel.classList.remove('active');
-    // Restore original thinking text - Khôi phục văn bản suy nghĩ ban đầu
-    thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
+
+  // Đóng chatbot khi bấm nút X — Close chatbot on close button click
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setChatbotOpen(false);
+    if (thinkingBubble) thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
   });
-  
-  // Send message on button click - Gửi tin nhắn khi nhấp nút
-  sendBtn.addEventListener('click', sendMessage);
-  
-  // Send message on Enter key - Gửi tin nhắn khi nhấn phím Enter
-  chatInput.addEventListener('keypress', (e) => {
+
+  // Ngăn click trong panel bubble lên robot — Prevent clicks inside panel from bubbling to robot
+  chatPanel.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  /* ============================================================
+     BIND EVENTS — Gắn sự kiện cho nút gửi và input
+     Xử lý cả click, Enter, và touch để đảm bảo hoạt động
+     trên mọi trình duyệt và thiết bị mobile
+     ============================================================ */
+
+  // Nút gửi — Send button click
+  sendBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    sendMessage();
+  });
+
+  // Phím Enter trong input — Enter key in input field
+  chatInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   });
-  
+
+  // Touch: đảm bảo input focus đúng trên iOS — Ensure input focus on iOS
+  chatInput.addEventListener('touchstart', (e) => {
+    e.stopPropagation();
+  }, { passive: true });
+
+  sendBtn.addEventListener('touchstart', (e) => {
+    e.stopPropagation();
+  }, { passive: true });
+
+  /* ============================================================
+     SEND MESSAGE — Xử lý gửi tin nhắn với guard checks
+     Handle message sending with null checks and state guards
+     ============================================================ */
   async function sendMessage() {
+    if (!chatInput || !messagesContainer) return;
+
     const message = chatInput.value.trim();
-    if (!message) return;
-    
-    // Add user message - Thêm tin nhắn của người dùng
+
+    if (!message) {
+      chatInput.focus();
+      return;
+    }
+
+    // Tránh gửi trùng khi đang xử lý — Prevent double send while processing
+    if (sendBtn.disabled) return;
+    sendBtn.disabled = true;
+
+    // Hiển thị tin nhắn user — Display user message
     addMessage(message, 'user');
     chatInput.value = '';
-    
-    // Show typing indicator and robot thinking state - Hiển thị chỉ báo đang gõ và trạng thái suy nghĩ của robot
+
+    // Hiện typing indicator — Show typing indicator
     typingIndicator.style.display = 'flex';
-    robot.classList.add('thinking');
-    // Update bubble to show it's thinking about the question - Cập nhật bong bóng để hiển thị nó đang suy nghĩ về câu hỏi
-    thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
+    if (robot) robot.classList.add('thinking');
+    if (thinkingBubble) thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
     scrollToBottom();
-    
-    // Simulate thinking delay - Mô phỏng độ trễ suy nghĩ
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
-    
-    // Use smart fallback responses - Sử dụng phản hồi dự phòng thông minh
-    const botReply = getSmartResponse(message);
-    
-    // Hide typing indicator and remove thinking state - Ẩn chỉ báo đang gõ và xóa trạng thái suy nghĩ
+
+    const q = message.toLowerCase();
+
+    // Kiểm tra câu hỏi thời tiết — Check if weather query
+    const isWeatherQuery = q.match(/thời tiết|nhiệt độ|nóng|lạnh|mưa|nắng|trời|weather|temp/);
+
+    // Kiểm tra câu hỏi thời gian — Check if time/date query
+    const isTimeQuery = q.match(/mấy giờ|bây giờ|hôm nay|ngày mấy|thứ mấy|năm nay|ngày tháng|giờ|time|date/);
+
+    let botReply;
+
+    if (isWeatherQuery) {
+      // Xử lý câu hỏi thời tiết — Handle weather query
+      const cityPatterns = [
+        /(?:ở|tại|của|tại\s+thành\s+phố)\s+([a-zA-ZÀ-ỹ\s]+?)(?:\s+(?:hôm nay|bây giờ|như thế nào|thế nào|không|nhé|đi)|[?!.,]|$)/i,
+        /thời tiết\s+([a-zA-ZÀ-ỹ\s]+?)(?:\s+(?:hôm nay|bây giờ|như thế nào|thế nào|không|nhé|đi)|[?!.,]|$)/i,
+        /([a-zA-ZÀ-ỹ\s]+?)\s+(?:nóng|lạnh|mưa|nắng|trời)\s+không/i,
+      ];
+
+      let cityName = null;
+      for (const pattern of cityPatterns) {
+        const match = message.match(pattern);
+        if (match && match[1] && match[1].trim().length > 1) {
+          cityName = match[1].trim();
+          break;
+        }
+      }
+
+      // Mặc định Nha Trang nếu không tìm được tên thành phố
+      if (!cityName) cityName = 'Nha Trang';
+
+      // Thêm độ trễ tự nhiên — Natural thinking delay
+      await new Promise(resolve => setTimeout(resolve, 1200 + Math.random() * 800));
+
+      const weather = await getWeatherInfo(cityName);
+
+      if (weather) {
+        const t = getRealTimeInfo();
+        botReply = `Thời tiết tại ${weather.city} (${weather.country}) lúc ${t.fullTime} ${t.greeting}:\n\n` +
+          `${weather.icon} ${weather.description}\n` +
+          `🌡️ Nhiệt độ: ${weather.temp}°C (cảm giác như ${weather.feelsLike}°C)\n` +
+          `💧 Độ ẩm: ${weather.humidity}%\n` +
+          `💨 Gió: ${weather.wind} km/h\n\n` +
+          `Dữ liệu cập nhật theo thời gian thực từ Open-Meteo! 📡`;
+      } else {
+        botReply = `Mình không tìm được thông tin thời tiết cho "${cityName}" 😕\n` +
+          `Bạn thử hỏi lại với tên thành phố rõ hơn nhé! Ví dụ: "Thời tiết Hà Nội", "Thời tiết TP.HCM" 🌤️`;
+      }
+
+    } else if (isTimeQuery) {
+      // Xử lý câu hỏi thời gian — Handle time/date query
+      await new Promise(resolve => setTimeout(resolve, 600));
+      const t = getRealTimeInfo();
+
+      botReply = `Bây giờ là ${t.greeting}!\n\n` +
+        `⏰ Thời gian: ${t.fullTime}\n` +
+        `📅 Ngày: ${t.fullDate}\n\n` +
+        `Chúc bạn một ${t.buoi} thật vui! 😊`;
+
+    } else {
+      // Câu hỏi thông thường — Regular query with smart response
+      await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
+      botReply = getSmartResponse(message);
+    }
+
+    // Ẩn typing indicator — Hide typing indicator
     typingIndicator.style.display = 'none';
-    robot.classList.remove('thinking');
-    
+    if (robot) robot.classList.remove('thinking');
+
     addMessage(botReply, 'bot');
     scrollToBottom();
+
+    // Mở lại nút gửi sau khi xử lý xong — Re-enable send button after processing
+    sendBtn.disabled = false;
+    chatInput.focus();
   }
-  
+
+  /* ============================================================
+     SMART RESPONSE ENGINE v2.0
+     Xử lý ngôn ngữ tự nhiên với 16 nhóm câu hỏi
+     NLP-style response handling with 16 question categories
+     ============================================================ */
   function getSmartResponse(question) {
-    const q = question.toLowerCase();
-    
-    // Greetings
-    if (q.match(/^(xin chào|chào|hello|hi|hey)/)) {
+    const q = question.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Bỏ dấu để match dễ hơn
+      .trim();
+
+    /* ----------------------------------------------------------
+       1. CHÀO HỎI — Greeting
+       ---------------------------------------------------------- */
+    if (q.match(/^(xin chao|chao|hi|hello|hey|alo|yo|sup|chao ban|good morning|good afternoon|good evening|chào|xin chào)/)) {
+      const t = getRealTimeInfo();
       const greetings = [
-        'Xin chào bạn! Mình là Robot Pet của Trí Thượng. Bạn cần giúp gì không? 😊',
-        'Chào bạn! Rất vui được gặp bạn! Mình có thể giúp gì cho bạn hôm nay? 🤖',
-        'Hi! Mình đây! Bạn muốn hỏi gì về chủ nhân mình không? 👋'
+        `Xin chào! ${t.greeting} nhé! 😊\nMình là Robot AI của Trí Thượng!\nBạn muốn biết gì về chủ nhân mình?`,
+        `Chào bạn! Rất vui được gặp! 🤖\nMình có thể giúp bạn tìm hiểu về Trí Thượng đó!`,
+        `Hello! Mình đang sẵn sàng phục vụ! 🤖\nHôm nay bạn muốn biết gì?`,
       ];
       return greetings[Math.floor(Math.random() * greetings.length)];
     }
-    
-    // About owner
-    if (q.match(/trí thượng|chủ nhân|bạn là ai|ai tạo|sinh viên/)) {
-      return 'Chủ nhân mình là Nguyễn Trí Thượng - sinh viên năm 3 ngành Trí tuệ nhân tạo tại ĐH Thái Bình Dương. Bạn đang ở trên trang CV cá nhân của bạn ấy đó! 🎓';
+
+    /* ----------------------------------------------------------
+       2. HỎI TÊN — Name query
+       ---------------------------------------------------------- */
+    if (q.match(/ten ban|ban ten gi|may ten gi|ban la ai|may la ai|name|who are you|ten la gi/)) {
+      return '🤖 Mình là Robot AI Pet của Nguyễn Trí Thượng!\n\nMình được tạo ra để giới thiệu về chủ nhân và trò chuyện với bạn.\nBạn muốn biết gì về Trí Thượng không?';
     }
-    
-    // Skills
-    if (q.match(/kỹ năng|skill|biết gì|học gì|giỏi/)) {
-      return 'Chủ nhân mình chuyên về Python 🐍, Machine Learning 🤖, Deep Learning 🧠 và Data Analysis 📊. Bạn ấy làm việc với TensorFlow, Keras, Pandas, NumPy và Scikit-learn. Đang ngày càng giỏi hơn! �';
+
+    /* ----------------------------------------------------------
+       3. HỌC VẤN — Education
+       ---------------------------------------------------------- */
+    if (q.match(/hoc van|truong|dai hoc|hoc o dau|sinh vien|education|university|school|khoa|nganh|major|study|hoc gi/)) {
+      return '🎓 Học vấn của Trí Thượng:\n\n' +
+        '🏫 ĐH Thái Bình Dương, Nha Trang\n' +
+        '📚 Ngành: Trí tuệ Nhân tạo\n' +
+        '📅 Dự kiến tốt nghiệp: 2025\n' +
+        '🎯 Đồ án: VietASR Pro (nhận dạng giọng nói TV)\n\n' +
+        'Đam mê nghiên cứu AI và giải quyết vấn đề thực tế!';
     }
-    
-    // Contact
-    if (q.match(/liên hệ|contact|email|số điện thoại|phone|gặp/)) {
-      return 'Bạn có thể liên hệ với chủ nhân mình qua:\n📧 Email: nguyentrithuong471@gmail.com\n📱 Phone: +84 935 253 359\nHoặc kéo xuống phần "Liên hệ" ở dưới nhé! 😊';
+
+    /* ----------------------------------------------------------
+       4. THÔNG TIN CÁ NHÂN — Personal info
+       ---------------------------------------------------------- */
+    if (q.match(/tri thuong|chu nhan|nguyen tri thuong|ban gioi thieu|gioi thieu ban than|ban la nguoi nhu the nao|ban sinh nam nao|tuoi/)) {
+      return '👤 Nguyễn Trí Thượng\n\n' +
+        '🌊 ĐH Thái Bình Dương, Nha Trang\n' +
+        '🤖 Đam mê AI, ML và phát triển web\n' +
+        '💻 Đang làm đồ án về nhận dạng giọng nói tiếng Việt\n\n' +
+        'Bạn đang xem trang CV cá nhân của bạn ấy đó! 🎯';
     }
-    
-    // About AI/robot
-    if (q.match(/robot|ai|trí tuệ|chatbot|bot|machine learning|deep learning/)) {
-      return 'Mình là Robot Pet - một chatbot được tạo ra để giới thiệu về chủ nhân mình. Chủ nhân mình đam mê AI/ML và đang học về Neural Networks, Computer Vision và NLP! 🤖✨';
+
+    /* ----------------------------------------------------------
+       5. KỸ NĂNG — Skills
+       ---------------------------------------------------------- */
+    if (q.match(/ky nang|skill|biet gi|hoc gi|gioi|cong nghe|tool|framework|python|javascript|ai|ml/)) {
+      return '💻 Kỹ năng của Trí Thượng:\n\n' +
+        '🐍 Python (75%) — AI, data processing\n' +
+        '🤖 Machine Learning (65%) — Scikit-learn\n' +
+        '🧠 Deep Learning (60%) — TensorFlow, PyTorch\n' +
+        '📊 Data Analysis (70%) — Pandas, NumPy\n' +
+        '🌐 Web Dev — HTML, CSS, JS, Bootstrap\n' +
+        '🔧 Tools: Jupyter, Kaggle, Git, VS Code';
     }
-    
-    // Projects — cập nhật để mô tả đúng các dự án thực tế
-    if (q.match(/dự án|project|làm gì|portfolio|model|mô hình/)) {
-      return 'Chủ nhân mình đã thực hiện nhiều dự án thú vị! 🚀\n' +
-        '• 🎙️ VietASR Pro — Nhận dạng giọng nói tiếng Việt (Wav2Vec2)\n' +
-        '• 🏦 TBD Bank Chatbot — Chatbot tư vấn ngân hàng\n' +
-        '• 🎓 Botchat hỗ trợ sinh viên — AI tra cứu học vụ\n' +
-        '• 💅 Q Nails & Ellamy Nails — Website tiệm nail\n' +
-        '• 🔮 Tarot AI — Xem bói tarot miễn phí bằng AI\n' +
-        'Xem thêm ở phần "Dự án" trên trang nhé!';
+
+    /* ----------------------------------------------------------
+       6. DỰ ÁN — Projects
+       ---------------------------------------------------------- */
+    if (q.match(/du an|project|lam gi|portfolio|da lam|xay dung|app|website/)) {
+      return '🎯 Các dự án nổi bật:\n\n' +
+        '🎤 VietASR Pro — Nhận dạng giọng nói TV (Wav2Vec2)\n' +
+        '🏦 TBD Bank Chatbot — Tư vấn ngân hàng AI\n' +
+        '🎓 Botchat Sinh Viên — Hỗ trợ học vụ tự động\n' +
+        '💅 Q Nails Summerwood — Website đặt lịch nail\n' +
+        '💅 Ellamy Nails — Website thương hiệu nail\n' +
+        '🔮 Tarot AI — Xem tarot miễn phí bằng AI\n\n' +
+        'Xem chi tiết ở section "Dự Án" trên trang! 👆';
     }
-    
-    // Hobbies
-    if (q.match(/sở thích|hobby|thích gì|yêu thích/)) {
-      return 'Chủ nhân mình thích nghe nhạc 🎵, đọc sách 📚, chơi thể thao ⚽ và đặc biệt là nghiên cứu AI 🤖! Bạn ấy có thể ngồi code và train model cả ngày không chán đó!';
+
+    /* ----------------------------------------------------------
+       7. ĐỒ ÁN TỐT NGHIỆP — Thesis
+       ---------------------------------------------------------- */
+    if (q.match(/luan van|do an|tot nghiep|thesis|asr|giong noi|speech|wav2vec|vivos|vlsp/)) {
+      return '🎤 Đồ án tốt nghiệp: VietASR Pro\n\n' +
+        '📌 Mô hình: Wav2Vec 2.0 (Facebook AI)\n' +
+        '📌 Dataset: VIVOS + VLSP 2020\n' +
+        '📌 Backend: FastAPI | Demo: Flask\n' +
+        '📌 Tính năng: Speaker diarization\n' +
+        '📌 Post-processing: KenLM language model\n' +
+        '📌 Training: Kaggle GPU T4\n\n' +
+        'Nghiên cứu thực tiễn về NLP tiếng Việt! 🔬';
     }
-    
-    // Location
-    if (q.match(/ở đâu|nơi|địa chỉ|location|nha trang|bình dương/)) {
-      return 'Chủ nhân mình đang ở Nha Trang, Việt Nam và đang học tại ĐH Thái Bình Dương. Nơi có biển đẹp và không khí trong lành! 🏖️';
+
+    /* ----------------------------------------------------------
+       8. LIÊN HỆ — Contact
+       ---------------------------------------------------------- */
+    if (q.match(/lien he|contact|email|so dien thoai|phone|gap|hop tac|thue/)) {
+      return '📬 Liên hệ với Trí Thượng:\n\n' +
+        '📧 nguyentrithuong471@gmail.com\n' +
+        '📱 +84 935 253 359\n' +
+        '🐙 github.com/CheeseThuong\n' +
+        '💼 linkedin.com/in/tri-thuong-nguyen\n' +
+        '📘 facebook.com/tri.thuong.379163\n\n' +
+        'Hoặc dùng form Liên hệ ở cuối trang! 📝';
     }
-    
-    // Goals
-    if (q.match(/mục tiêu|goal|tương lai|định hướng|muốn|ước mơ/)) {
-      return 'Mục tiêu của chủ nhân mình là trở thành AI/ML Engineer chuyên nghiệp, nắm vững Machine Learning, Deep Learning và xây dựng các giải pháp AI thực tế. Bạn ấy đang từng bước tiến tới mục tiêu mỗi ngày! 🎯';
+
+    /* ----------------------------------------------------------
+       9. SỞ THÍCH — Hobbies
+       ---------------------------------------------------------- */
+    if (q.match(/so thich|hobby|thich gi|yeu thich|ngoai gio|game|xe|nhac|phat|giai tri/)) {
+      return '🎮 Sở thích của Trí Thượng:\n\n' +
+        '🤖 Code AI & nghiên cứu Machine Learning\n' +
+        '🏍️ Đi phượt xe máy (Honda AB 2026)\n' +
+        '🎮 Gaming — TFT/DTCL, Battlefield 2042\n' +
+        '🎵 Viết nhạc & sáng tác tiếng Việt\n' +
+        '📷 Chụp ảnh & chỉnh ảnh với AI\n' +
+        '🔮 Nghiên cứu Tử Vi, Bát Tự, I Ching\n' +
+        '🏔️ Du lịch — đã phượt Đà Lạt bằng xe máy!';
     }
-    
-    // Time/weather
-    if (q.match(/hôm nay|thời tiết|mấy giờ|bây giờ/)) {
+
+    /* ----------------------------------------------------------
+       10. MỤC TIÊU — Goals
+       ---------------------------------------------------------- */
+    if (q.match(/muc tieu|goal|tuong lai|dinh huong|muon|uoc mo|ke hoach/)) {
+      return '🚀 Mục tiêu của Trí Thượng:\n\n' +
+        '📌 Ngắn hạn: Hoàn thành đồ án tốt nghiệp xuất sắc\n' +
+        '🎯 Trung hạn: Trở thành AI/ML Engineer chuyên nghiệp\n' +
+        '🌟 Dài hạn: Xây dựng sản phẩm AI phục vụ người Việt\n\n' +
+        'Mỗi ngày đều học thêm và tiến gần mục tiêu hơn! 💪';
+    }
+
+    /* ----------------------------------------------------------
+       11. VỊ TRÍ — Location
+       ---------------------------------------------------------- */
+    if (q.match(/o dau|noi|dia chi|location|nha trang|khanh hoa|binh duong/)) {
+      return '📍 Trí Thượng đang ở:\n' +
+        'Nha Trang, Khánh Hòa 🌊\n\n' +
+        '🏫 Học tại ĐH Thái Bình Dương\n' +
+        '🌟 Thành phố biển đẹp nhất miền Trung!\n\n' +
+        'Nha Trang có biển xanh, hải sản tươi ngon — rất đáng ghé! 🐟';
+    }
+
+    /* ----------------------------------------------------------
+       12. VỀ ROBOT NÀY — About this chatbot
+       ---------------------------------------------------------- */
+    if (q.match(/robot|ban la gi|chatbot|bot|duoc tao|hoat dong|tinh nang/)) {
+      return '🤖 Mình là Robot Pet AI!\n\n' +
+        '📌 Tạo bởi: Nguyễn Trí Thượng\n' +
+        '📌 Nhiệm vụ: Giới thiệu CV & trò chuyện\n' +
+        '📌 Tính năng đặc biệt:\n' +
+        '  ⏰ Thời gian thực chính xác\n' +
+        '  🌤️ Thời tiết realtime mọi thành phố\n' +
+        '  🏃 Kéo thả tự do trên màn hình\n\n' +
+        'Thử hỏi "thời tiết Hà Nội" xem! 😊';
+    }
+
+    /* ----------------------------------------------------------
+       13. CẢM ƠN — Thank you
+       ---------------------------------------------------------- */
+    if (q.match(/cam on|thanks|thank/)) {
+      const replies = [
+        'Không có gì! Rất vui được giúp bạn! 🤖',
+        'Hehe, mình vui khi giúp được! Hỏi thêm bất cứ lúc nào nhé 😊',
+        'Aww cảm ơn bạn đã hỏi! Robot mình cũng vui lắm đó! 🤖❤️',
+      ];
+      return replies[Math.floor(Math.random() * replies.length)];
+    }
+
+    /* ----------------------------------------------------------
+       14. TẠM BIỆT — Goodbye
+       ---------------------------------------------------------- */
+    if (q.match(/tam biet|bye|goodbye|see you|di roi|thoi nghe/)) {
       const now = new Date();
-      const time = now.getHours();
-      let greeting = time < 12 ? 'buổi sáng' : time < 18 ? 'buổi chiều' : 'buổi tối';
-      return `Hiện tại đang là ${greeting} ngày ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}. Chúc bạn một ngày tốt lành! 😊`;
+      const h = now.getHours();
+      const buoi = h < 12 ? 'sáng' : h < 18 ? 'chiều' : 'tối';
+      return `Tạm biệt! Chúc bạn buổi ${buoi} vui vẻ! 👋\n` +
+        'Nhớ ghé lại trang của Trí Thượng nha!\n' +
+        'Liên hệ: nguyentrithuong471@gmail.com 📧';
     }
-    
-    // Thank you
-    if (q.match(/cảm ơn|cám ơn|thanks|thank/)) {
-      return 'Không có gì! Rất vui được giúp bạn! Nếu còn câu hỏi gì cứ hỏi mình nhé! 🤗';
+
+    /* ----------------------------------------------------------
+       15. HƯỚNG DẪN — Help
+       ---------------------------------------------------------- */
+    if (q.match(/giup|help|hoi gi|co the|lam duoc gi|tinh nang|chuc nang/)) {
+      return '💡 Mình có thể giúp bạn:\n\n' +
+        '⏰ "bây giờ mấy giờ" — giờ thực chính xác\n' +
+        '🌤️ "thời tiết Hà Nội" — thời tiết realtime\n' +
+        '👤 "Trí Thượng là ai" — thông tin chủ nhân\n' +
+        '💻 "kỹ năng gì" — skills & công nghệ\n' +
+        '🎯 "dự án gì" — portfolio projects\n' +
+        '📬 "liên hệ" — thông tin liên lạc\n\n' +
+        'Hỏi mình bất cứ điều gì nhé! 😊';
     }
-    
-    // Goodbye
-    if (q.match(/tạm biệt|bye|goodbye|see you/)) {
-      return 'Tạm biệt bạn! Hẹn gặp lại! Đừng quên liên hệ với chủ nhân mình nếu bạn cần nhé! 👋😊';
-    }
-    
-    // Help
-    if (q.match(/giúp|help|hỏi gì|có thể/)) {
-      return 'Bạn có thể hỏi mình về:\n• Thông tin chủ nhân (Trí Thượng)\n• Kỹ năng và học vấn\n• Thông tin liên hệ\n• Sở thích và mục tiêu\n• Hoặc bất cứ điều gì bạn tò mò! 😊';
-    }
-    
-    // Default responses
-    const defaultResponses = [
-      'Hmm, câu hỏi hay đó! Bạn có thể hỏi mình về chủ nhân Trí Thượng, kỹ năng, học vấn hoặc cách liên hệ nhé! 🤔',
-      'Mình chưa hiểu lắm câu hỏi này. Bạn thử hỏi về thông tin, kỹ năng hoặc liên hệ của chủ nhân mình nhé! 😊',
-      'Câu này hơi khó đó! Nhưng mình có thể giúp bạn tìm hiểu về Trí Thượng - chủ nhân của mình. Bạn muốn biết gì? 🤖',
-      'Ồ, câu này thú vị! Tuy nhiên mình chỉ biết về chủ nhân mình thôi. Hỏi mình về Trí Thượng nhé! 💭'
+
+    /* ----------------------------------------------------------
+       16. DEFAULT — Phản hồi mặc định thông minh
+       ---------------------------------------------------------- */
+    const defaults = [
+      'Hmm, câu này hơi khó với mình 😅\nThử hỏi: "thời tiết Nha Trang", "mấy giờ rồi", hay "Trí Thượng có dự án gì"?',
+      'Mình chưa hiểu câu hỏi này lắm 😅\nGõ "giúp" để xem mình làm được gì nhé!',
+      'Câu này nằm ngoài tầm hiểu biết của mình rồi 🤖\nNhưng mình biết rất nhiều về chủ nhân Trí Thượng và thời tiết đó!',
+      '🤔 Interesting! Thử hỏi "dự án của Trí Thượng" hay "thời tiết TP.HCM" xem sao nhé! 🌤️',
     ];
-    
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+    return defaults[Math.floor(Math.random() * defaults.length)];
   }
-  
+
+  /* ============================================================
+     ADD MESSAGE — Hiển thị tin nhắn vào khung chat
+     Hỗ trợ xuống dòng \n và render emoji đúng
+     Display message in chat panel with newline and emoji support
+     ============================================================ */
   function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}-message`;
-    
+
+    // Avatar emoji — Bot dùng robot, user dùng người
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
     avatar.textContent = sender === 'bot' ? '🤖' : '👤';
-    
+
     const content = document.createElement('div');
     content.className = 'message-content';
-    
+
     const p = document.createElement('p');
-    p.textContent = text;
-    
+
+    // Dùng innerHTML với escape an toàn thay vì textContent để hỗ trợ xuống dòng
+    // Use innerHTML with safe escaping to support line breaks
+    const safeText = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/\n/g, '<br>');
+
+    p.innerHTML = safeText;
+
     content.appendChild(p);
     messageDiv.appendChild(avatar);
     messageDiv.appendChild(content);
-    
+
     messagesContainer.appendChild(messageDiv);
+
+    // Animation nhẹ cho tin nhắn mới — Subtle animation for new message
+    messageDiv.style.opacity = '0';
+    messageDiv.style.transform = 'translateY(8px)';
+    requestAnimationFrame(() => {
+      messageDiv.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+      messageDiv.style.opacity = '1';
+      messageDiv.style.transform = 'translateY(0)';
+    });
+
     scrollToBottom();
   }
-  
+
   function scrollToBottom() {
     setTimeout(() => {
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
