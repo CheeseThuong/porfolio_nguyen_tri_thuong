@@ -3168,3 +3168,44 @@ footer .border-secondary {
     font-size: 1rem;
   }
 }
+
+/* ============================================================
+   SỬA LỖI LỆCH HÀNG LIÊN HỆ Ở FOOTER (CONTACT ALIGNMENT FIX)
+   ============================================================ */
+
+/* Sử dụng flex layout để icon và text nằm trên cùng một hàng */
+.footer-contact li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* Định dạng kích thước cố định cho icon để không bị co giãn */
+.footer-contact li i {
+  flex: 0 0 22px;
+  width: 22px;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Điều chỉnh liên kết và text địa chỉ */
+.footer-contact li a,
+.footer-contact li span {
+  min-width: 0;
+  line-height: 1.4;
+  display: inline-block; /* Ghi đè inline-flex để hiển thị văn bản bình thường */
+}
+
+.footer-contact li a {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Ngăn xuống dòng cho email trên màn hình máy tính nếu có đủ không gian */
+@media (min-width: 992px) {
+  .footer-contact li a {
+    white-space: nowrap;
+    font-size: 0.95rem;
+  }
+}

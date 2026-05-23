@@ -114,13 +114,15 @@ function setChatbotOpen(isOpen) {
     document.body.classList.add('chatbot-open');
     robot.classList.add('chatbot-open');
 
-    // Xóa inline styles do kéo thả hoặc scroll gây ra — tránh robot nhảy vị trí
-    // Clear drag/scroll inline styles to prevent position jump when opening
-    robot.style.left = '';
-    robot.style.top = '';
-    robot.style.right = '';
-    robot.style.bottom = '';
-    robot.style.transform = '';
+    // Reset trạng thái kéo thả
+    robot.dataset.hasBeenDragged = 'false';
+
+    // Xóa inline styles do kéo thả hoặc scroll gây ra để tránh robot nhảy vị trí
+    robot.style.removeProperty('left');
+    robot.style.removeProperty('top');
+    robot.style.removeProperty('right');
+    robot.style.removeProperty('bottom');
+    robot.style.removeProperty('transform');
   } else {
     chatPanel.classList.remove('active');
     document.body.classList.remove('chatbot-open');
@@ -190,6 +192,8 @@ function initRobotPet() {
     // Không cập nhật vị trí robot khi chatbot đang mở — tránh robot nhảy
     // Do not update robot position when chatbot is open
     if (isChatbotOpen) return;
+    // Không cập nhật vị trí khi robot đã được kéo thả thủ công
+    if (robot.dataset.hasBeenDragged === 'true') return;
 
     if (!ticking) {
       window.requestAnimationFrame(() => {
@@ -261,6 +265,7 @@ function initRobotPet() {
       function onMouseMove(e) {
         if (!isDragging) return;
         dragStarted = true;
+        robot.dataset.hasBeenDragged = 'true';
         
         const x = e.clientX - offsetX;
         const y = e.clientY - offsetY;
@@ -329,22 +334,18 @@ function initRobotPet() {
   let touchOffsetY = 0;
 
   robot.addEventListener('touchstart', (e) => {
-    // Bỏ qua nếu chạm vào bên trong chatbot panel — Skip if touching inside chatbot panel
+    // Bỏ qua nếu chạm vào bên trong chatbot panel
     if (e.target.closest('#chatbotPanel')) return;
     // Khi chatbot đang mở, chỉ cho phép tap để đóng, không kéo thả
-    // When chatbot is open, only allow tap to close, no dragging
     if (isChatbotOpen) {
       isTouchDragging = true;
       touchDragStarted = false;
       const touch = e.touches[0];
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
-      return; // Không preventDefault khi chatbot mở — avoid blocking panel interaction
+      return;
     }
 
-    // Chặn scroll trang khi kéo robot — Prevent page scroll when dragging robot
-    e.preventDefault();
-    
     const touch = e.touches[0];
     isTouchDragging = true;
     touchDragStarted = false;
@@ -357,11 +358,11 @@ function initRobotPet() {
     touchOffsetY = touchStartY - rect.top;
     
     robot.style.position = 'fixed';
-  }, { passive: false });
+  }, { passive: true });
 
   robot.addEventListener('touchmove', (e) => {
     if (!isTouchDragging) return;
-    // Không kéo khi chatbot đang mở — No drag when chatbot is open
+    // Không kéo khi chatbot đang mở
     if (isChatbotOpen) return;
     
     const touch = e.touches[0];
@@ -369,12 +370,14 @@ function initRobotPet() {
     const currentY = touch.clientY;
     
     const dist = Math.hypot(currentX - touchStartX, currentY - touchStartY);
-    if (dist >= 8) {
+    if (dist >= 8 && !touchDragStarted) {
       touchDragStarted = true;
+      robot.classList.add('is-dragging');
+      robot.dataset.hasBeenDragged = 'true';
     }
     
     if (touchDragStarted) {
-      // Chặn cuộn trang khi di chuyển robot — Prevent page scroll while moving robot
+      // Chặn cuộn trang khi di chuyển robot
       e.preventDefault();
       
       const x = currentX - touchOffsetX;
@@ -386,10 +389,10 @@ function initRobotPet() {
       const boundedX = Math.max(0, Math.min(x, maxX));
       const boundedY = Math.max(0, Math.min(y, maxY));
       
-      robot.style.left = boundedX + 'px';
-      robot.style.top = boundedY + 'px';
-      robot.style.right = 'auto';
-      robot.style.bottom = 'auto';
+      robot.style.setProperty('left', boundedX + 'px', 'important');
+      robot.style.setProperty('top', boundedY + 'px', 'important');
+      robot.style.setProperty('right', 'auto', 'important');
+      robot.style.setProperty('bottom', 'auto', 'important');
       
       robot.classList.add('happy');
     }
@@ -397,7 +400,10 @@ function initRobotPet() {
 
   robot.addEventListener('touchend', (e) => {
     if (isTouchDragging) {
-      // Nếu chưa kéo đủ xa (<8px) thì coi là tap — If not dragged far, treat as tap
+      // Xóa class dragging
+      robot.classList.remove('is-dragging');
+      
+      // Nếu chưa kéo đủ xa (<8px) thì coi là tap
       if (!touchDragStarted) {
         toggleChatbot();
         
@@ -409,7 +415,16 @@ function initRobotPet() {
       touchDragStarted = false;
       setTimeout(() => robot.classList.remove('happy'), 500);
     }
-  }, { passive: false });
+  }, { passive: true });
+
+  robot.addEventListener('touchcancel', (e) => {
+    if (isTouchDragging) {
+      robot.classList.remove('is-dragging');
+      isTouchDragging = false;
+      touchDragStarted = false;
+      setTimeout(() => robot.classList.remove('happy'), 500);
+    }
+  }, { passive: true });
   
   // Ngăn sự kiện từ chatbot panel bubble lên robot — Prevent chatbot panel events from bubbling to robot
   const panel = document.getElementById('chatbotPanel');

@@ -343,3 +343,18 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     right: 15px !important;
   }
 }
+
+/* ============================================================
+   HỖ TRỢ KÉO THẢ ROBOT PET TRÊN MOBILE (MOBILE DRAG SUPPORT)
+   ============================================================ */
+@media (max-width: 767.98px) {
+  #robotPet {
+    touch-action: none;
+  }
+
+  #robotPet.is-dragging {
+    right: auto !important;
+    bottom: auto !important;
+    transform: scale(0.72) !important;
+  }
+}
