@@ -11,6 +11,12 @@ function initTypingEffect() {
     'Phân tích dữ liệu với Python, Pandas, NumPy',
     'Xây dựng mô hình AI và giải quyết vấn đề thực tế'
   ];
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    typingElement.textContent = texts[0];
+    document.querySelector('.typing-cursor')?.remove();
+    return;
+  }
   
   let textIndex = 0;
   let charIndex = 0;
@@ -50,48 +56,53 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const contactForm = document.getElementById('contactForm');
   const successMessage = document.getElementById('successMessage');
+  const formError = document.getElementById('formError');
   
   if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-      
-      if (name && email && message) {
-          const submitBtn = contactForm.querySelector('button[type="submit"]');
-          const originalBtnText = submitBtn.innerText;
-          submitBtn.innerText = 'Đang gửi...';
 
-          // Gửi email thông báo cho BẠN và auto-reply cho KHÁCH
-          // (Cấu hình "To Email" trong EmailJS Dashboard: nguyentrithuong471@gmail.com,{{email}})
-          emailjs.send("service_vhcqrve", "template_v0k8rw4", {
-              name: name,
-              email: email,
-              message: message,
-          })
-          .then(function(response) {
-            successMessage.classList.remove('d-none');
-            successMessage.style.animation = 'slideInDown 0.5s ease';
-            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            contactForm.reset();
-            submitBtn.innerText = originalBtnText;
-            
-            setTimeout(() => {
-              successMessage.style.animation = 'fadeOut 0.5s ease';
-              setTimeout(() => {
-                successMessage.classList.add('d-none');
-                successMessage.style.animation = '';
-              }, 500);
-            }, 5000);
-          }, function(error) {
-             alert("Gửi email thất bại. Vui lòng thử lại sau!");
-             console.error('EmailJS Error:', error);
-             submitBtn.innerText = originalBtnText;
-          });
-      } // end if (name && email && message)
+      successMessage?.classList.add('d-none');
+      formError?.classList.add('d-none');
+
+      if (!contactForm.checkValidity()) {
+        contactForm.classList.add('was-validated');
+        formError.textContent = 'Vui lòng kiểm tra lại các trường bắt buộc.';
+        formError.classList.remove('d-none');
+        contactForm.querySelector(':invalid')?.focus();
+        return;
+      }
+      
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const submitLabel = submitBtn.querySelector('span');
+      const originalLabel = submitLabel.textContent;
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+      submitLabel.textContent = 'Đang gửi...';
+
+      try {
+        if (!window.emailjs) throw new Error('EmailJS chưa tải xong');
+
+        await emailjs.send("service_vhcqrve", "template_v0k8rw4", {
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          message: document.getElementById('message').value.trim(),
+        });
+
+        successMessage.classList.remove('d-none');
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        contactForm.reset();
+        contactForm.classList.remove('was-validated');
+      } catch (error) {
+        formError.textContent = 'Không thể gửi lời nhắn lúc này. Bạn có thể liên hệ trực tiếp qua email.';
+        formError.classList.remove('d-none');
+        console.error('EmailJS Error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+        submitLabel.textContent = originalLabel;
+      }
     }); // end contactForm.addEventListener
   } // end if (contactForm)
 
@@ -113,6 +124,8 @@ function setChatbotOpen(isOpen) {
     chatPanel.classList.add('active');
     document.body.classList.add('chatbot-open');
     robot.classList.add('chatbot-open');
+    chatPanel.setAttribute('aria-hidden', 'false');
+    robot.setAttribute('aria-expanded', 'true');
 
     // Reset trạng thái kéo thả
     robot.dataset.hasBeenDragged = 'false';
@@ -123,10 +136,13 @@ function setChatbotOpen(isOpen) {
     robot.style.removeProperty('right');
     robot.style.removeProperty('bottom');
     robot.style.removeProperty('transform');
+    robot.classList.remove('is-dragging', 'is-positioned');
   } else {
     chatPanel.classList.remove('active');
     document.body.classList.remove('chatbot-open');
     robot.classList.remove('chatbot-open');
+    chatPanel.setAttribute('aria-hidden', 'true');
+    robot.setAttribute('aria-expanded', 'false');
   }
 }
 
@@ -148,21 +164,7 @@ function initRobotPet() {
   // Cache DOM elements — tránh gọi querySelector nhiều lần trong scroll/mousemove
   // Cache DOM elements — avoid repeated DOM lookup in scroll/mousemove handlers
   const pupils = document.querySelectorAll('.pupil');
-  let lastScrollY = window.scrollY;
-  let scrollDirection = 'down';
-  let isChatbotOpen = false;
-
-  // Theo dõi trạng thái chatbot để scroll handler không ghi đè vị trí robot
-  // Track chatbot state so scroll handler doesn't override robot position
   const chatPanel = document.getElementById('chatbotPanel');
-  if (chatPanel) {
-    // Quan sát class changes trên chatPanel để đồng bộ cờ trạng thái
-    // Observe class changes on chatPanel to sync state flag
-    const observer = new MutationObserver(() => {
-      isChatbotOpen = chatPanel.classList.contains('active');
-    });
-    observer.observe(chatPanel, { attributes: true, attributeFilter: ['class'] });
-  }
 
   // Theo dõi chuyển động chuột để mắt robot nhìn theo — Mouse tracking for eye follow
   document.addEventListener('mousemove', (e) => {
@@ -185,247 +187,113 @@ function initRobotPet() {
     });
   });
   
-  // Robot di chuyển theo scroll — chỉ khi chatbot ĐÓNG
-  // Robot follows scroll position — only when chatbot is CLOSED
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    // Không cập nhật vị trí robot khi chatbot đang mở — tránh robot nhảy
-    // Do not update robot position when chatbot is open
-    if (isChatbotOpen) return;
-    // Không cập nhật vị trí khi robot đã được kéo thả thủ công
-    if (robot.dataset.hasBeenDragged === 'true') return;
-
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY;
-        const scrollDiff = currentScrollY - lastScrollY;
-        
-        if (scrollDiff > 0) {
-          scrollDirection = 'down';
-        } else if (scrollDiff < 0) {
-          scrollDirection = 'up';
-        }
-        
-        // Di chuyển robot dựa trên scroll — Move robot based on scroll
-        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        const maxMovement = window.innerHeight - 200;
-        const newBottom = 30 + (maxMovement * scrollPercent / 100);
-        
-        // Chỉ cập nhật nếu chatbot vẫn đóng (kiểm tra lại trong rAF)
-        // Re-check inside rAF before updating
-        if (!isChatbotOpen) {
-          robot.style.bottom = Math.min(newBottom, maxMovement + 30) + 'px';
-        }
-        
-        // Xoay nhẹ theo hướng scroll — Slight rotation based on scroll direction
-        if (Math.abs(scrollDiff) > 5 && !isChatbotOpen) {
-          const rotation = scrollDirection === 'down' ? 5 : -5;
-          robot.style.transform = `rotate(${rotation}deg)`;
-          
-          setTimeout(() => {
-            if (!isChatbotOpen) robot.style.transform = 'rotate(0deg)';
-          }, 300);
-        }
-        
-        lastScrollY = currentScrollY;
-        ticking = false;
-      });
-      
-      ticking = true;
-    }
-  });
-  
   // ============================================================
-  // MOUSE EVENTS — Kéo thả và click để toggle chatbot (Desktop)
-  // Mouse drag-and-drop and click to toggle chatbot (Desktop)
+  // POINTER DRAG — Một luồng kéo thả dùng chung cho PC, mobile và bút cảm ứng
+  // Unified pointer drag for mouse, touch and pen
   // ============================================================
-  let clickTimer = null;
+  const dragThreshold = 6;
+  let activePointerId = null;
+  let pointerStartX = 0;
+  let pointerStartY = 0;
+  let pointerOffsetX = 0;
+  let pointerOffsetY = 0;
+  let pointerStartRect = null;
   let isDragging = false;
   let dragStarted = false;
-  
-  robot.addEventListener('mousedown', (e) => {
-    // Không kéo khi chatbot đang mở — Disable drag when chatbot is open
-    if (isChatbotOpen) return;
-    // Không xử lý nếu click vào bên trong chatbot panel
-    if (e.target.closest('#chatbotPanel')) return;
 
-    e.preventDefault();
-    
-    clickTimer = setTimeout(() => {
-      isDragging = true;
-      dragStarted = false;
-      robot.style.cursor = 'grabbing';
-      
-      const startX = e.clientX;
-      const startY = e.clientY;
-      const rect = robot.getBoundingClientRect();
-      const offsetX = startX - rect.left;
-      const offsetY = startY - rect.top;
-      
-      function onMouseMove(e) {
-        if (!isDragging) return;
-        dragStarted = true;
-        robot.dataset.hasBeenDragged = 'true';
-        
-        const x = e.clientX - offsetX;
-        const y = e.clientY - offsetY;
-        
-        const maxX = window.innerWidth - robot.offsetWidth;
-        const maxY = window.innerHeight - robot.offsetHeight;
-        
-        const boundedX = Math.max(0, Math.min(x, maxX));
-        const boundedY = Math.max(0, Math.min(y, maxY));
-        
-        robot.style.left = boundedX + 'px';
-        robot.style.top = boundedY + 'px';
-        robot.style.right = 'auto';
-        robot.style.bottom = 'auto';
-        
-        robot.classList.add('happy');
-      }
-      
-      function onMouseUp() {
-        if (isDragging) {
-          isDragging = false;
-          robot.style.cursor = 'pointer';
-          setTimeout(() => robot.classList.remove('happy'), 500);
-          
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
-        }
-      }
-      
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    }, 200); // 200ms trễ trước khi bắt đầu kéo — 200ms delay before drag starts
-  });
-  
-  robot.addEventListener('mouseup', () => {
-    clearTimeout(clickTimer);
-    
-    // Nếu không kéo thả thì toggle chatbot — Toggle chatbot if not dragging
-    if (!dragStarted && !isDragging) {
+  function setRobotPosition(x, y) {
+    const rect = robot.getBoundingClientRect();
+    const maxX = Math.max(0, window.innerWidth - rect.width);
+    const maxY = Math.max(0, window.innerHeight - rect.height);
+    const boundedX = Math.max(0, Math.min(x, maxX));
+    const boundedY = Math.max(0, Math.min(y, maxY));
+
+    robot.style.setProperty('left', `${boundedX}px`, 'important');
+    robot.style.setProperty('top', `${boundedY}px`, 'important');
+    robot.style.setProperty('right', 'auto', 'important');
+    robot.style.setProperty('bottom', 'auto', 'important');
+  }
+
+  function beginDrag() {
+    if (dragStarted || !pointerStartRect) return;
+
+    if (chatPanel?.classList.contains('active')) {
+      setChatbotOpen(false);
+    }
+
+    dragStarted = true;
+    isDragging = true;
+    robot.dataset.hasBeenDragged = 'true';
+    robot.classList.add('is-positioned', 'is-dragging', 'happy');
+
+    // Chuẩn hóa transform responsive trước khi cập nhật vị trí.
+    setRobotPosition(pointerStartRect.left, pointerStartRect.top);
+  }
+
+  function finishPointer(shouldToggle) {
+    if (activePointerId !== null && robot.hasPointerCapture?.(activePointerId)) {
+      robot.releasePointerCapture(activePointerId);
+    }
+
+    robot.classList.remove('is-dragging');
+
+    if (shouldToggle && !dragStarted) {
       toggleChatbot();
-      
       robot.classList.add('wave');
       setTimeout(() => robot.classList.remove('wave'), 1500);
     }
-    
+
+    activePointerId = null;
+    pointerStartRect = null;
     isDragging = false;
     dragStarted = false;
+    setTimeout(() => robot.classList.remove('happy'), 500);
+  }
+
+  robot.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+    activePointerId = e.pointerId;
+    pointerStartX = e.clientX;
+    pointerStartY = e.clientY;
+    pointerStartRect = robot.getBoundingClientRect();
+    pointerOffsetX = e.clientX - pointerStartRect.left;
+    pointerOffsetY = e.clientY - pointerStartRect.top;
+    isDragging = false;
+    dragStarted = false;
+
+    robot.setPointerCapture?.(e.pointerId);
+    e.preventDefault();
   });
-  
-  robot.addEventListener('click', (e) => {
-    // Ngăn click nếu đang kéo — Prevent click if was dragging
-    if (dragStarted) {
-      e.stopPropagation();
-    }
+
+  robot.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activePointerId || !pointerStartRect) return;
+
+    const distance = Math.hypot(e.clientX - pointerStartX, e.clientY - pointerStartY);
+    if (distance >= dragThreshold) beginDrag();
+    if (!isDragging) return;
+
+    e.preventDefault();
+    setRobotPosition(e.clientX - pointerOffsetX, e.clientY - pointerOffsetY);
   });
 
-  // ============================================================
-  // TOUCH EVENTS — Hỗ trợ kéo thả trên thiết bị cảm ứng (mobile)
-  // Touch drag-and-drop support for mobile devices
-  // ============================================================
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchDragStarted = false;
-  let isTouchDragging = false;
-  let touchOffsetX = 0;
-  let touchOffsetY = 0;
+  robot.addEventListener('pointerup', (e) => {
+    if (e.pointerId !== activePointerId) return;
+    finishPointer(true);
+  });
 
-  robot.addEventListener('touchstart', (e) => {
-    // Bỏ qua nếu chạm vào bên trong chatbot panel
-    if (e.target.closest('#chatbotPanel')) return;
-    // Khi chatbot đang mở, chỉ cho phép tap để đóng, không kéo thả
-    if (isChatbotOpen) {
-      isTouchDragging = true;
-      touchDragStarted = false;
-      const touch = e.touches[0];
-      touchStartX = touch.clientX;
-      touchStartY = touch.clientY;
-      return;
-    }
+  robot.addEventListener('pointercancel', (e) => {
+    if (e.pointerId !== activePointerId) return;
+    finishPointer(false);
+  });
 
-    const touch = e.touches[0];
-    isTouchDragging = true;
-    touchDragStarted = false;
-    
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    
-    const rect = robot.getBoundingClientRect();
-    touchOffsetX = touchStartX - rect.left;
-    touchOffsetY = touchStartY - rect.top;
-    
-    robot.style.position = 'fixed';
-  }, { passive: true });
-
-  robot.addEventListener('touchmove', (e) => {
-    if (!isTouchDragging) return;
-    // Không kéo khi chatbot đang mở
-    if (isChatbotOpen) return;
-    
-    const touch = e.touches[0];
-    const currentX = touch.clientX;
-    const currentY = touch.clientY;
-    
-    const dist = Math.hypot(currentX - touchStartX, currentY - touchStartY);
-    if (dist >= 8 && !touchDragStarted) {
-      touchDragStarted = true;
-      robot.classList.add('is-dragging');
-      robot.dataset.hasBeenDragged = 'true';
-    }
-    
-    if (touchDragStarted) {
-      // Chặn cuộn trang khi di chuyển robot
+  robot.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      
-      const x = currentX - touchOffsetX;
-      const y = currentY - touchOffsetY;
-      
-      const maxX = window.innerWidth - robot.offsetWidth;
-      const maxY = window.innerHeight - robot.offsetHeight;
-      
-      const boundedX = Math.max(0, Math.min(x, maxX));
-      const boundedY = Math.max(0, Math.min(y, maxY));
-      
-      robot.style.setProperty('left', boundedX + 'px', 'important');
-      robot.style.setProperty('top', boundedY + 'px', 'important');
-      robot.style.setProperty('right', 'auto', 'important');
-      robot.style.setProperty('bottom', 'auto', 'important');
-      
-      robot.classList.add('happy');
+      toggleChatbot();
     }
-  }, { passive: false });
+  });
 
-  robot.addEventListener('touchend', (e) => {
-    if (isTouchDragging) {
-      // Xóa class dragging
-      robot.classList.remove('is-dragging');
-      
-      // Nếu chưa kéo đủ xa (<8px) thì coi là tap
-      if (!touchDragStarted) {
-        toggleChatbot();
-        
-        robot.classList.add('wave');
-        setTimeout(() => robot.classList.remove('wave'), 1500);
-      }
-      
-      isTouchDragging = false;
-      touchDragStarted = false;
-      setTimeout(() => robot.classList.remove('happy'), 500);
-    }
-  }, { passive: true });
-
-  robot.addEventListener('touchcancel', (e) => {
-    if (isTouchDragging) {
-      robot.classList.remove('is-dragging');
-      isTouchDragging = false;
-      touchDragStarted = false;
-      setTimeout(() => robot.classList.remove('happy'), 500);
-    }
-  }, { passive: true });
-  
   // Ngăn sự kiện từ chatbot panel bubble lên robot — Prevent chatbot panel events from bubbling to robot
   const panel = document.getElementById('chatbotPanel');
   if (panel) {
@@ -435,7 +303,7 @@ function initRobotPet() {
   
   // Hoạt ảnh ngẫu nhiên — Random happy animations (không đổi vị trí)
   setInterval(() => {
-    if (Math.random() > 0.7) {
+    if (!isDragging && Math.random() > 0.7) {
       robot.classList.add('excited');
       setTimeout(() => robot.classList.remove('excited'), 500);
     }
@@ -454,6 +322,12 @@ function initRobotPet() {
       setTimeout(() => robot.classList.remove('happy'), 1000);
       robot.style.cursor = 'pointer';
     }
+  });
+
+  window.addEventListener('resize', () => {
+    if (!robot.classList.contains('is-positioned')) return;
+    const rect = robot.getBoundingClientRect();
+    setRobotPosition(rect.left, rect.top);
   });
   
   // Khởi chạy Chatbot
@@ -709,6 +583,13 @@ function initChatbot() {
     if (thinkingBubble) thinkingBubble.childNodes[0].textContent = 'Đang suy nghĩ ';
   });
 
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && chatPanel.classList.contains('active')) {
+      setChatbotOpen(false);
+      robot.focus();
+    }
+  });
+
   // Ngăn click trong panel bubble lên robot — Prevent clicks inside panel from bubbling to robot
   chatPanel.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -885,7 +766,7 @@ function initChatbot() {
       return '🎓 Học vấn của Trí Thượng:\n\n' +
         '🏫 ĐH Thái Bình Dương, Nha Trang\n' +
         '📚 Ngành: Trí tuệ Nhân tạo\n' +
-        '📅 Dự kiến tốt nghiệp: 2025\n' +
+        '📅 Đang hoàn thiện chương trình đại học\n' +
         '🎯 Đồ án: VietASR Pro (nhận dạng giọng nói TV)\n\n' +
         'Đam mê nghiên cứu AI và giải quyết vấn đề thực tế!';
     }

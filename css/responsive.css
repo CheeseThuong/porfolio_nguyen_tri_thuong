@@ -232,29 +232,6 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --light-bg: #1a1a1a;
-    --text-primary: #e0e0e0;
-    --text-light: #ffffff;
-  }
-  
-  body {
-    background: var(--light-bg);
-    color: var(--text-primary);
-  }
-  
-  .card {
-    background: #2a2a2a;
-    color: var(--text-primary);
-  }
-  
-  .table {
-    color: var(--text-primary);
-  }
-}
-
 /* ============================================================
    ROBOT PET & CHATBOT MOBILE — Override cuối cùng, ghi đè mọi rule cũ
    Final mobile overrides for robot pet and chatbot panel
@@ -337,10 +314,13 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 @media (max-width: 767.98px) {
   .back-to-top {
     right: 15px !important;
+    top: 138px !important;
+    bottom: auto !important;
   }
 
   .dark-mode-toggle {
     right: 15px !important;
+    top: 82px !important;
   }
 }
 
@@ -352,9 +332,15 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     touch-action: none;
   }
 
+  #robotPet.is-positioned,
   #robotPet.is-dragging {
     right: auto !important;
     bottom: auto !important;
     transform: scale(0.72) !important;
+    transform-origin: top left !important;
+  }
+
+  #robotPet.is-dragging {
+    transition: none !important;
   }
 }

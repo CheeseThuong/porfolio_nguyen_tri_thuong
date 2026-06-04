@@ -31,6 +31,10 @@
   <!-- Page description for SEO and link sharing -->
   <meta name="description" content="CV cá nhân của Nguyễn Trí Thượng - Sinh viên Trí tuệ nhân tạo tại ĐH Thái Bình Dương">
   <meta name="author" content="Nguyễn Trí Thượng">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Bootstrap 5 CSS — crossorigin giảm Tracking Prevention warning trên Edge/Safari -->
   <!-- Bootstrap 5 CSS — crossorigin reduces Tracking Prevention warnings on Edge/Safari -->
@@ -52,13 +56,15 @@
   <link rel="stylesheet" href="css/style.css?v=1.0.1">
   <link rel="stylesheet" href="css/responsive.css?v=1.0.1">
 </head>
-<body>
+<body id="top">
+
+<a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Điều hướng chính">
   <div class="container">
-    <a class="navbar-brand" href="#">Nguyễn Trí Thượng</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation menu">
+    <a class="navbar-brand" href="#top">Nguyễn Trí Thượng</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Mở menu điều hướng">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -94,6 +100,7 @@
         <aside class="hero-premium__card">
           <div class="hero-premium__avatar">
             <img src="images/avatar.jpg" alt="Nguyễn Trí Thượng">
+            <span class="hero-premium__status"><i class="fas fa-circle"></i> Sẵn sàng hợp tác</span>
           </div>
           <h3 class="hero-premium__card-title">Sinh viên AI</h3>
           <p class="hero-premium__card-text">Đang học lập trình về Trí tuệ nhân tạo và muốn tìm hiểu về lập trình web.</p>
@@ -103,9 +110,9 @@
             <li><i class="fas fa-location-dot"></i>Nha Trang, Việt Nam</li>
           </ul>
           <div class="hero-premium__card-links">
-            <a href="https://github.com/CheeseThuong" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://github.com/CheeseThuong" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub của Nguyễn Trí Thượng"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn của Nguyễn Trí Thượng"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook của Nguyễn Trí Thượng"><i class="fab fa-facebook"></i></a>
           </div>
         </aside>
       </div>
@@ -113,6 +120,7 @@
   </div>
 </header>
 
+<main id="main-content">
 <!-- About Section -->
 <section id="about" class="section bg-light">
   <div class="container">
@@ -513,28 +521,30 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <!-- Thông báo thành công -->
-        <div id="successMessage" class="alert alert-success d-none" role="alert">
+        <div id="successMessage" class="alert alert-success d-none" role="status" aria-live="polite">
           <i class="fas fa-check-circle"></i> <strong>Gửi thành công!</strong> Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể!
         </div>
-        <form id="contactForm">
+        <div id="formError" class="alert alert-danger d-none" role="alert" aria-live="assertive"></div>
+        <form id="contactForm" novalidate>
           <div class="mb-3">
             <label for="name" class="form-label">Họ và tên</label>
-            <input type="text" class="form-control" id="name" name="from_name" placeholder="Nhập tên của bạn" autocomplete="name">
+            <input type="text" class="form-control" id="name" name="from_name" placeholder="Nhập tên của bạn" autocomplete="name" minlength="2" required>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="from_email" placeholder="example@example.com" autocomplete="email">
+            <input type="email" class="form-control" id="email" name="from_email" placeholder="example@example.com" autocomplete="email" required>
           </div>
           <div class="mb-3">
             <label for="message" class="form-label">Lời nhắn</label>
-            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Viết lời nhắn của bạn..."></textarea>
+            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Viết lời nhắn của bạn..." minlength="10" required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> Gửi</button>
+          <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> <span>Gửi lời nhắn</span></button>
         </form>
       </div>
     </div>
   </div>
 </section>
+</main>
 
 <!-- Footer -->
 <footer class="footer">
@@ -574,13 +584,13 @@
         </ul>
         
         <div class="footer-social d-flex justify-content-center mt-3">
-          <a href="https://github.com/CheeseThuong" target="_blank" title="GitHub" class="footer-social-link">
+          <a href="https://github.com/CheeseThuong" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub của Nguyễn Trí Thượng" class="footer-social-link">
             <i class="fab fa-github"></i>
           </a>
-          <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" title="Facebook" class="footer-social-link">
+          <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook của Nguyễn Trí Thượng" class="footer-social-link">
             <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" title="LinkedIn" class="footer-social-link">
+          <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn của Nguyễn Trí Thượng" class="footer-social-link">
             <i class="fab fa-linkedin-in"></i>
           </a>
         </div>
@@ -590,13 +600,13 @@
     <hr class="footer-divider">
     
     <div class="text-center pt-3">
-      <p class="footer-copyright">© 2025 Nguyễn Trí Thượng <i class="fas fa-heart text-danger"></i></p>
+      <p class="footer-copyright">© <span id="currentYear">2026</span> Nguyễn Trí Thượng <i class="fas fa-heart text-danger"></i></p>
     </div>
   </div>
 </footer>
 
 <!-- Robot Pet Chatbot -->
-<div id="robotPet" class="robot-pet">
+<div id="robotPet" class="robot-pet" role="button" tabindex="0" aria-label="Mở trợ lý AI" aria-controls="chatbotPanel" aria-expanded="false">
   <div class="thinking-bubble">
     Đang suy nghĩ
     <span class="thinking-dots">
@@ -636,7 +646,7 @@
 </div>
 
 <!-- Chatbot Panel -->
-<div id="chatbotPanel" class="chatbot-panel">
+<div id="chatbotPanel" class="chatbot-panel" role="dialog" aria-label="Trợ lý AI" aria-hidden="true">
   <div class="chatbot-header">
     <div class="chatbot-header-content">
       <div class="chatbot-avatar">🤖</div>
@@ -690,7 +700,9 @@
 
 <script type="text/javascript">
   (function(){
-      emailjs.init("PU-XG9rPWqN8OwKZl");
+      if (window.emailjs) {
+        emailjs.init("PU-XG9rPWqN8OwKZl");
+      }
   })();
 </script>
 
