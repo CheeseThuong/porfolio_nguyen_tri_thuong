@@ -51,6 +51,23 @@ function initTypingEffect() {
   type();
 }
 
+function normalizeSearchText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\u0111/g, 'd')
+    .trim();
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   initTypingEffect();
   
@@ -125,6 +142,7 @@ function setChatbotOpen(isOpen) {
     document.body.classList.add('chatbot-open');
     robot.classList.add('chatbot-open');
     chatPanel.setAttribute('aria-hidden', 'false');
+    chatPanel.removeAttribute('inert');
     robot.setAttribute('aria-expanded', 'true');
 
     // Reset trạng thái kéo thả
@@ -142,6 +160,7 @@ function setChatbotOpen(isOpen) {
     document.body.classList.remove('chatbot-open');
     robot.classList.remove('chatbot-open');
     chatPanel.setAttribute('aria-hidden', 'true');
+    chatPanel.setAttribute('inert', '');
     robot.setAttribute('aria-expanded', 'false');
   }
 }
@@ -165,27 +184,43 @@ function initRobotPet() {
   // Cache DOM elements — avoid repeated DOM lookup in scroll/mousemove handlers
   const pupils = document.querySelectorAll('.pupil');
   const chatPanel = document.getElementById('chatbotPanel');
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  const hasFinePointer = window.matchMedia?.('(pointer: fine)').matches ?? true;
 
   // Theo dõi chuyển động chuột để mắt robot nhìn theo — Mouse tracking for eye follow
-  document.addEventListener('mousemove', (e) => {
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-    
+  let eyeFrame = null;
+  let mouseX = 0;
+  let mouseY = 0;
+
+  function updateRobotEyes() {
+    eyeFrame = null;
+
     pupils.forEach(pupil => {
       const eye = pupil.parentElement;
       const eyeRect = eye.getBoundingClientRect();
       const eyeCenterX = eyeRect.left + eyeRect.width / 2;
       const eyeCenterY = eyeRect.top + eyeRect.height / 2;
-      
+
       const angle = Math.atan2(mouseY - eyeCenterY, mouseX - eyeCenterX);
       const distance = Math.min(3, Math.hypot(mouseX - eyeCenterX, mouseY - eyeCenterY) / 50);
-      
+
       const pupilX = Math.cos(angle) * distance;
       const pupilY = Math.sin(angle) * distance;
-      
+
       pupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px))`;
     });
-  });
+  }
+
+  if (pupils.length && hasFinePointer && !prefersReducedMotion) {
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      if (!eyeFrame) {
+        eyeFrame = requestAnimationFrame(updateRobotEyes);
+      }
+    }, { passive: true });
+  }
   
   // ============================================================
   // POINTER DRAG — Một luồng kéo thả dùng chung cho PC, mobile và bút cảm ứng
@@ -302,12 +337,15 @@ function initRobotPet() {
   }
   
   // Hoạt ảnh ngẫu nhiên — Random happy animations (không đổi vị trí)
-  setInterval(() => {
-    if (!isDragging && Math.random() > 0.7) {
-      robot.classList.add('excited');
-      setTimeout(() => robot.classList.remove('excited'), 500);
-    }
-  }, 10000);
+  if (!prefersReducedMotion) {
+    setInterval(() => {
+      if (document.visibilityState === 'hidden') return;
+      if (!isDragging && Math.random() > 0.7) {
+        robot.classList.add('excited');
+        setTimeout(() => robot.classList.remove('excited'), 500);
+      }
+    }, 10000);
+  }
   
   // Hiệu ứng hover chuột — Mouse hover effect
   robot.addEventListener('mouseenter', () => {
@@ -324,10 +362,17 @@ function initRobotPet() {
     }
   });
 
+  let resizeFrame = null;
+
   window.addEventListener('resize', () => {
     if (!robot.classList.contains('is-positioned')) return;
-    const rect = robot.getBoundingClientRect();
-    setRobotPosition(rect.left, rect.top);
+    if (resizeFrame) return;
+
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = null;
+      const rect = robot.getBoundingClientRect();
+      setRobotPosition(rect.left, rect.top);
+    });
   });
   
   // Khởi chạy Chatbot
@@ -346,6 +391,8 @@ function initRobotRandomTalk() {
   const thinkingBubble = robot.querySelector('.thinking-bubble');
   if (!thinkingBubble) return;
   const chatPanel = document.getElementById('chatbotPanel');
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  if (prefersReducedMotion) return;
   
   const funnyQuotes = [
     "Hôm nay bạn có vui không?",
@@ -384,6 +431,7 @@ function initRobotRandomTalk() {
 
   function showRandomTalk() {
     if (!thinkingBubble) return;
+    if (document.visibilityState === 'hidden') return;
     // Không hiện bong bóng khi chatbot đang mở — hide bubble while chatbot panel is open
     if (chatPanel && chatPanel.classList.contains('active')) return;
 
@@ -479,10 +527,22 @@ function getRealTimeInfo() {
    ============================================================ */
 async function getWeatherInfo(cityName) {
   try {
+    async function fetchJsonWithTimeout(url, timeoutMs = 8000) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+      try {
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+
     // Bước 1: Geocoding — chuyển tên thành phố thành tọa độ
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=vi&format=json`;
-    const geoRes = await fetch(geoUrl);
-    const geoData = await geoRes.json();
+    const geoData = await fetchJsonWithTimeout(geoUrl);
 
     if (!geoData.results || geoData.results.length === 0) {
       return null; // Không tìm thấy địa điểm — Location not found
@@ -492,8 +552,7 @@ async function getWeatherInfo(cityName) {
 
     // Bước 2: Lấy dữ liệu thời tiết hiện tại — Fetch current weather
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&wind_speed_unit=kmh&timezone=auto`;
-    const weatherRes = await fetch(weatherUrl);
-    const weatherData = await weatherRes.json();
+    const weatherData = await fetchJsonWithTimeout(weatherUrl);
 
     if (!weatherData.current) return null;
 
@@ -654,12 +713,15 @@ function initChatbot() {
     scrollToBottom();
 
     const q = message.toLowerCase();
+    const normalizedQ = normalizeSearchText(message);
 
     // Kiểm tra câu hỏi thời tiết — Check if weather query
-    const isWeatherQuery = q.match(/thời tiết|nhiệt độ|nóng|lạnh|mưa|nắng|trời|weather|temp/);
+    const isWeatherQuery =
+      /\b(thoi tiet|nhiet do|nong|lanh|mua|troi|weather|temp)\b/.test(normalizedQ) ||
+      /\bnang\b.*\b(khong|hom nay|bay gio)\b/.test(normalizedQ);
 
     // Kiểm tra câu hỏi thời gian — Check if time/date query
-    const isTimeQuery = q.match(/mấy giờ|bây giờ|hôm nay|ngày mấy|thứ mấy|năm nay|ngày tháng|giờ|time|date/);
+    const isTimeQuery = /\b(may gio|bay gio|hom nay|ngay may|thu may|nam nay|ngay thang|gio|time|date)\b/.test(normalizedQ);
 
     let botReply;
 
@@ -670,6 +732,11 @@ function initChatbot() {
         /thời tiết\s+([a-zA-ZÀ-ỹ\s]+?)(?:\s+(?:hôm nay|bây giờ|như thế nào|thế nào|không|nhé|đi)|[?!.,]|$)/i,
         /([a-zA-ZÀ-ỹ\s]+?)\s+(?:nóng|lạnh|mưa|nắng|trời)\s+không/i,
       ];
+      const normalizedCityPatterns = [
+        /(?:o|tai|cua|tai\s+thanh\s+pho)\s+([a-zA-Z\s]+?)(?:\s+(?:hom nay|bay gio|nhu the nao|the nao|khong|nhe|di)|[?!.,]|$)/i,
+        /thoi tiet\s+([a-zA-Z\s]+?)(?:\s+(?:hom nay|bay gio|nhu the nao|the nao|khong|nhe|di)|[?!.,]|$)/i,
+        /([a-zA-Z\s]+?)\s+(?:nong|lanh|mua|nang|troi)\s+khong/i,
+      ];
 
       let cityName = null;
       for (const pattern of cityPatterns) {
@@ -677,6 +744,16 @@ function initChatbot() {
         if (match && match[1] && match[1].trim().length > 1) {
           cityName = match[1].trim();
           break;
+        }
+      }
+
+      if (!cityName) {
+        for (const pattern of normalizedCityPatterns) {
+          const match = normalizedQ.match(pattern);
+          if (match && match[1] && match[1].trim().length > 1) {
+            cityName = match[1].trim();
+            break;
+          }
         }
       }
 
@@ -735,9 +812,7 @@ function initChatbot() {
      NLP-style response handling with 16 question categories
      ============================================================ */
   function getSmartResponse(question) {
-    const q = question.toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Bỏ dấu để match dễ hơn
-      .trim();
+    const q = normalizeSearchText(question); // Bỏ dấu để match dễ hơn
 
     /* ----------------------------------------------------------
        1. CHÀO HỎI — Greeting
@@ -957,12 +1032,7 @@ function initChatbot() {
 
     // Dùng innerHTML với escape an toàn thay vì textContent để hỗ trợ xuống dòng
     // Use innerHTML with safe escaping to support line breaks
-    const safeText = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/\n/g, '<br>');
+    const safeText = escapeHtml(text).replace(/\n/g, '<br>');
 
     p.innerHTML = safeText;
 

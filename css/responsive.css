@@ -10,12 +10,12 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 /* Extra Small devices (phones, 576px and down) */
 @media (max-width: 575.98px) {
   /* Hero Section */
-  .hero h1 {
+  .hero h1:not(.hero-premium__title) {
     font-size: 2rem !important;
     line-height: 1.2;
   }
   
-  .hero p {
+  .hero p:not(.hero-premium__lead) {
     font-size: 1rem !important;
     margin-bottom: 1rem;
   }
@@ -75,7 +75,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
-  .hero h1 {
+  .hero h1:not(.hero-premium__title) {
     font-size: 2.5rem;
   }
   
@@ -91,7 +91,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .hero h1 {
+  .hero h1:not(.hero-premium__title) {
     font-size: 2.8rem;
   }
   
@@ -126,7 +126,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     max-width: 1140px;
   }
   
-  .hero h1 {
+  .hero h1:not(.hero-premium__title) {
     font-size: 3.5rem;
   }
   
@@ -147,7 +147,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     padding: 2rem 0;
   }
   
-  .hero h1 {
+  .hero h1:not(.hero-premium__title) {
     font-size: 2rem;
   }
   
@@ -342,5 +342,111 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 
   #robotPet.is-dragging {
     transition: none !important;
+  }
+}
+
+/* ============================================================
+   CURRENT LAYOUT STABILIZATION
+   Scoped overrides for the active portfolio layout. Keep these
+   after legacy responsive rules so PC/mobile behavior is predictable.
+   ============================================================ */
+@media (max-width: 767.98px) {
+  .navbar-brand {
+    max-width: calc(100vw - 126px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hero {
+    overflow: hidden;
+  }
+
+  .hero-premium__content {
+    text-align: center;
+  }
+
+  .hero .hero-premium__title {
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+    font-size: 3.25rem !important;
+    line-height: 0.98;
+    letter-spacing: -0.052em;
+    overflow-wrap: normal;
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .hero-premium__lead {
+    min-height: 0;
+    max-width: 38rem;
+    margin-inline: auto;
+    line-height: 1.55;
+    text-wrap: balance;
+  }
+
+  .hero-premium__eyebrow {
+    max-width: 100%;
+  }
+
+  .hero-premium__cta {
+    justify-items: center;
+  }
+
+  .hero-premium__cta .btn {
+    width: min(100%, 14rem);
+  }
+
+  #robotPet {
+    z-index: calc(var(--layer-chat, 1050) + 1) !important;
+  }
+
+  #chatbotPanel {
+    height: min(70dvh, calc(100dvh - 94px)) !important;
+    z-index: var(--layer-chat, 1050) !important;
+  }
+
+  body.chatbot-open #robotPet,
+  #robotPet.chatbot-open {
+    bottom: calc(min(70dvh, calc(100dvh - 94px)) + 8px) !important;
+    z-index: calc(var(--layer-chat, 1050) + 1) !important;
+  }
+
+  .chatbot-messages {
+    max-height: calc(min(70dvh, calc(100dvh - 94px)) - 145px) !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero {
+    padding-top: 112px !important;
+  }
+
+  .hero .hero-premium__title {
+    font-size: 2.85rem !important;
+    letter-spacing: -0.048em;
+  }
+
+  .hero-premium__lead {
+    font-size: 1.04rem !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero .hero-premium__title {
+    font-size: 2.32rem !important;
+  }
+
+  .hero-premium__eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.13em;
+    padding-inline: 12px;
+  }
+}
+
+@media (max-width: 340px) {
+  .hero .hero-premium__title {
+    font-size: 2.05rem !important;
   }
 }
