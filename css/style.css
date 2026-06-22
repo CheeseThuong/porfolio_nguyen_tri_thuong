@@ -1,34 +1,34 @@
 /*
 ============================================================
-CSS CUSTOM: TECHNICAL DARK PORTFOLIO STYLESHEET
+CSS CUSTOM: TECHNICAL LIGHT PORTFOLIO STYLESHEET
 ============================================================
 */
 
 /* ============================================================
-   1. DESIGN TOKENS
+   1. DESIGN TOKENS (LIGHT THEME)
    ============================================================ */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   
-  /* Palette - Graphite/Navy base with muted Teal/Cyan */
-  --color-bg: #0b1117;
-  --color-surface-1: #111a22;
-  --color-surface-2: #16222f;
-  --color-surface-3: #1c2b3c;
+  /* Palette - Light Theme cool off-white/light gray with technical Teal/Cyan */
+  --color-bg: #f7f9fc;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-surface-3: #e2e8f0;
   
-  --color-text: #e2e8f0;
-  --color-text-muted: #94a3b8;
+  --color-text: #0f172a;            /* Dark navy/graphite */
+  --color-text-muted: #475569;      /* Slate */
   --color-text-subtle: #64748b;
   
-  --color-accent: #63bdb8;          /* Muted Teal */
-  --color-accent-strong: #79d0ca;   /* Hover/Active Teal */
-  --color-on-accent: #071315;
+  --color-accent: #0891b2;          /* Technical teal/cyan/blue */
+  --color-accent-strong: #0e7490;
+  --color-on-accent: #ffffff;
   
-  --color-border: #233446;
-  --color-border-strong: #38516d;
+  --color-border: #e2e8f0;          /* Light neutral border */
+  --color-border-strong: #cbd5e1;
   
-  --color-error: #ff9b95;
-  --color-success: #79c9a5;
+  --color-error: #dc2626;
+  --color-success: #16a34a;
   
   /* Typography */
   --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
@@ -62,8 +62,8 @@ CSS CUSTOM: TECHNICAL DARK PORTFOLIO STYLESHEET
   --radius-control: 4px;
   --radius-card: 6px;
   
-  /* Shadows - Minimal & Flat */
-  --shadow-raised: 0 8px 30px rgba(0, 0, 0, 0.4);
+  /* Shadows - Minimal & Subtle for light mode */
+  --shadow-raised: 0 4px 20px rgba(15, 23, 42, 0.05);
   
   /* Z-index layers */
   --z-base: 0;
@@ -77,7 +77,7 @@ CSS CUSTOM: TECHNICAL DARK PORTFOLIO STYLESHEET
   --duration-base: 220ms;
   --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Legacy Compatibility variables */
+  /* Legacy Compatibility variables mapped to Light Mode tokens */
   --primary-color: var(--color-accent);
   --secondary-color: var(--color-accent);
   --accent-color: var(--color-accent-strong);
@@ -87,7 +87,7 @@ CSS CUSTOM: TECHNICAL DARK PORTFOLIO STYLESHEET
   --text-primary: var(--color-text);
   --text-muted: var(--color-text-muted);
   --text-light: var(--color-text);
-  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color: rgba(15, 23, 42, 0.05);
   --motion-spring: var(--ease-standard);
   --layer-nav: var(--z-nav);
   --layer-control: var(--z-overlay);
@@ -236,16 +236,18 @@ svg {
 }
 
 .navbar {
-  background-color: var(--color-surface-1);
+  background-color: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid var(--color-border);
   transition: background-color var(--duration-base) var(--ease-standard),
               padding var(--duration-base) var(--ease-standard);
   z-index: var(--z-nav);
   padding: 1rem 0;
+  backdrop-filter: blur(8px);
 }
 
 .navbar.navbar-scrolled {
   padding: 0.75rem 0;
+  box-shadow: var(--shadow-raised);
 }
 
 .navbar-brand {
@@ -278,7 +280,7 @@ svg {
 
 .nav-link.active {
   color: var(--color-accent) !important;
-  background-color: var(--color-surface-3);
+  background-color: var(--color-surface-2);
   font-weight: 600;
 }
 
@@ -294,7 +296,7 @@ svg {
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28148, 163, 184, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2815, 23, 42, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
 /* ============================================================
@@ -307,13 +309,33 @@ svg {
   align-items: center;
   padding: 120px 0 80px;
   background-color: var(--color-bg);
+  background-image: url("../images/background.avif");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--color-text);
+}
+
+/* Light theme elegant blurred image overlay */
+.hero-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(247, 249, 252, 0.94) 0%, rgba(241, 245, 249, 0.82) 48%, rgba(247, 249, 252, 0.9) 100%);
+  z-index: 1;
 }
 
 .hero-premium__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 10% 20%, rgba(99, 189, 184, 0.05) 0%, transparent 60%);
+  background: radial-gradient(circle at 10% 20%, rgba(8, 145, 178, 0.06) 0%, transparent 60%);
   pointer-events: none;
+  z-index: 2;
+}
+
+.hero-premium .container {
+  position: relative;
+  z-index: 3;
 }
 
 .hero-premium__content {
@@ -328,7 +350,7 @@ svg {
   letter-spacing: 0.05em;
   margin-bottom: var(--space-4);
   padding: var(--space-1) var(--space-3);
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-1);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
 }
@@ -412,7 +434,9 @@ svg {
    ============================================================ */
 .section {
   padding: clamp(4rem, 8vw, 8rem) 0;
-  background-color: var(--color-bg);
+  background-color: transparent; /* Allows back-art to show */
+  position: relative;
+  z-index: 5;
 }
 
 .section-heading {
@@ -478,13 +502,16 @@ svg {
   display: flex;
   flex-direction: column;
   transition: border-color var(--duration-base) var(--ease-standard),
+              box-shadow var(--duration-base) var(--ease-standard),
               transform var(--duration-base) var(--ease-standard);
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-raised);
 }
 
 .project-card:hover {
   border-color: var(--color-border-strong);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
 }
 
@@ -521,7 +548,7 @@ svg {
 }
 
 .project-card__category {
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
 }
 
 .project-card__status {
@@ -533,12 +560,12 @@ svg {
 
 .project-card__status--verified {
   color: var(--color-success);
-  border-color: rgba(121, 201, 165, 0.2);
+  border-color: rgba(22, 163, 74, 0.2);
 }
 
 .project-card__status--prototype {
   color: var(--color-accent);
-  border-color: rgba(99, 189, 180, 0.2);
+  border-color: rgba(8, 145, 178, 0.2);
 }
 
 .project-card__status--archive {
@@ -600,7 +627,7 @@ svg {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--color-accent);
-  background-color: var(--color-surface-3);
+  background-color: var(--color-surface-2);
   padding: 4px 10px;
   border-radius: var(--radius-control);
   border: 1px solid var(--color-border);
@@ -713,6 +740,7 @@ svg {
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-shadow: var(--shadow-raised);
 }
 
 .expertise-block h3 {
@@ -771,11 +799,12 @@ svg {
 }
 
 #about aside {
-  flex: 0 0 350px;
   background-color: var(--color-surface-1);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: var(--space-8);
+  flex: 0 0 350px;
+  box-shadow: var(--shadow-raised);
 }
 
 @media (max-width: 991px) {
@@ -803,16 +832,17 @@ svg {
    9. CONTACT FORM
    ============================================================ */
 #contact {
-  background-color: var(--color-surface-1) !important;
+  background-color: transparent !important;
 }
 
 #contactForm {
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-1);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: var(--space-8);
   max-width: 600px;
   margin: 0 auto;
+  box-shadow: var(--shadow-raised);
 }
 
 #contact-form-help {
@@ -834,7 +864,7 @@ svg {
   width: 100%;
   min-height: 44px;
   padding: 10px 16px;
-  background-color: var(--color-surface-3);
+  background-color: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   color: var(--color-text);
@@ -881,13 +911,13 @@ textarea.form-control {
 }
 
 .alert-success {
-  background-color: rgba(121, 201, 165, 0.1);
+  background-color: rgba(22, 163, 74, 0.08);
   border: 1px solid var(--color-success);
   color: var(--color-success);
 }
 
 .alert-danger {
-  background-color: rgba(255, 155, 149, 0.1);
+  background-color: rgba(220, 38, 38, 0.08);
   border: 1px solid var(--color-error);
   color: var(--color-error);
 }
@@ -917,15 +947,18 @@ textarea.form-control {
    10. FOOTER
    ============================================================ */
 .footer {
-  background-color: var(--color-bg);
+  background-color: var(--color-surface-2);
   border-top: 1px solid var(--color-border);
   padding: var(--space-8) 0;
   text-align: left;
+  position: relative;
+  z-index: 5;
 }
 
 .footer p {
   font-size: var(--text-sm);
   margin-bottom: var(--space-4);
+  color: var(--color-text-muted);
 }
 
 .footer p strong {
@@ -975,8 +1008,8 @@ textarea.form-control {
   place-items: center;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-control);
-  color: var(--color-text);
-  background-color: var(--color-surface-2);
+  color: var(--color-text-muted);
+  background-color: var(--color-surface-1);
   box-shadow: var(--shadow-raised);
   z-index: var(--z-sticky);
   cursor: pointer;
@@ -1043,7 +1076,78 @@ textarea.form-control {
 }
 
 /* ============================================================
-   12. CHATBOT & ROBOT-PET UI (High-End Dark Theme Styles)
+   12. TECHNICAL DECORATIVE BACKGROUND LAYER
+   ============================================================ */
+.site-background-art {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  user-select: none;
+  overflow: hidden;
+}
+
+.bg-art-icon {
+  position: absolute;
+  width: clamp(70px, 8vw, 110px);
+  height: clamp(70px, 8vw, 110px);
+  color: var(--color-accent);
+  opacity: 0.045; /* Extremely subtle watermark */
+  pointer-events: none;
+  user-select: none;
+  filter: blur(0.5px);
+}
+
+/* Precise placement of each motif across the layout */
+.bg-art-icon--brackets {
+  top: 12%;
+  left: 3%;
+}
+
+.bg-art-icon--cpu {
+  top: 8%;
+  right: 5%;
+}
+
+.bg-art-icon--terminal {
+  top: 32%;
+  left: 8%;
+}
+
+.bg-art-icon--neural {
+  top: 48%;
+  right: 3%;
+}
+
+.bg-art-icon--database {
+  top: 60%;
+  left: 2%;
+}
+
+.bg-art-icon--cloud {
+  top: 75%;
+  right: 6%;
+}
+
+.bg-art-icon--gamepad {
+  top: 85%;
+  left: 4%;
+}
+
+.bg-art-icon--key {
+  top: 25%;
+  right: 4%;
+}
+
+.bg-art-icon--grid {
+  top: 52%;
+  left: 6%;
+}
+
+/* ============================================================
+   13. CHATBOT & ROBOT-PET UI (LIGHT THEME SPECIFIC STYLE)
    ============================================================ */
 .robot-pet {
   position: fixed;
@@ -1052,7 +1156,7 @@ textarea.form-control {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-1);
   border: 1px solid var(--color-border-strong);
   box-shadow: var(--shadow-raised);
   cursor: pointer;
@@ -1061,6 +1165,7 @@ textarea.form-control {
   align-items: center;
   justify-content: center;
   transition: transform var(--duration-fast) var(--ease-standard);
+  color: var(--color-text);
 }
 
 .robot-pet:hover {
@@ -1176,7 +1281,7 @@ textarea.form-control {
 }
 
 .bot-message .message-content p {
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-1);
   color: var(--color-text);
   border-top-left-radius: 0;
   border: 1px solid var(--color-border);
@@ -1199,7 +1304,7 @@ textarea.form-control {
   align-items: center;
   gap: 4px;
   padding: 10px 14px;
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-1);
   border-radius: var(--radius-control);
   border-top-left-radius: 0;
   border: 1px solid var(--color-border);
@@ -1209,7 +1314,7 @@ textarea.form-control {
 .typing-indicator span {
   width: 6px;
   height: 6px;
-  background-color: var(--color-text-muted);
+  background-color: var(--color-text-subtle);
   border-radius: 50%;
   animation: typingDot 1s infinite alternate;
 }
@@ -1234,7 +1339,7 @@ textarea.form-control {
 
 .chatbot-input {
   flex-grow: 1;
-  background-color: var(--color-surface-3);
+  background-color: var(--color-surface-1);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   color: var(--color-text);
@@ -1267,7 +1372,7 @@ textarea.form-control {
   bottom: 70px;
   right: 0;
   width: 200px;
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-1);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: var(--space-3);

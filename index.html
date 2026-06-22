@@ -2,18 +2,18 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="light">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1117">
+  <meta name="theme-color" content="#f7f9fc">
   <meta name="description" content="Portfolio của Nguyễn Trí Thượng, sinh viên ngành Trí tuệ nhân tạo tập trung vào AI, Machine Learning và phần mềm ứng dụng.">
   <meta name="author" content="Nguyễn Trí Thượng">
   <title>Nguyễn Trí Thượng | AI &amp; Machine Learning Portfolio</title>
-
+ 
   <link rel="icon" type="image/jpeg" href="images/avatar.jpg">
   <link rel="apple-touch-icon" href="images/avatar.jpg">
   <link rel="icon" type="image/jpeg" href="images/avatar.jpg" sizes="192x192">
-
+ 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -33,8 +33,100 @@
 <body id="top">
   <a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
 
+  <!-- Technical Line-Art Background Layer -->
+  <div class="site-background-art" aria-hidden="true" role="presentation">
+    <!-- 1. Code Brackets -->
+    <svg class="bg-art-icon bg-art-icon--brackets" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M35 30 L15 50 L35 70 M65 30 L85 50 L65 70" />
+      <path d="M55 25 L45 75" stroke-dasharray="2 2" />
+    </svg>
+
+    <!-- 2. CPU / Chip -->
+    <svg class="bg-art-icon bg-art-icon--cpu" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="25" y="25" width="50" height="50" rx="4" />
+      <rect x="37" y="37" width="26" height="26" rx="2" />
+      <!-- Pins -->
+      <path d="M35 15 v10 M50 15 v10 M65 15 v10 M35 75 v10 M50 75 v10 M65 75 v10" />
+      <path d="M15 35 h10 M15 50 h10 M15 65 h10 M75 35 h10 M75 50 h10 M75 65 h10" />
+    </svg>
+
+    <!-- 3. Terminal Prompt -->
+    <svg class="bg-art-icon bg-art-icon--terminal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="15" y="20" width="70" height="60" rx="4" />
+      <path d="M15 35 h70 M25 27 h3 M33 27 h3" />
+      <path d="M25 50 L35 55 L25 60" />
+      <line x1="39" y1="60" x2="52" y2="60" stroke-width="3" />
+    </svg>
+
+    <!-- 4. Neural Network Nodes -->
+    <svg class="bg-art-icon bg-art-icon--neural" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="25" cy="50" r="6" />
+      <circle cx="55" cy="30" r="6" />
+      <circle cx="55" cy="70" r="6" />
+      <circle cx="85" cy="50" r="6" />
+      <!-- Connections -->
+      <line x1="31" y1="47" x2="49" y2="33" />
+      <line x1="31" y1="53" x2="49" y2="67" />
+      <line x1="61" y1="33" x2="79" y2="47" />
+      <line x1="61" y1="67" x2="79" y2="53" />
+      <line x1="55" y1="36" x2="55" y2="64" stroke-dasharray="2 2" />
+    </svg>
+
+    <!-- 5. Database -->
+    <svg class="bg-art-icon bg-art-icon--database" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <ellipse cx="50" cy="30" rx="30" ry="10" />
+      <path d="M20 30 v20 a30 10 0 0 0 60 0 v-20" />
+      <path d="M20 50 v20 a30 10 0 0 0 60 0 v-20" />
+      <line x1="50" y1="40" x2="50" y2="78" stroke-dasharray="2 2" />
+    </svg>
+
+    <!-- 6. Cloud Data -->
+    <svg class="bg-art-icon bg-art-icon--cloud" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M25 65 a15 15 0 0 1 10 -27 a22 22 0 0 1 40 -6 a15 15 0 0 1 5 33 z" />
+      <circle cx="42" cy="53" r="3" fill="currentColor" />
+      <circle cx="50" cy="53" r="3" fill="currentColor" />
+      <circle cx="58" cy="53" r="3" fill="currentColor" />
+    </svg>
+
+    <!-- 7. Game Controller -->
+    <svg class="bg-art-icon bg-art-icon--gamepad" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="15" y="30" width="70" height="40" rx="20" />
+      <!-- D-Pad -->
+      <path d="M30 50 h12 M36 44 v12" />
+      <!-- Action Buttons -->
+      <circle cx="62" cy="46" r="3" fill="currentColor" />
+      <circle cx="70" cy="54" r="3" fill="currentColor" />
+      <circle cx="62" cy="54" r="2" />
+      <circle cx="70" cy="46" r="2" />
+    </svg>
+
+    <!-- 8. Keyboard Key -->
+    <svg class="bg-art-icon bg-art-icon--key" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="60" height="60" rx="8" />
+      <rect x="25" y="25" width="50" height="46" rx="4" />
+      <text x="50" y="52" font-family="monospace" font-size="16" font-weight="bold" fill="currentColor" text-anchor="middle">Esc</text>
+    </svg>
+
+    <!-- 9. Dot Pixel Grid -->
+    <svg class="bg-art-icon bg-art-icon--grid" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="20" cy="20" r="2" fill="currentColor" />
+      <circle cx="50" cy="20" r="2" fill="currentColor" />
+      <circle cx="80" cy="20" r="2" fill="currentColor" />
+      <circle cx="20" cy="50" r="2" fill="currentColor" />
+      <circle cx="50" cy="50" r="2" fill="currentColor" />
+      <circle cx="80" cy="50" r="2" fill="currentColor" />
+      <circle cx="20" cy="80" r="2" fill="currentColor" />
+      <circle cx="50" cy="80" r="2" fill="currentColor" />
+      <circle cx="80" cy="80" r="2" fill="currentColor" />
+      <line x1="20" y1="20" x2="80" y2="20" stroke-dasharray="1 5" />
+      <line x1="20" y1="50" x2="80" y2="50" stroke-dasharray="1 5" />
+      <line x1="20" y1="80" x2="80" y2="80" stroke-dasharray="1 5" />
+    </svg>
+  </div>
+
+
   <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Điều hướng chính">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" aria-label="Điều hướng chính">
       <div class="container">
         <a class="navbar-brand" href="#top" aria-label="Nguyễn Trí Thượng, về đầu trang">Nguyễn Trí Thượng</a>
         <button

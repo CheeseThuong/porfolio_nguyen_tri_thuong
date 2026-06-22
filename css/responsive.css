@@ -1,6 +1,6 @@
 /*
 ============================================================
-RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
+RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
 ============================================================
 */
 
@@ -28,6 +28,7 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
 
   .navbar {
     padding: 0.5rem 0;
+    background-color: rgba(255, 255, 255, 0.98);
   }
 
   .navbar-brand {
@@ -102,7 +103,7 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
     padding: var(--space-4);
   }
 
-  /* Chatbot panel */
+  /* Chatbot panel on mobile */
   .chatbot-panel {
     right: 12px;
     left: 12px;
@@ -156,7 +157,48 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
 }
 
 /* ============================================================
-   3. BREAKPOINT: 768px to 1023.98px (Tablets: 768px)
+   3. MOBILE LAYOUT SCALING AND BACKGROUND ART LIMITATION
+   ============================================================ */
+@media (max-width: 767.98px) {
+  /* Hide excessive background art motifs to maintain clean spacing and performance on mobile */
+  .bg-art-icon--database,
+  .bg-art-icon--cloud,
+  .bg-art-icon--gamepad,
+  .bg-art-icon--key,
+  .bg-art-icon--grid {
+    display: none !important;
+  }
+
+  /* Scale remaining motifs slightly smaller on mobile */
+  .bg-art-icon {
+    width: clamp(50px, 10vw, 75px);
+    height: clamp(50px, 10vw, 75px);
+  }
+
+  /* Adjust placement of mobile motifs to prevent overlaps with stacked content */
+  .bg-art-icon--brackets {
+    top: 15%;
+    left: 4%;
+  }
+
+  .bg-art-icon--cpu {
+    top: 5%;
+    right: 4%;
+  }
+
+  .bg-art-icon--terminal {
+    top: 45%;
+    left: 6%;
+  }
+
+  .bg-art-icon--neural {
+    top: 75%;
+    right: 4%;
+  }
+}
+
+/* ============================================================
+   4. BREAKPOINT: 768px to 1023.98px (Tablets: 768px)
    ============================================================ */
 @media (min-width: 768px) and (max-width: 1023.98px) {
   .hero-premium {
@@ -174,7 +216,7 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
 }
 
 /* ============================================================
-   4. BREAKPOINT: 1024px to 1439.98px (Laptops & Standard Desktops: 1024px)
+   5. BREAKPOINT: 1024px to 1439.98px (Laptops & Standard Desktops: 1024px)
    ============================================================ */
 @media (min-width: 1024px) {
   .hero-premium .row {
@@ -188,7 +230,7 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
 }
 
 /* ============================================================
-   5. BREAKPOINT: >= 1440px (Wide Screens: 1440px)
+   6. BREAKPOINT: >= 1440px (Wide Screens: 1440px)
    ============================================================ */
 @media (min-width: 1440px) {
   .container {
@@ -197,7 +239,7 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
 }
 
 /* ============================================================
-   6. PRINT STYLES
+   7. PRINT STYLES
    ============================================================ */
 @media print {
   body {
@@ -211,7 +253,8 @@ RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
   .floating-control,
   .robot-pet,
   .chatbot-panel,
-  #contactForm button {
+  #contactForm button,
+  .site-background-art {
     display: none !important;
   }
 
