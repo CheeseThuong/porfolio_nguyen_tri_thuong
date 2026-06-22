@@ -336,6 +336,12 @@
             <form id="contactForm" novalidate aria-describedby="contact-form-help">
               <p id="contact-form-help">Các trường đều bắt buộc. Tin nhắn được gửi qua EmailJS.</p>
 
+              <!-- Honeypot Spam Protection Field -->
+              <div class="d-none" aria-hidden="true">
+                <label for="honeypot">Nếu bạn là robot, vui lòng bỏ qua ô này</label>
+                <input type="text" id="honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+              </div>
+
               <div class="mb-3">
                 <label for="name" class="form-label">Họ và tên</label>
                 <input
@@ -416,7 +422,9 @@
     referrerpolicy="no-referrer"></script>
   <script src="js/data/projects.js?v=1.0.0"></script>
   <script src="js/modules/projects.js?v=1.0.0"></script>
+  <script src="js/modules/navigation.js?v=1.0.0"></script>
+  <script src="js/modules/reveal.js?v=1.0.0"></script>
+  <script src="js/modules/contact.js?v=1.0.0"></script>
   <script src="js/main.js?v=2.0.0"></script>
-  <script src="js/script.js?v=2.0.0"></script>
 </body>
 </html>
