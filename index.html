@@ -5,716 +5,324 @@
   <meta name="color-scheme" content="dark">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CV - Nguyễn Trí Thượng</title>
-  
-  <!-- ============================================================
-       FAVICON — Sử dụng avatar làm icon tab trình duyệt
-       Browser tab icon using owner's avatar image
-       ============================================================ -->
-
-  <!-- Favicon chính — Primary favicon (ICO format cho IE/Edge cũ) -->
-  <link rel="icon" type="image/jpeg" href="images/avatar.jpg">
-
-  <!-- Favicon cho iOS/Android khi thêm vào màn hình chính -->
-  <!-- Apple/Android touch icon when added to home screen -->
-  <link rel="apple-touch-icon" href="images/avatar.jpg">
-
-  <!-- Favicon cho thiết bị có màn hình retina (2x) -->
-  <!-- Retina display favicon -->
-  <link rel="icon" type="image/jpeg" href="images/avatar.jpg" sizes="192x192">
-
-  <!-- Màu theme cho mobile browser bar — Mobile browser bar theme color -->
   <meta name="theme-color" content="#0b1117">
-
-  <!-- Mô tả trang cho SEO và khi share link -->
-  <!-- Page description for SEO and link sharing -->
-  <meta name="description" content="CV cá nhân của Nguyễn Trí Thượng - Sinh viên Trí tuệ nhân tạo tại ĐH Thái Bình Dương">
+  <meta name="description" content="Portfolio của Nguyễn Trí Thượng, sinh viên ngành Trí tuệ nhân tạo tập trung vào AI, Machine Learning và phần mềm ứng dụng.">
   <meta name="author" content="Nguyễn Trí Thượng">
+  <title>Nguyễn Trí Thượng | AI &amp; Machine Learning Portfolio</title>
+
+  <link rel="icon" type="image/jpeg" href="images/avatar.jpg">
+  <link rel="apple-touch-icon" href="images/avatar.jpg">
+  <link rel="icon" type="image/jpeg" href="images/avatar.jpg" sizes="192x192">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Bootstrap 5 CSS — crossorigin giảm Tracking Prevention warning trên Edge/Safari -->
-  <!-- Bootstrap 5 CSS — crossorigin reduces Tracking Prevention warnings on Edge/Safari -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
     crossorigin="anonymous"
     referrerpolicy="no-referrer">
-  
-  <!-- Font Awesome 6 — crossorigin giảm Tracking Prevention warning -->
-  <!-- Font Awesome 6 — crossorigin reduces Tracking Prevention warnings -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     crossorigin="anonymous"
     referrerpolicy="no-referrer">
-  
-  <!-- Custom CSS với cache busting để đảm bảo CSS mới được tải -->
   <link rel="stylesheet" href="css/style.css?v=1.0.1">
   <link rel="stylesheet" href="css/responsive.css?v=1.0.1">
 </head>
 <body id="top">
+  <a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
 
-<a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Điều hướng chính">
-  <div class="container">
-    <a class="navbar-brand" href="#top">Nguyễn Trí Thượng</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Mở menu điều hướng">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
-        <li class="nav-item"><a class="nav-link" href="#projects">Dự án</a></li>
-        <li class="nav-item"><a class="nav-link" href="#skills">Kỹ năng</a></li>
-        <li class="nav-item"><a class="nav-link" href="#hobbies">Sở thích</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero Section -->
-<header class="hero hero-premium">
-  <div class="hero-premium__overlay"></div>
-  <div class="container position-relative">
-    <div class="row align-items-center gy-5">
-      <div class="col-lg-7 hero-premium__content">
-        <span class="hero-premium__eyebrow">Sinh viên năm 3</span>
-        <h1 class="hero-premium__title">Nguyễn Trí Thượng</h1>
-        <p class="hero-premium__lead">
-          <span class="typing-text"></span>
-          <span class="typing-cursor">|</span>
-        </p>
-        <div class="hero-premium__cta">
-          <a href="#contact" class="btn btn-lg btn-primary me-3">Liên hệ</a>
-          <a href="#about" class="btn btn-lg btn-outline-light">Tìm hiểu thêm</a>
-        </div>
-      </div>
-      <div class="col-lg-5">
-        <aside class="hero-premium__card">
-          <div class="hero-premium__avatar">
-            <img src="images/avatar.jpg" alt="Nguyễn Trí Thượng">
-            <span class="hero-premium__status"><i class="fas fa-circle"></i> Sẵn sàng hợp tác</span>
-          </div>
-          <h3 class="hero-premium__card-title">Sinh viên AI</h3>
-          <p class="hero-premium__card-text">Đang học lập trình về Trí tuệ nhân tạo và muốn tìm hiểu về lập trình web.</p>
-          <ul class="hero-premium__card-list">
-            <li><i class="fas fa-envelope"></i><a href="mailto:nguyentrithuong471@gmail.com">nguyentrithuong471@gmail.com</a></li>
-            <li><i class="fas fa-phone"></i><a href="tel:+84935253359">+84 935 253 359</a></li>
-            <li><i class="fas fa-location-dot"></i>Nha Trang, Việt Nam</li>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Điều hướng chính">
+      <div class="container">
+        <a class="navbar-brand" href="#top" aria-label="Nguyễn Trí Thượng, về đầu trang">Nguyễn Trí Thượng</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Mở menu điều hướng">
+          <span class="navbar-toggler-icon" aria-hidden="true"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+            <li class="nav-item"><a class="nav-link" href="#expertise">Expertise</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/CheeseThuong" target="_blank" rel="noopener noreferrer">
+                GitHub <span class="visually-hidden">(mở trong tab mới)</span>
+              </a>
+            </li>
           </ul>
-          <div class="hero-premium__card-links">
-            <a href="https://github.com/CheeseThuong" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub của Nguyễn Trí Thượng"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn của Nguyễn Trí Thượng"><i class="fab fa-linkedin"></i></a>
-            <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook của Nguyễn Trí Thượng"><i class="fab fa-facebook"></i></a>
-          </div>
-        </aside>
+        </div>
       </div>
-    </div>
-  </div>
-</header>
+    </nav>
 
-<main id="main-content">
-<!-- About Section -->
-<section id="about" class="section bg-light">
-  <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-user-circle text-primary"></i> Giới thiệu</h2>
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <p class="lead">Tôi là sinh viên năm 3 ngành Trí tuệ nhân tạo tại Đại học Thái Bình Dương.</p>
-        <ul class="list-unstyled">
-          <li><i class="fas fa-check-circle text-success"></i> Chuyên về Machine Learning và Deep Learning</li>
-          <li><i class="fas fa-check-circle text-success"></i> Phân tích dữ liệu với Python, Pandas, NumPy</li>
-          <li><i class="fas fa-check-circle text-success"></i> Xây dựng mô hình AI và Neural Networks</li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <div class="card p-4 text-center">
-          <h4 class="mb-3"><i class="fas fa-graduation-cap text-primary"></i> Thông tin học tập</h4>
-          <div class="row">
-            <div class="col-6">
-              <h3 class="text-primary">Năm 3</h3>
-              <small>Sinh viên</small>
-            </div>
-            <div class="col-6">
-              <h3 class="text-success">AI</h3>
-              <small>Chuyên ngành</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Goals Section -->
-<section id="goals" class="section">
-  <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-bullseye text-primary"></i> Mục tiêu</h2>
-    <div class="row text-center">
-      <div class="col-md-4">
-        <div class="card p-3 h-100">
-          <h4><i class="fas fa-graduation-cap text-primary"></i> Ngắn hạn</h4>
-          <p>Hoàn thành chương trình đại học tốt.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-3 h-100">
-          <h4><i class="fas fa-robot text-success"></i> Kỹ năng</h4>
-          <p>Nâng cao kỹ năng AI, Machine Learning và Data Science.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-3 h-100">
-          <h4><i class="fas fa-briefcase text-primary"></i> Dài hạn</h4>
-          <p>Trở thành chuyên gia AI/ML Engineer.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     PROJECTS SECTION — Các dự án nổi bật đã thực hiện
-     ============================================================ -->
-<section id="projects" class="section projects-section">
-  <div class="container">
-    <h2 class="text-center mb-4">
-      <i class="fas fa-folder-open text-primary"></i> Dự án nổi bật
-    </h2>
-    <div class="row g-4" id="projectsGrid">
-      <!-- Card 1: Vietnamese ASR -->
-      <div class="col-lg-4 col-md-6">
-        <article class="project-card">
-          <div class="project-card__icon">
-            <i class="fas fa-microphone-alt"></i>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">VietASR Pro</h3>
-            <p class="project-card__desc">
-              Hệ thống nhận dạng giọng nói tiếng Việt tự động (ASR) sử dụng Wav2Vec 2.0, 
-              fine-tuned trên dataset VIVOS &amp; VLSP 2020. Tích hợp Flask web demo, 
-              FastAPI backend, speaker diarization và KenLM post-processing.
+    <div class="hero hero-premium" aria-labelledby="hero-title">
+      <div class="hero-premium__overlay" aria-hidden="true"></div>
+      <div class="container position-relative">
+        <div class="row align-items-center gy-5">
+          <div class="col-lg-7 hero-premium__content">
+            <p class="hero-premium__eyebrow">AI/ML developer in training</p>
+            <h1 class="hero-premium__title" id="hero-title">Nguyễn Trí Thượng</h1>
+            <p class="hero-premium__lead">AI / Machine Learning / Applied Software</p>
+            <p>
+              Sinh viên ngành Trí tuệ nhân tạo xây dựng hệ thống nhận dạng tiếng nói,
+              retrieval chatbot, mô hình dự đoán và API phục vụ ứng dụng.
             </p>
-            <div class="project-card__tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Wav2Vec2</span>
-              <span class="project-tag">Flask</span>
-              <span class="project-tag">FastAPI</span>
-              <span class="project-tag">NLP</span>
+            <div class="hero-premium__cta" aria-label="Liên kết chính">
+              <a href="#work" class="btn btn-lg btn-primary me-3">Xem dự án</a>
+              <a href="https://github.com/CheeseThuong" class="btn btn-lg btn-outline-light" target="_blank" rel="noopener noreferrer">
+                GitHub <span class="visually-hidden">(mở trong tab mới)</span>
+              </a>
             </div>
           </div>
-          <div class="project-card__footer">
-            <span class="project-card__type">
-              <i class="fas fa-graduation-cap"></i> Đồ án tốt nghiệp
-            </span>
-          </div>
-        </article>
-      </div>
 
-      <!-- Card 2: TBD Bank Chatbot -->
-      <div class="col-lg-4 col-md-6">
-        <article class="project-card">
-          <div class="project-card__icon">
-            <i class="fas fa-university"></i>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">TBD Bank Chatbot</h3>
-            <p class="project-card__desc">
-              Chatbot hỗ trợ dịch vụ ngân hàng TBD, tư vấn tự động các nghiệp vụ 
-              tài chính, giải đáp thắc mắc khách hàng và xử lý ngôn ngữ tự nhiên 
-              tiếng Việt.
+          <aside class="col-lg-5 hero-premium__card" aria-labelledby="snapshot-title">
+            <h2 class="hero-premium__card-title" id="snapshot-title">Engineering snapshot</h2>
+            <dl class="engineering-snapshot">
+              <div>
+                <dt>AI focus</dt>
+                <dd>Speech recognition, NLP retrieval và predictive modeling.</dd>
+              </div>
+              <div>
+                <dt>Build</dt>
+                <dd>Python, PyTorch, Hugging Face, Flask và FastAPI.</dd>
+              </div>
+              <div>
+                <dt>Delivery practice</dt>
+                <dd>Testing, Docker và GitHub Actions qua các project lab đã xác minh.</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section id="work" class="section projects-section" aria-labelledby="work-title">
+      <div class="container">
+        <header class="section-heading">
+          <h2 id="work-title">Selected work</h2>
+          <p>Các project AI/ML tiêu biểu sẽ được render từ dữ liệu đã xác minh ở phase tiếp theo.</p>
+        </header>
+        <div
+          id="selectedWork"
+          class="project-renderer project-renderer--featured"
+          role="list"
+          aria-label="Danh sách dự án tiêu biểu"
+          aria-live="polite"
+          data-project-renderer="featured"></div>
+        <noscript>
+          <p>Cần bật JavaScript để hiển thị danh sách dự án. Bạn có thể xem repository trực tiếp trên <a href="https://github.com/CheeseThuong">GitHub</a>.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <section id="archive" class="section" aria-labelledby="archive-title">
+      <div class="container">
+        <header class="section-heading">
+          <h2 id="archive-title">Project archive</h2>
+          <p>Kho lưu trữ sẽ nhóm project theo AI/ML, applied software và DevOps/Labs.</p>
+        </header>
+        <div
+          id="projectFilters"
+          class="project-filter"
+          role="group"
+          aria-label="Bộ lọc dự án"
+          data-project-filters></div>
+        <div
+          id="projectArchive"
+          class="project-renderer project-renderer--archive"
+          role="list"
+          aria-label="Kho dự án"
+          aria-live="polite"
+          data-project-renderer="archive"></div>
+      </div>
+    </section>
+
+    <section id="expertise" class="section skills-section" aria-labelledby="expertise-title">
+      <div class="container">
+        <header class="section-heading">
+          <h2 id="expertise-title">Expertise</h2>
+          <p>Năng lực được mô tả bằng project đã thực hiện, không dùng phần trăm tự đánh giá.</p>
+        </header>
+
+        <div class="expertise-list">
+          <article class="expertise-block">
+            <h3>Speech, NLP và retrieval</h3>
+            <p>
+              VietASR Pro là bằng chứng cho pipeline nhận dạng tiếng Việt với Wav2Vec 2.0;
+              TBD RAG Chatbot và BotChat Support Students TBD thể hiện hai hướng retrieval khác nhau.
             </p>
-            <div class="project-card__tags">
-              <span class="project-tag">NLP</span>
-              <span class="project-tag">Chatbot</span>
-              <span class="project-tag">Python</span>
-              <span class="project-tag">AI</span>
-            </div>
-          </div>
-          <div class="project-card__footer">
-            <span class="project-card__type">
-              <i class="fas fa-laptop-code"></i> Dự án học thuật
-            </span>
-          </div>
-        </article>
-      </div>
+            <ul aria-label="Project bằng chứng cho Speech, NLP và retrieval">
+              <li><a href="https://github.com/CheeseThuong/Vietnamese-asr">VietASR Pro</a></li>
+              <li><a href="https://github.com/CheeseThuong/TBD-RAG-Chatbot">TBD RAG Chatbot</a></li>
+              <li><a href="https://github.com/CheeseThuong/BotChat-Support-Students-TBD">BotChat Support Students TBD</a></li>
+            </ul>
+          </article>
 
-      <!-- Card 3: Student Support Chatbot -->
-      <div class="col-lg-4 col-md-6">
-        <article class="project-card">
-          <div class="project-card__icon">
-            <i class="fas fa-robot"></i>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">Botchat Hỗ Trợ Sinh Viên</h3>
-            <p class="project-card__desc">
-              Chatbot AI hỗ trợ sinh viên tra cứu thông tin học vụ, lịch thi, 
-              điểm số và giải đáp các thắc mắc về quy chế trường. Giao tiếp 
-              tự nhiên bằng tiếng Việt.
+          <article class="expertise-block">
+            <h3>Modeling và experimentation</h3>
+            <p>
+              Các project sentiment analysis và dự đoán mực nước thể hiện việc so sánh mô hình,
+              làm việc với dataset và đưa kết quả vào notebook hoặc ứng dụng Streamlit.
             </p>
-            <div class="project-card__tags">
-              <span class="project-tag">Chatbot</span>
-              <span class="project-tag">NLP</span>
-              <span class="project-tag">Education</span>
-              <span class="project-tag">AI</span>
-            </div>
-          </div>
-          <div class="project-card__footer">
-            <span class="project-card__type">
-              <i class="fas fa-laptop-code"></i> Dự án học thuật
-            </span>
-          </div>
-        </article>
-      </div>
+            <ul aria-label="Project bằng chứng cho modeling và experimentation">
+              <li><a href="https://github.com/CheeseThuong/sentiment-analysis-rnn-lstm-bert">Sentiment Analysis RNN/LSTM/BERT</a></li>
+              <li><a href="https://github.com/CheeseThuong/Predicting-water-levels-using-Linear-Regression">Fish Pond Water Level Prediction</a></li>
+            </ul>
+          </article>
 
-      <!-- Card 4: Q Nails Summerwood -->
-      <div class="col-lg-4 col-md-6">
-        <article class="project-card">
-          <div class="project-card__icon">
-            <i class="fas fa-spa"></i>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">Q Nails Summerwood</h3>
-            <p class="project-card__desc">
-              Website đặt lịch online cho tiệm nail tại Houston, TX. Tích hợp 
-              Firebase realtime database, EmailJS, admin dashboard quản lý lịch hẹn 
-              và giao diện hiện đại, responsive.
+          <article class="expertise-block">
+            <h3>Applied software và delivery</h3>
+            <p>
+              TBD Bank và KPI Grading System cung cấp bằng chứng về backend/web application;
+              Flask CI/CD App cùng GitHub Actions Lab thể hiện thực hành test, container và CI.
             </p>
-            <div class="project-card__tags">
-              <span class="project-tag">HTML/CSS/JS</span>
-              <span class="project-tag">Firebase</span>
-              <span class="project-tag">EmailJS</span>
-              <span class="project-tag">Web</span>
-            </div>
-          </div>
-          <div class="project-card__footer">
-            <span class="project-card__type">
-              <i class="fas fa-globe"></i> Web thực tế
-            </span>
-          </div>
-        </article>
+            <ul aria-label="Project bằng chứng cho applied software và delivery">
+              <li><a href="https://github.com/CheeseThuong/TBD-Bank">TBD Bank</a></li>
+              <li><a href="https://github.com/CheeseThuong/KPI-GRADING-SYSTEM">KPI Grading System</a></li>
+              <li><a href="https://github.com/CheeseThuong/flask-cicd-app">Flask CI/CD App</a></li>
+              <li><a href="https://github.com/CheeseThuong/student-github-actions-lab">Student GitHub Actions Lab</a></li>
+            </ul>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <!-- Card 5: Ellamy Nails -->
-      <div class="col-lg-4 col-md-6">
-        <article class="project-card">
-          <div class="project-card__icon">
-            <i class="fas fa-hand-sparkles"></i>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">Ellamy Nails</h3>
-            <p class="project-card__desc">
-              Website thương hiệu nail salon với thiết kế sang trọng, 
-              gallery dịch vụ, hệ thống đặt lịch và trang quản trị. 
-              Tập trung vào trải nghiệm người dùng và thẩm mỹ thương hiệu.
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="container">
+        <header class="section-heading">
+          <h2 id="about-title">About</h2>
+        </header>
+        <div class="row gy-4">
+          <article class="col-lg-7">
+            <h3>Hướng phát triển</h3>
+            <p>
+              Tôi là sinh viên ngành Trí tuệ nhân tạo, đang phát triển năng lực từ modeling
+              đến phần mềm ứng dụng. Portfolio này tập trung vào code, phương pháp và trạng thái
+              thực tế của từng project.
             </p>
-            <div class="project-card__tags">
-              <span class="project-tag">HTML/CSS/JS</span>
-              <span class="project-tag">UI/UX</span>
-              <span class="project-tag">Web</span>
+          </article>
+          <aside class="col-lg-5" aria-labelledby="education-title">
+            <h3 id="education-title">Education</h3>
+            <p><strong>Đại học Thái Bình Dương</strong></p>
+            <p>Ngành Trí tuệ nhân tạo</p>
+            <p>Nha Trang, Việt Nam</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section bg-light" aria-labelledby="contact-title">
+      <div class="container">
+        <header class="section-heading">
+          <h2 id="contact-title">Contact</h2>
+          <p>
+            Trao đổi về project, học tập hoặc cơ hội phù hợp qua form bên dưới.
+            Nếu form không gửi được, dùng email
+            <a href="mailto:nguyentrithuong471@gmail.com">nguyentrithuong471@gmail.com</a>.
+          </p>
+        </header>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="contact-status" aria-live="polite" aria-atomic="true">
+              <div id="successMessage" class="alert alert-success d-none" role="status">
+                Tin nhắn đã được gửi. Cảm ơn bạn đã liên hệ.
+              </div>
+              <div id="formError" class="alert alert-danger d-none" role="alert"></div>
             </div>
-          </div>
-          <div class="project-card__footer">
-            <span class="project-card__type">
-              <i class="fas fa-globe"></i> Web thực tế
-            </span>
-          </div>
-        </article>
-      </div>
 
-      <!-- Card 6: Tarot AI -->
-      <div class="col-lg-4 col-md-6">
-        <article class="project-card">
-          <div class="project-card__icon">
-            <i class="fas fa-star"></i>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">Tarot AI Miễn Phí</h3>
-            <p class="project-card__desc">
-              Trang web xem tarot miễn phí tích hợp AI, người dùng rút bài 
-              và nhận luận giải cá nhân hóa bằng tiếng Việt. Giao diện huyền bí, 
-              animation bài tarot mượt mà và trải nghiệm tương tác cao.
-            </p>
-            <div class="project-card__tags">
-              <span class="project-tag">AI</span>
-              <span class="project-tag">Gemini API</span>
-              <span class="project-tag">JavaScript</span>
-              <span class="project-tag">Web</span>
-            </div>
-          </div>
-          <div class="project-card__footer">
-            <span class="project-card__type">
-              <i class="fas fa-magic"></i> Side project
-            </span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
+            <form id="contactForm" novalidate aria-describedby="contact-form-help">
+              <p id="contact-form-help">Các trường đều bắt buộc. Tin nhắn được gửi qua EmailJS.</p>
 
-<!-- Skills Section -->
-<section id="skills" class="section skills-section">
-  <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-brain text-primary"></i> Kỹ năng AI</h2>
-    <div class="row g-4">
-      <div class="col-lg-6">
-        <article class="skill-meter">
-          <div class="skill-meter__header">
-            <h3 class="skill-meter__title"><i class="fab fa-python"></i> Python</h3>
-            <span class="skill-meter__level">75%</span>
-          </div>
-          <div class="skill-meter__bar">
-            <div class="skill-meter__progress" style="--progress:75%"></div>
-          </div>
-          <p class="skill-meter__desc">Thành thạo Python cho AI, xử lý dữ liệu và lập trình tổng quát.</p>
-        </article>
-      </div>
-      <div class="col-lg-6">
-        <article class="skill-meter">
-          <div class="skill-meter__header">
-            <h3 class="skill-meter__title"><i class="fas fa-robot"></i> Machine Learning</h3>
-            <span class="skill-meter__level">65%</span>
-          </div>
-          <div class="skill-meter__bar">
-            <div class="skill-meter__progress" style="--progress:65%"></div>
-          </div>
-          <p class="skill-meter__desc">Sử dụng Scikit-learn, các thuật toán ML và xây dựng mô hình dự đoán.</p>
-        </article>
-      </div>
-      <div class="col-lg-6">
-        <article class="skill-meter">
-          <div class="skill-meter__header">
-            <h3 class="skill-meter__title"><i class="fas fa-project-diagram"></i> Deep Learning</h3>
-            <span class="skill-meter__level">60%</span>
-          </div>
-          <div class="skill-meter__bar">
-            <div class="skill-meter__progress" style="--progress:60%"></div>
-          </div>
-          <p class="skill-meter__desc">Làm việc với TensorFlow, Keras, Neural Networks và CNN.</p>
-        </article>
-      </div>
-      <div class="col-lg-6">
-        <article class="skill-meter">
-          <div class="skill-meter__header">
-            <h3 class="skill-meter__title"><i class="fas fa-chart-line"></i> Data Analysis</h3>
-            <span class="skill-meter__level">70%</span>
-          </div>
-          <div class="skill-meter__bar">
-            <div class="skill-meter__progress" style="--progress:70%"></div>
-          </div>
-          <p class="skill-meter__desc">Phân tích dữ liệu với Pandas, NumPy, Matplotlib và Seaborn.</p>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
+              <div class="mb-3">
+                <label for="name" class="form-label">Họ và tên</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="from_name"
+                  autocomplete="name"
+                  minlength="2"
+                  aria-describedby="name-help"
+                  required>
+                <small id="name-help">Nhập ít nhất 2 ký tự.</small>
+              </div>
 
-<!-- Toolkit Section -->
-<section id="toolkit" class="section bg-light">
-  <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-toolbox text-primary"></i> Công cụ AI</h2>
-    <div class="toolkit-grid">
-      <div class="toolkit-item">
-        <i class="fab fa-python"></i>
-        <span>Python</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fas fa-brain"></i>
-        <span>TensorFlow</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fas fa-project-diagram"></i>
-        <span>Keras</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fas fa-chart-bar"></i>
-        <span>Pandas</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fas fa-square-root-alt"></i>
-        <span>NumPy</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fas fa-chart-line"></i>
-        <span>Scikit-learn</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fab fa-github"></i>
-        <span>GitHub</span>
-      </div>
-      <div class="toolkit-item">
-        <i class="fas fa-book"></i>
-        <span>Jupyter</span>
-      </div>
-    </div>
-  </div>
-</section>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="from_email"
+                  autocomplete="email"
+                  aria-describedby="email-help"
+                  required>
+                <small id="email-help">Dùng địa chỉ email bạn có thể nhận phản hồi.</small>
+              </div>
 
-<!-- Hobbies Section -->
-<section id="hobbies" class="section hobbies-section">
-  <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-heart text-primary"></i> Sở thích</h2>
-    <div class="timeline" id="hobbyTimeline">
-      <div class="timeline__item" data-index="0">
-        <div class="timeline__content hobby-card hobby-card--music">
-          <div class="hobby-card__icon"><i class="fas fa-music"></i></div>
-          <h3 class="hobby-card__title">Nghe nhạc</h3>
-          <p class="hobby-card__desc">Thích nghe nhạc để thư giãn sau giờ học.</p>
-          <div class="hobby-card__tags">
-            <span class="hobby-card__tag">Chill</span>
-            <span class="hobby-card__tag">Lo-fi</span>
+              <div class="mb-3">
+                <label for="message" class="form-label">Lời nhắn</label>
+                <textarea
+                  class="form-control"
+                  id="message"
+                  name="message"
+                  rows="6"
+                  minlength="10"
+                  aria-describedby="message-help"
+                  required></textarea>
+                <small id="message-help">Nêu ngắn gọn nội dung cần trao đổi, tối thiểu 10 ký tự.</small>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <span>Gửi lời nhắn</span>
+              </button>
+            </form>
           </div>
         </div>
       </div>
+    </section>
+  </main>
 
-      <div class="timeline__item" data-index="1">
-        <div class="timeline__content hobby-card hobby-card--reading">
-          <div class="hobby-card__icon"><i class="fas fa-book"></i></div>
-          <h3 class="hobby-card__title">Đọc sách</h3>
-          <p class="hobby-card__desc">Đọc sách về công nghệ và kỹ năng mềm.</p>
-          <div class="hobby-card__tags">
-            <span class="hobby-card__tag">Tech</span>
-            <span class="hobby-card__tag">Books</span>
-          </div>
-        </div>
-      </div>
+  <footer class="footer">
+    <div class="container">
+      <p><strong>Nguyễn Trí Thượng</strong> · AI/ML developer in training</p>
+      <nav aria-label="Điều hướng cuối trang">
+        <a href="mailto:nguyentrithuong471@gmail.com">Email</a>
+        <a href="https://github.com/CheeseThuong">GitHub</a>
+        <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/">LinkedIn</a>
+        <a href="#top">Về đầu trang</a>
+      </nav>
+      <p>© <span id="currentYear">2026</span> Nguyễn Trí Thượng</p>
+    </div>
+  </footer>
 
-      <div class="timeline__item" data-index="2">
-        <div class="timeline__content hobby-card hobby-card--sport">
-          <div class="hobby-card__icon"><i class="fas fa-futbol"></i></div>
-          <h3 class="hobby-card__title">Thể thao</h3>
-          <p class="hobby-card__desc">Thích chơi bóng đá và chạy bộ.</p>
-          <div class="hobby-card__tags">
-            <span class="hobby-card__tag">Football</span>
-            <span class="hobby-card__tag">Running</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline__item" data-index="3">
-        <div class="timeline__content hobby-card hobby-card--code">
-          <div class="hobby-card__icon"><i class="fas fa-code"></i></div>
-          <h3 class="hobby-card__title">Lập trình</h3>
-          <p class="hobby-card__desc">Thích code và làm các dự án nhỏ.</p>
-          <div class="hobby-card__tags">
-            <span class="hobby-card__tag">Web</span>
-            <span class="hobby-card__tag">AI</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="section bg-light">
-  <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-envelope-open-text text-primary"></i> Liên hệ</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <!-- Thông báo thành công -->
-        <div id="successMessage" class="alert alert-success d-none" role="status" aria-live="polite">
-          <i class="fas fa-check-circle"></i> <strong>Gửi thành công!</strong> Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể!
-        </div>
-        <div id="formError" class="alert alert-danger d-none" role="alert" aria-live="assertive"></div>
-        <form id="contactForm" novalidate>
-          <div class="mb-3">
-            <label for="name" class="form-label">Họ và tên</label>
-            <input type="text" class="form-control" id="name" name="from_name" placeholder="Nhập tên của bạn" autocomplete="name" minlength="2" required>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="from_email" placeholder="example@example.com" autocomplete="email" required>
-          </div>
-          <div class="mb-3">
-            <label for="message" class="form-label">Lời nhắn</label>
-            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Viết lời nhắn của bạn..." minlength="10" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> <span>Gửi lời nhắn</span></button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3 col-sm-6 mb-4">
-        <h5 class="footer-title">Về tôi</h5>
-        <p class="footer-text">Sinh viên Trí tuệ nhân tạo tại ĐH Thái Bình Dương, đam mê Machine Learning và Data Science.</p>
-      </div>
-
-      <div class="col-md-2 col-sm-6 mb-4">
-        <h5 class="footer-title">Liên kết</h5>
-        <ul class="footer-links">
-          <li><a href="#about">Giới thiệu</a></li>
-          <li><a href="#skills">Kỹ năng</a></li>
-          <li><a href="#hobbies">Sở thích</a></li>
-          <li><a href="#contact">Liên hệ</a></li>
-        </ul>
-      </div>
-
-      <div class="col-md-3 col-sm-6 mb-4">
-        <h5 class="footer-title">Kỹ năng AI</h5>
-        <ul class="footer-skills">
-          <li><i class="fab fa-python"></i> Python</li>
-          <li><i class="fas fa-robot"></i> Machine Learning</li>
-          <li><i class="fas fa-brain"></i> Deep Learning</li>
-          <li><i class="fas fa-chart-line"></i> Data Analysis</li>
-        </ul>
-      </div>
-
-      <div class="col-md-4 col-sm-6">
-        <h5 class="footer-title">Liên hệ</h5>
-        <ul class="footer-contact">
-          <li><i class="fas fa-envelope"></i> <a href="mailto:nguyentrithuong471@gmail.com">nguyentrithuong471@gmail.com</a></li>
-          <li><i class="fas fa-phone"></i> <a href="tel:+84935253359">+84 935 253 359</a></li>
-          <li><i class="fas fa-map-marker-alt"></i> <span>Nha Trang, Việt Nam</span></li>
-        </ul>
-        
-        <div class="footer-social d-flex justify-content-center mt-3">
-          <a href="https://github.com/CheeseThuong" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub của Nguyễn Trí Thượng" class="footer-social-link">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="https://www.facebook.com/tri.thuong.379163/" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook của Nguyễn Trí Thượng" class="footer-social-link">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn của Nguyễn Trí Thượng" class="footer-social-link">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <hr class="footer-divider">
-    
-    <div class="text-center pt-3">
-      <p class="footer-copyright">© <span id="currentYear">2026</span> Nguyễn Trí Thượng <i class="fas fa-heart text-danger"></i></p>
-    </div>
-  </div>
-</footer>
-
-<!-- Robot Pet Chatbot -->
-<div id="robotPet" class="robot-pet" role="button" tabindex="0" aria-label="Mở trợ lý AI" aria-controls="chatbotPanel" aria-expanded="false">
-  <div class="thinking-bubble">
-    Đang suy nghĩ
-    <span class="thinking-dots">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-  </div>
-  <div class="robot-body">
-    <div class="robot-antenna">
-      <div class="antenna-ball"></div>
-    </div>
-    <div class="robot-head">
-      <div class="robot-eyes">
-        <div class="eye left-eye">
-          <div class="pupil"></div>
-        </div>
-        <div class="eye right-eye">
-          <div class="pupil"></div>
-        </div>
-      </div>
-      <div class="robot-mouth"></div>
-    </div>
-    <div class="robot-torso">
-      <div class="robot-heart">❤️</div>
-    </div>
-    <div class="robot-arms">
-      <div class="arm left-arm"></div>
-      <div class="arm right-arm"></div>
-    </div>
-    <div class="robot-legs">
-      <div class="leg left-leg"></div>
-      <div class="leg right-leg"></div>
-    </div>
-  </div>
-  <div class="robot-shadow"></div>
-</div>
-
-<!-- Chatbot Panel -->
-<div id="chatbotPanel" class="chatbot-panel" role="dialog" aria-label="Trợ lý AI" aria-hidden="true" inert>
-  <div class="chatbot-header">
-    <div class="chatbot-header-content">
-      <div class="chatbot-avatar">🤖</div>
-      <div class="chatbot-title">
-        <h5>Robot AI Assistant</h5>
-        <span class="chatbot-status">Online</span>
-      </div>
-    </div>
-    <button id="closeChatbot" class="chatbot-close-btn" aria-label="Close chatbot">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  
-  <div id="chatMessages" class="chatbot-messages">
-    <div class="message bot-message">
-      <div class="message-avatar">🤖</div>
-      <div class="message-content">
-        <p>Mình có thể giúp gì cho bạn! 😊</p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="chatbot-input-area">
-    <div class="typing-indicator" id="typingIndicator" style="display: none;">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="chatbot-input-wrapper">
-      <input 
-        type="text" 
-        id="chatInput" 
-        class="chatbot-input" 
-        placeholder="Nhập tin nhắn..."
-        autocomplete="off"
-      />
-      <button id="sendMessage" class="chatbot-send-btn" aria-label="Send message">
-        <i class="fas fa-paper-plane"></i>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- EmailJS SDK — crossorigin giảm Tracking Prevention warning -->
-<!-- EmailJS SDK — crossorigin reduces Tracking Prevention warnings -->
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"></script>
-
-<script type="text/javascript">
-  (function(){
+  <script
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script>
+    (function () {
       if (window.emailjs) {
         emailjs.init("PU-XG9rPWqN8OwKZl");
       }
-  })();
-</script>
-
-<!-- Bootstrap JS — crossorigin giảm Tracking Prevention warning -->
-<!-- Bootstrap JS — crossorigin reduces Tracking Prevention warnings -->
-<script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"></script>
-
-<!-- Custom JS -->
-<script src="js/main.js?v=2.0.0"></script>
-<script src="js/script.js?v=2.0.0"></script>
-
+    })();
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script src="js/main.js?v=2.0.0"></script>
+  <script src="js/script.js?v=2.0.0"></script>
 </body>
 </html>
