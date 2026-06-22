@@ -206,6 +206,10 @@ svg {
               transform var(--duration-fast) var(--ease-standard);
 }
 
+.btn:active {
+  transform: scale(0.98) translateY(0.5px) !important;
+}
+
 .btn-primary {
   background-color: var(--color-accent);
   color: var(--color-on-accent);
@@ -241,12 +245,12 @@ svg {
   transition: background-color var(--duration-base) var(--ease-standard),
               padding var(--duration-base) var(--ease-standard);
   z-index: var(--z-nav);
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   backdrop-filter: blur(8px);
 }
 
 .navbar.navbar-scrolled {
-  padding: 0.75rem 0;
+  padding: 0.5rem 0;
   box-shadow: var(--shadow-raised);
 }
 
@@ -270,7 +274,8 @@ svg {
   border-radius: var(--radius-control);
   position: relative;
   transition: color var(--duration-base) var(--ease-standard),
-              background-color var(--duration-base) var(--ease-standard);
+              background-color var(--duration-base) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
 }
 
 .nav-link:hover {
@@ -282,6 +287,10 @@ svg {
   color: var(--color-accent) !important;
   background-color: var(--color-surface-2);
   font-weight: 600;
+}
+
+.nav-link:active {
+  transform: scale(0.98) translateY(0.5px) !important;
 }
 
 .navbar-toggler {
@@ -308,34 +317,26 @@ svg {
   display: flex;
   align-items: center;
   padding: 120px 0 80px;
-  background-color: var(--color-bg);
-  background-image: url("../images/background.avif");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  /* Replaced dark background image with clean, technical gradient */
+  background: linear-gradient(135deg, #f7f9fc 0%, #edf2f7 100%) !important;
   color: var(--color-text);
 }
 
-/* Light theme elegant blurred image overlay */
 .hero-premium::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, rgba(247, 249, 252, 0.94) 0%, rgba(241, 245, 249, 0.82) 48%, rgba(247, 249, 252, 0.9) 100%);
-  z-index: 1;
+  display: none !important; /* Fully disabled dark overlay */
 }
 
 .hero-premium__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 10% 20%, rgba(8, 145, 178, 0.06) 0%, transparent 60%);
+  background: radial-gradient(circle at 10% 20%, rgba(8, 145, 178, 0.05) 0%, transparent 60%);
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
 }
 
 .hero-premium .container {
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
 .hero-premium__content {
@@ -386,7 +387,7 @@ svg {
   background-color: var(--color-surface-1);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  padding: var(--space-8);
+  padding: var(--space-6) var(--space-8) var(--space-8);
   box-shadow: var(--shadow-raised);
 }
 
@@ -433,14 +434,14 @@ svg {
    5. SELECTED WORK (Featured Asymmetric Grid)
    ============================================================ */
 .section {
-  padding: clamp(4rem, 8vw, 8rem) 0;
-  background-color: transparent; /* Allows back-art to show */
+  padding: clamp(3rem, 6vw, 6rem) 0;
+  background-color: transparent;
   position: relative;
   z-index: 5;
 }
 
 .section-heading {
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-8);
   text-align: left;
 }
 
@@ -473,7 +474,7 @@ svg {
 .project-renderer--featured {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 /* Alternate grid spans for asymmetric visual rhythm on desktop */
@@ -511,13 +512,13 @@ svg {
 
 .project-card:hover {
   border-color: var(--color-border-strong);
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
   transform: translateY(-2px);
 }
 
 .project-card__icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -528,27 +529,28 @@ svg {
   position: absolute;
   top: 0;
   left: 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-bottom-right-radius: var(--radius-card);
 }
 
 .project-card__body {
-  padding: var(--space-8);
-  padding-top: var(--space-12);
+  padding: var(--space-6) var(--space-6) var(--space-4);
   flex-grow: 1;
 }
 
 .project-card__meta {
-  display: flex;
+  display: flex !important;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
+  gap: 12px !important; /* Fixes word clipping between categories and status */
+  margin-bottom: var(--space-3) !important;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
 }
 
 .project-card__category {
   color: var(--color-text-subtle);
+  margin-right: 4px;
 }
 
 .project-card__status {
@@ -556,16 +558,17 @@ svg {
   background-color: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
+  font-weight: 500;
 }
 
 .project-card__status--verified {
   color: var(--color-success);
-  border-color: rgba(22, 163, 74, 0.2);
+  border-color: rgba(22, 163, 74, 0.15);
 }
 
 .project-card__status--prototype {
   color: var(--color-accent);
-  border-color: rgba(8, 145, 178, 0.2);
+  border-color: rgba(8, 145, 178, 0.15);
 }
 
 .project-card__status--archive {
@@ -576,35 +579,35 @@ svg {
 .project-card__title {
   font-size: var(--text-lg);
   font-weight: 600;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
   color: var(--color-text);
 }
 
 .project-card__desc {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
-  line-height: 1.6;
-  margin-bottom: var(--space-6);
+  line-height: 1.55;
+  margin-bottom: var(--space-4);
 }
 
 .project-card__details {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: var(--space-4);
-  row-gap: var(--space-2);
-  margin: 0 0 var(--space-6) 0;
-  font-size: var(--text-sm);
+  row-gap: var(--space-1);
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--text-xs);
   background-color: var(--color-surface-2);
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
+  line-height: 1.45;
 }
 
 .project-card__term {
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--color-text-subtle);
-  font-size: var(--text-xs);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -620,7 +623,7 @@ svg {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: 6px;
 }
 
 .project-tag {
@@ -628,7 +631,7 @@ svg {
   font-size: var(--text-xs);
   color: var(--color-accent);
   background-color: var(--color-surface-2);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-control);
   border: 1px solid var(--color-border);
 }
@@ -637,29 +640,35 @@ svg {
   color: var(--color-text-subtle);
 }
 
+/* Transparent card footer instead of heavy grey block */
 .project-card__footer {
-  padding: var(--space-6) var(--space-8);
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface-2);
+  padding: var(--space-4) var(--space-6) var(--space-5);
+  border-top: 1px dashed var(--color-border) !important;
+  background-color: transparent !important;
   display: flex;
   gap: var(--space-4);
 }
 
+/* Technical CTA links */
 .project-card__link {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  color: var(--color-accent) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .project-card__link::after {
-  content: " ↗";
+  content: " ↗" !important;
 }
 
 .project-card__link:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-strong) !important;
 }
 
 /* ============================================================
@@ -669,9 +678,9 @@ svg {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
 }
 
 .project-filter__button {
@@ -686,7 +695,8 @@ svg {
   min-height: 44px;
   transition: color var(--duration-base) var(--ease-standard),
               background-color var(--duration-base) var(--ease-standard),
-              border-color var(--duration-base) var(--ease-standard);
+              border-color var(--duration-base) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
 }
 
 .project-filter__button:hover {
@@ -699,6 +709,10 @@ svg {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
   font-weight: 600;
+}
+
+.project-filter__button:active {
+  transform: scale(0.98) translateY(0.5px) !important;
 }
 
 .project-renderer--archive {
@@ -860,12 +874,13 @@ svg {
   margin-bottom: var(--space-2);
 }
 
+/* High contrast inputs and textareas */
 .form-control {
   width: 100%;
   min-height: 44px;
   padding: 10px 16px;
-  background-color: var(--color-surface-2);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-1);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-control);
   color: var(--color-text);
   font-family: var(--font-sans);
@@ -878,6 +893,7 @@ svg {
 .form-control:focus {
   border-color: var(--color-accent);
   background-color: var(--color-surface-1);
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.15) !important;
 }
 
 textarea.form-control {
@@ -1024,6 +1040,10 @@ textarea.form-control {
   color: var(--color-on-accent);
   background-color: var(--color-accent);
   transform: translateY(-2px);
+}
+
+.floating-control:active {
+  transform: scale(0.98) translateY(0.5px) !important;
 }
 
 .back-to-top {
