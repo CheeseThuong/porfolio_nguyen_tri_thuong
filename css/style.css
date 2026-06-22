@@ -4,119 +4,157 @@ CSS CUSTOM: Tùy chỉnh giao diện cho trang web CV
 =============================
 */
 
-/* ============================= 
-   FORCE LIGHT MODE DEFAULT
-   ============================= */
+/* ============================================================
+   FOUNDATION - Fixed dark theme and shared design tokens
+   ============================================================ */
 :root {
-  color-scheme: light dark;
-  -webkit-color-scheme: light dark;
+  color-scheme: dark;
+  --color-bg: #0b1117;
+  --color-surface-1: #111a22;
+  --color-surface-2: #17232d;
+  --color-surface-3: #1d2b35;
+  --color-text: #e8f0f2;
+  --color-text-muted: #a9b7bd;
+  --color-text-subtle: #82939a;
+  --color-accent: #63bdb8;
+  --color-accent-strong: #79d0ca;
+  --color-on-accent: #071315;
+  --color-border: #2b3a44;
+  --color-border-strong: #40545f;
+  --color-error: #ff9b95;
+  --color-success: #79c9a5;
+  --font-sans: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.75rem, 3vw, 2.5rem);
+  --text-display: clamp(2.75rem, 7vw, 6.5rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --content-readable: 65ch;
+  --content-main: 76rem;
+  --content-wide: 90rem;
+  --border-thin: 1px;
+  --radius-control: 0.5rem;
+  --radius-card: 0.875rem;
+  --shadow-raised: 0 18px 48px rgb(2 12 18 / 0.28);
+  --z-base: 0;
+  --z-sticky: 20;
+  --z-nav: 40;
+  --z-overlay: 60;
+  --z-dialog: 80;
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 420ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Compatibility aliases for existing section styles. */
+  --primary-color: var(--color-accent);
+  --secondary-color: var(--color-accent);
+  --accent-color: var(--color-accent-strong);
+  --dark-color: var(--color-text);
+  --surface: var(--color-surface-1);
+  --surface-soft: var(--color-surface-2);
+  --text-primary: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --text-light: var(--color-text);
+  --shadow-color: rgb(2 12 18 / 0.28);
+  --motion-spring: var(--ease-standard);
+  --layer-nav: var(--z-nav);
+  --layer-control: var(--z-overlay);
+  --layer-chat: var(--z-dialog);
 }
 
-html:not(.dark-mode), 
-body:not(.dark-mode) {
-  background-color: #faf8f4 !important;
-  color: #5d4e37 !important;
-  color-scheme: light !important;
-  -webkit-color-scheme: light !important;
-  font-weight: 500 !important;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-/* Tăng độ đậm cho các phần tử text trong light mode */
-body:not(.dark-mode) h1,
-body:not(.dark-mode) h2,
-body:not(.dark-mode) h3,
-body:not(.dark-mode) h4,
-body:not(.dark-mode) h5,
-body:not(.dark-mode) h6 {
-  font-weight: 700 !important;
+html {
+  min-width: 20rem;
+  background: var(--color-bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.75rem;
 }
 
-body:not(.dark-mode) p,
-body:not(.dark-mode) span,
-body:not(.dark-mode) li,
-body:not(.dark-mode) a,
-body:not(.dark-mode) label {
-  font-weight: 500 !important;
-}
-
-body:not(.dark-mode) .card,
-body:not(.dark-mode) .skill-meter,
-body:not(.dark-mode) .hobby-card {
-  font-weight: 500 !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not(.dark-mode), 
-  body:not(.dark-mode) {
-    background-color: #faf8f4 !important;
-    color: #5d4e37 !important;
-    color-scheme: light !important;
-    font-weight: 500 !important;
-  }
-  
-  body:not(.dark-mode) h1,
-  body:not(.dark-mode) h2,
-  body:not(.dark-mode) h3,
-  body:not(.dark-mode) h4,
-  body:not(.dark-mode) h5,
-  body:not(.dark-mode) h6 {
-    font-weight: 700 !important;
-  }
-  
-  body:not(.dark-mode) p,
-  body:not(.dark-mode) span,
-  body:not(.dark-mode) li,
-  body:not(.dark-mode) a,
-  body:not(.dark-mode) label {
-    font-weight: 500 !important;
-  }
-  
-  body:not(.dark-mode) .section,
-  body:not(.dark-mode) .luxe-section,
-  body:not(.dark-mode) .skills-section,
-  body:not(.dark-mode) .experience-section,
-  body:not(.dark-mode) .hobbies-section {
-    background: #faf8f4 !important;
-    color: #5d4e37 !important;
-    font-weight: 500 !important;
-  }
-  
-  body:not(.dark-mode) .card,
-  body:not(.dark-mode) .luxe-card,
-  body:not(.dark-mode) .skill-meter,
-  body:not(.dark-mode) .hobby-card {
-    background: #fffdfa !important;
-    color: #5d4e37 !important;
-    font-weight: 500 !important;
-  }
-  
-  body:not(.dark-mode) input,
-  body:not(.dark-mode) textarea {
-    background: #ffffff !important;
-    color: #5d4e37 !important;
-    font-weight: 500 !important;
-  }
-}
-
-/* Biến CSS để quản lý bảng màu đồng nhất */
-:root {
-  --primary-color: #d4a574;      /* Màu cam đất chính */
-  --secondary-color: #b8956a;    /* Màu nâu vàng */
-  --accent-color: #e6c79a;       /* Màu vàng nhạt */
-  --dark-color: #8b6f47;         /* Màu nâu đậm */
-  --light-bg: #faf8f4;           /* Nền sáng ấm */
-  --text-primary: #5d4e37;       /* Màu chữ nâu */
-  --text-light: #ffffff;         /* Màu chữ trắng */
-  --shadow-color: rgba(212, 165, 116, 0.3); /* Bóng màu cam */
-}
-
-/* Thiết lập màu nền cho toàn bộ trang web */
 body {
-  background: var(--light-bg); /* Nền sáng ấm đồng nhất với hình */
-  color: var(--text-primary); /* Màu chữ nâu tự nhiên */
+  min-width: 20rem;
+  margin: 0;
+  overflow-x: clip;
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Thiết lập hero banner - phần giới thiệu đầu trang */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+p {
+  max-width: var(--content-readable);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-accent-strong);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+  font: inherit;
+}
+
+.container {
+  width: min(calc(100% - 2rem), var(--content-main));
+  max-width: var(--content-main);
+  margin-inline: auto;
+}
+
+section[id] {
+  scroll-margin-top: 6.75rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
 .hero {
   background: url("../images/background.avif") center/cover no-repeat;
   position: relative;
@@ -681,7 +719,7 @@ body {
 
 /* Tùy chỉnh card */
 .card {
-  background: var(--light-bg);
+  background: var(--color-bg);
   border: 1px solid var(--accent-color);
   box-shadow: 0 4px 15px rgba(212, 165, 116, 0.15);
   transition: all 0.3s ease;
@@ -1145,7 +1183,7 @@ body {
 
 /* Tùy chỉnh modal */
 .modal-content {
-  background: var(--light-bg);
+  background: var(--color-bg);
   border: 1px solid var(--accent-color);
 }
 
@@ -1166,7 +1204,7 @@ body {
 /* Tùy chỉnh form controls */
 .form-control {
   border: 2px solid var(--accent-color);
-  background: var(--light-bg);
+  background: var(--color-bg);
   color: var(--text-primary);
 }
 
@@ -1196,7 +1234,7 @@ body {
 
 /* Background cho section light */
 .bg-light {
-  background-color: var(--light-bg) !important;
+  background-color: var(--color-bg) !important;
 }
 
 /* Tùy chỉnh hover effect cho avatar */
@@ -1204,123 +1242,6 @@ body {
   transform: scale(1.05);
   box-shadow: 0 8px 30px var(--shadow-color);
   border-color: var(--accent-color);
-}
-
-/* ========== DARK MODE STYLES ========== */
-body.dark-mode {
-  --light-bg: #1a1a1a;
-  --text-primary: #c2b8af;   /* Giảm xuống tone ấm, không chói */
-  --primary-color: #d4a574;
-  --secondary-color: #b8956a;
-  --accent-color: #c9a97e;   /* Giảm accent cho đỡ chói */
-  --dark-color: #c9a97e;     /* Headings vẫn theo tone cam đất */
-}
-
-body.dark-mode .profile-card {
-  background: rgba(26, 26, 26, 0.7);
-  border-color: rgba(230, 199, 154, 0.25);
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-mode .profile-card__subtitle,
-body.dark-mode .profile-card__summary {
-  color: rgba(230, 199, 154, 0.82);
-}
-
-body.dark-mode .profile-highlight {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(230, 199, 154, 0.2);
-}
-
-body.dark-mode .profile-highlight__label {
-  color: rgba(230, 199, 154, 0.88);
-}
-
-body.dark-mode .profile-highlight__value {
-  color: rgba(230, 199, 154, 0.75);
-}
-
-body.dark-mode .card {
-  background: #2a2a2a;
-  color: var(--text-primary);
-  border-color: var(--dark-color);
-}
-
-body.dark-mode .navbar-dark {
-  background: linear-gradient(135deg, rgba(42, 42, 42, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%) !important;
-}
-
-body.dark-mode .table {
-  color: var(--text-primary);
-}
-
-body.dark-mode .form-control {
-  background: #2a2a2a;
-  color: var(--text-primary);
-  border-color: var(--dark-color);
-}
-
-body.dark-mode .modal-content {
-  background: #2a2a2a;
-  color: var(--text-primary);
-}
-
-body.dark-mode .thinking-bubble {
-  background: #2a2a2a !important;
-  color: #f0f0f0 !important;
-  border: 1px solid rgba(212, 165, 116, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-mode .thinking-bubble::after {
-  border-top-color: #2a2a2a !important;
-}
-
-body.dark-mode .thinking-bubble::before {
-  background: #2a2a2a !important;
-  box-shadow: -10px 5px 0 -2px #2a2a2a, -5px 8px 0 -3px #2a2a2a !important;
-}
-
-/* Chatbot Panel Dark Mode */
-body.dark-mode .chatbot-panel {
-  background: var(--surface, #211b16);
-  border-color: rgba(139, 111, 71, 0.25);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-mode .chatbot-messages {
-  background: var(--light-bg, #17130f);
-}
-
-body.dark-mode .chatbot-messages::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode .bot-message .message-content p {
-  background: var(--surface-soft, #2a211b);
-  color: var(--text-primary, #c2b5a8);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode .typing-indicator {
-  background: var(--surface-soft, #2a211b);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode .chatbot-input-area {
-  background: var(--surface, #211b16);
-  border-top-color: rgba(139, 111, 71, 0.2);
-}
-
-body.dark-mode .chatbot-input {
-  background: var(--light-bg, #17130f);
-  border-color: rgba(139, 111, 71, 0.3);
-  color: var(--text-primary, #c2b5a8);
-}
-
-body.dark-mode .chatbot-input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.15);
 }
 
 /* ========== CONTACT INFO STYLES ========== */
@@ -1379,237 +1300,6 @@ body.dark-mode .chatbot-input:focus {
 /* Hiệu ứng di chuột qua liên kết xã hội email */
 .social-links a[title="Email"]:hover {
   background: linear-gradient(135deg, #ea4335 0%, #d33b2c 100%) !important;
-}
-
-/* Chế độ tối cho thông tin liên hệ */
-body.dark-mode .contact-info .card {
-  background: #2a2a2a;
-  border-color: var(--primary-color);
-}
-
-body.dark-mode .contact-item {
-  border-bottom-color: rgba(212, 165, 116, 0.3);
-}
-
-body.dark-mode .contact-item a {
-  color: var(--accent-color);
-}
-
-body.dark-mode .contact-item a:hover {
-  color: var(--primary-color);
-}
-
-body.dark-mode .contact-item .icon-email {
-  color: #e6c79a;
-}
-
-body.dark-mode .contact-item .icon-school {
-  color: #d4a574;
-}
-
-body.dark-mode .contact-item .icon-major {
-  background: linear-gradient(135deg, #5db9ff 0%, #9fd6ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Dark mode - General text visibility fixes */
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-  color: #d4c5b8 !important;  /* Tone ấm, không chói mắt */
-  font-weight: 700 !important;
-}
-
-body.dark-mode p,
-body.dark-mode span,
-body.dark-mode li,
-body.dark-mode a {
-  color: #b8aea6;             /* Xám ấm, đọc thoải mái */
-  font-weight: 400;
-}
-
-body.dark-mode .btn span,
-body.dark-mode .btn i {
-  color: inherit !important;
-}
-
-body.dark-mode .section-title {
-  color: var(--primary-color) !important;
-  font-weight: 800 !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode .lead,
-body.dark-mode .text-muted {
-  color: rgba(190, 175, 162, 0.85) !important;  /* Muted nhẹ nhàng hơn */
-  font-weight: 400;
-}
-
-body.dark-mode .bg-light {
-  background: #2a2a2a !important;
-}
-
-body.dark-mode label {
-  color: var(--accent-color);
-  font-weight: 600;
-}
-
-body.dark-mode textarea,
-body.dark-mode input {
-  background: #252320 !important;
-  color: #c2b8af !important;  /* Tone ấm thay vì trắng chói */
-  border-color: rgba(139, 111, 71, 0.5) !important;
-  font-weight: 400;
-}
-
-body.dark-mode textarea::placeholder,
-body.dark-mode input::placeholder {
-  color: rgba(180, 165, 150, 0.45) !important;
-  font-weight: 400;
-}
-
-body.dark-mode .btn-primary {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-body.dark-mode .btn-outline-light {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-  font-weight: 600;
-}
-
-body.dark-mode .btn-outline-light:hover {
-  background: var(--accent-color);
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-body.dark-mode footer {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%) !important;
-  color: #f0f0f0 !important;
-  font-weight: 500;
-}
-
-body.dark-mode .footer-title {
-  color: var(--primary-color) !important;
-  font-weight: 700;
-}
-
-body.dark-mode .skill-meter__title,
-body.dark-mode .skill-meter__level {
-  color: #c8bdb5 !important;  /* Ấm, dịu hơn */
-  font-weight: 600;
-}
-
-body.dark-mode .skill-meter {
-  background: #211e1b;
-  border-color: rgba(139, 111, 71, 0.3);
-}
-
-body.dark-mode .skill-meter p,
-body.dark-mode .skill-meter__desc {
-  color: #a89e95 !important;  /* Muted hơn cho text phụ */
-  font-weight: 400;
-}
-
-body.dark-mode .skill-meter__bar {
-  background: rgba(100, 100, 100, 0.3);
-}
-
-/* Dark mode cho section Kỹ năng AI */
-body.dark-mode .skills-section {
-  background: linear-gradient(180deg, #1a1a1a 0%, #252525 100%) !important;
-}
-
-/* Dark mode cho section chung (bao gồm Mục tiêu) */
-body.dark-mode .section {
-  background: #1a1a1a !important;
-}
-
-/* Dark mode cho section có class bg-light */
-body.dark-mode .section.bg-light {
-  background: #252525 !important;
-}
-
-body.dark-mode .hobbies-section {
-  background: linear-gradient(180deg, #1a1a1a 0%, #252525 100%) !important;
-}
-
-body.dark-mode .hobby-card {
-  background: #2a2a2a !important;
-  border-color: rgba(212, 165, 116, 0.3);
-}
-
-body.dark-mode .hobby-card h3,
-body.dark-mode .hobby-card__title {
-  color: #ccc0b5 !important;  /* Ấm, dịu */
-  font-weight: 700;
-}
-
-body.dark-mode .hobby-card p,
-body.dark-mode .hobby-card__desc {
-  color: #a89e95 !important;  /* Muted nhẹ */
-  font-weight: 400;
-}
-
-body.dark-mode .hobby-card__tag {
-  background: rgba(139, 111, 71, 0.22);
-  color: #c2b2a2 !important;
-  font-weight: 600;
-}
-
-body.dark-mode .hobby-card:hover .hobby-card__tag {
-  background: var(--primary-color);
-  color: #1a1510 !important;
-}
-
-body.dark-mode .toolkit-item {
-  background: #211e1b;
-  color: #c2b8af;  /* Ấm, đỡ chói */
-  font-weight: 600;
-}
-
-body.dark-mode .toolkit-item i {
-  color: var(--primary-color);
-}
-
-/* Dark mode cho các card trong phần mục tiêu */
-body.dark-mode .card {
-  background: #211e1b !important;
-  border-color: rgba(139, 111, 71, 0.3) !important;
-  color: #c2b8af !important;
-}
-
-body.dark-mode .card h4 {
-  color: #cfc3b8 !important;  /* Ấm, không chói */
-  font-weight: 700;
-}
-
-body.dark-mode .card p {
-  color: #a89e95 !important;  /* Text phụ muted */
-  font-weight: 400;
-}
-
-body.dark-mode .goal-card {
-  background: #211e1b;
-}
-
-body.dark-mode .goal-card h3 {
-  color: #cfc3b8 !important;
-  font-weight: 700;
-}
-
-body.dark-mode .goal-card p {
-  color: #a89e95 !important;
-  font-weight: 400;
 }
 
 /* =============================
@@ -1846,16 +1536,6 @@ body.dark-mode .goal-card p {
     padding: 0 2rem;
     animation-duration: 26s;
   }
-}
-
-body.dark-mode .hero-marquee {
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode .hero-marquee-item {
-  color: var(--accent-color);
-  text-shadow: 2px 2px 10px rgba(26, 26, 26, 0.9);
 }
 
 /*
@@ -3089,7 +2769,7 @@ footer .border-secondary {
 
 /* Container chính của section projects */
 .projects-section {
-  background: var(--light-bg, #faf8f4);
+  background: var(--color-bg);
   padding: 80px 0;
 }
 
@@ -3197,28 +2877,6 @@ footer .border-secondary {
 }
 
 /* ============================================================
-   DARK MODE — Project cards trong chế độ tối
-   ============================================================ */
-
-.dark-mode .project-card {
-  background: #2a2a2a;
-  border-color: rgba(212, 165, 116, 0.2);
-}
-
-.dark-mode .project-card__title {
-  color: #e0d5c5;
-}
-
-.dark-mode .project-card__desc {
-  color: #b0a090;
-}
-
-.dark-mode .project-card__footer {
-  background: rgba(255, 255, 255, 0.03);
-  border-top-color: rgba(212, 165, 116, 0.12);
-}
-
-/* ============================================================
    RESPONSIVE — Projects section trên mobile
    ============================================================ */
 
@@ -3277,36 +2935,22 @@ footer .border-secondary {
 }
 
 /* ============================================================
-   2026 UI POLISH — Editorial warm portfolio system
+   2026 foundation integration
    ============================================================ */
-:root {
-  --primary-color: #b9784f;
-  --secondary-color: #876044;
-  --accent-color: #e8c7a4;
-  --dark-color: #4b3729;
-  --light-bg: #f7f2eb;
-  --surface: #fffdf9;
-  --surface-soft: #efe5d9;
-  --text-primary: #40342b;
-  --text-muted: #77675a;
-  --shadow-color: rgba(91, 61, 40, 0.16);
-  --motion-spring: cubic-bezier(0.16, 1, 0.3, 1);
-  --layer-nav: 1030;
-  --layer-control: 1040;
-  --layer-chat: 1050;
-}
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 108px;
+  background: var(--color-bg);
 }
 
 body {
   overflow-x: clip;
-  font-family: "Outfit", "Segoe UI Variable", "Segoe UI", sans-serif;
+  color: var(--color-text);
+  font-family: var(--font-sans);
   background:
-    radial-gradient(circle at 8% 12%, rgba(232, 199, 164, 0.24), transparent 28rem),
-    var(--light-bg);
+    radial-gradient(circle at 8% 12%, rgb(99 189 184 / 0.08), transparent 28rem),
+    var(--color-bg);
   line-height: 1.7;
 }
 
@@ -3316,14 +2960,14 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(rgba(75, 55, 41, 0.14) 0.55px, transparent 0.55px);
+  background-image: radial-gradient(rgb(121 208 202 / 0.14) 0.55px, transparent 0.55px);
   background-size: 18px 18px;
   opacity: 0.14;
 }
 
 ::selection {
-  color: #fff;
-  background: var(--primary-color);
+  color: var(--color-on-accent);
+  background: var(--color-accent-strong);
 }
 
 .skip-link {
@@ -3333,8 +2977,8 @@ body::before {
   z-index: 1100;
   padding: 10px 16px;
   border-radius: 10px;
-  color: #fff;
-  background: var(--dark-color);
+  color: var(--color-on-accent);
+  background: var(--color-accent-strong);
   transform: translateY(-160%);
   transition: transform 220ms var(--motion-spring);
 }
@@ -3348,11 +2992,10 @@ body::before {
   left: 50%;
   width: min(calc(100% - 32px), 1180px);
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--color-border);
   border-radius: 18px;
-  background: rgba(69, 49, 35, 0.72) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 50px rgba(54, 35, 22, 0.14);
-  backdrop-filter: blur(18px) saturate(145%);
+  background: var(--color-surface-1) !important;
+  box-shadow: var(--shadow-raised);
   transform: translateX(-50%);
   transition: background 400ms var(--motion-spring), box-shadow 400ms var(--motion-spring), top 400ms var(--motion-spring);
   z-index: var(--layer-nav);
@@ -3360,8 +3003,8 @@ body::before {
 
 .navbar.fixed-top.navbar-scrolled {
   top: 8px;
-  background: rgba(69, 49, 35, 0.94) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13), 0 20px 55px rgba(54, 35, 22, 0.24);
+  background: var(--color-surface-2) !important;
+  box-shadow: var(--shadow-raised);
 }
 
 .navbar-brand {
@@ -3380,8 +3023,8 @@ body::before {
 
 .nav-link:hover,
 .nav-link.active {
-  color: #fff !important;
-  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-accent-strong) !important;
+  background: var(--color-surface-3);
   transform: translateY(-1px);
 }
 
@@ -3392,7 +3035,7 @@ body::before {
 }
 
 .hero::before {
-  background: linear-gradient(100deg, rgba(37, 24, 16, 0.83) 0%, rgba(37, 24, 16, 0.48) 48%, rgba(25, 16, 11, 0.7) 100%);
+  background: linear-gradient(100deg, rgb(6 14 20 / 0.92) 0%, rgb(11 17 23 / 0.72) 48%, rgb(6 14 20 / 0.88) 100%);
 }
 
 .hero-premium__eyebrow {
@@ -3419,8 +3062,8 @@ body::before {
 
 .hero-premium__card {
   border-radius: 28px 12px 28px 12px;
-  background: linear-gradient(145deg, rgba(36, 24, 16, 0.74), rgba(26, 17, 11, 0.52));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 32px 80px rgba(17, 9, 4, 0.38);
+  background: rgb(17 26 34 / 0.92);
+  box-shadow: inset 0 1px 0 rgb(232 240 242 / 0.12), var(--shadow-raised);
   transition: transform 600ms var(--motion-spring), box-shadow 600ms var(--motion-spring);
 }
 
@@ -3468,6 +3111,14 @@ body::before {
 
 .section {
   padding: clamp(80px, 9vw, 132px) 0;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.section.bg-light,
+.skills-section,
+.hobbies-section {
+  background: var(--color-surface-1) !important;
 }
 
 @supports (content-visibility: auto) {
@@ -3509,9 +3160,10 @@ body::before {
 .toolkit-item,
 .project-card,
 .hobby-card {
-  border-color: rgba(132, 91, 60, 0.16);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  box-shadow: 0 24px 60px -38px rgba(72, 46, 29, 0.45);
+  color: var(--color-text);
+  border-color: var(--color-border);
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-raised);
 }
 
 .card {
@@ -3557,14 +3209,14 @@ body::before {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: radial-gradient(circle at 100% 0%, rgba(232, 199, 164, 0.28), transparent 42%);
+  background: radial-gradient(circle at 100% 0%, rgb(99 189 184 / 0.12), transparent 42%);
   opacity: 0;
   transition: opacity 480ms var(--motion-spring);
 }
 
 .project-card:hover {
-  border-color: rgba(185, 120, 79, 0.42);
-  box-shadow: 0 36px 80px -38px rgba(72, 46, 29, 0.56);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-raised);
   transform: translateY(-8px);
 }
 
@@ -3652,17 +3304,18 @@ body::before {
 
 #contactForm {
   padding: clamp(24px, 5vw, 52px);
-  border: 1px solid rgba(132, 91, 60, 0.18);
+  border: 1px solid var(--color-border);
   border-radius: 28px 10px 28px 10px;
-  background: rgba(255, 253, 249, 0.78);
-  box-shadow: 0 32px 80px -46px rgba(72, 46, 29, 0.55);
+  background: var(--color-surface-1);
+  box-shadow: var(--shadow-raised);
 }
 
 .form-control {
   min-height: 52px;
-  border: 1px solid rgba(132, 91, 60, 0.22);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--color-surface-2);
   transition: border-color 220ms var(--motion-spring), box-shadow 220ms var(--motion-spring), background 220ms var(--motion-spring);
 }
 
@@ -3671,9 +3324,10 @@ textarea.form-control {
 }
 
 .form-control:focus {
-  border-color: var(--primary-color);
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(185, 120, 79, 0.13);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+  background: var(--color-surface-3);
+  box-shadow: 0 0 0 3px rgb(99 189 184 / 0.2);
 }
 
 .alert {
@@ -3696,24 +3350,19 @@ textarea.form-control {
   height: 48px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-border-strong);
   border-radius: 14px 6px 14px 6px;
-  color: #fff;
-  background: rgba(75, 55, 41, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 36px rgba(66, 42, 26, 0.2);
-  backdrop-filter: blur(12px);
+  color: var(--color-text);
+  background: var(--color-surface-2);
+  box-shadow: var(--shadow-raised);
   transition: opacity 260ms var(--motion-spring), visibility 260ms var(--motion-spring), transform 260ms var(--motion-spring), background 260ms var(--motion-spring);
   z-index: var(--layer-control);
 }
 
 .floating-control:hover {
-  color: #fff;
-  background: var(--primary-color);
+  color: var(--color-on-accent);
+  background: var(--color-accent);
   transform: translateY(-3px);
-}
-
-.dark-mode-toggle {
-  top: 96px;
 }
 
 .back-to-top {
@@ -3731,9 +3380,11 @@ textarea.form-control {
 }
 
 .chatbot-panel {
-  border: 1px solid rgba(132, 91, 60, 0.2);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-1);
   border-radius: 24px 8px 24px 8px;
-  box-shadow: 0 32px 90px rgba(45, 29, 18, 0.25);
+  box-shadow: var(--shadow-raised);
   transform: translateY(24px) scale(0.96);
   transition: transform 420ms var(--motion-spring), opacity 320ms var(--motion-spring), visibility 320ms;
   z-index: var(--layer-chat);
@@ -3763,31 +3414,8 @@ textarea.form-control {
 }
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--primary-color) 75%, white);
-  outline-offset: 4px;
-}
-
-body.dark-mode {
-  --light-bg: #17130f;
-  --surface: #211b16;
-  --surface-soft: #2a211b;
-  --text-primary: #c2b5a8;   /* Giảm từ #eee4da xuống tone ấm dịu */
-  --text-muted: #8f8078;     /* Muted hơn cho text phụ */
-  --dark-color: #c9a97e;     /* Cam đất, không quá sáng */
-}
-
-body.dark-mode::before {
-  opacity: 0.09;
-}
-
-body.dark-mode #contactForm,
-body.dark-mode .project-card,
-body.dark-mode .toolkit-item {
-  background: rgba(30, 24, 19, 0.92);
-}
-
-body.dark-mode .section > .container > h2 {
-  color: #cdbfb0 !important;  /* Giảm từ #f4e7da — bớt chói */
+  outline: 3px solid var(--color-accent-strong);
+  outline-offset: 2px;
 }
 
 @media (max-width: 991.98px) {
@@ -3882,10 +3510,6 @@ body.dark-mode .section > .container > h2 {
     right: 14px;
     width: 44px;
     height: 44px;
-  }
-
-  .dark-mode-toggle {
-    top: 82px;
   }
 
   .back-to-top {

@@ -28,7 +28,7 @@
 
 ## Vấn đề đã thấy
 
-- Theme: HTML khai báo hỗ trợ light/dark; CSS có force-light, nhiều selector `.dark-mode`, biến màu khai báo lại; JS lưu `darkMode` vào localStorage và tạo toggle. Cấu trúc này trái yêu cầu một dark theme duy nhất.
+- Theme: foundation đã được hợp nhất thành một giao diện tối cố định với semantic tokens; không còn persistence, toggle hoặc nhánh theo theme hệ thống.
 - JavaScript: `js/main.js` trên 1.000 dòng và gộp nhiều trách nhiệm không liên quan; dữ liệu chatbot/project nằm chung với interaction và network logic, làm tăng rủi ro regression.
 - Robot/chatbot/weather/random talk làm tăng số listener, timer, lớp z-index, breakpoint override và trạng thái cần đồng bộ; weather phụ thuộc API/network phía client.
 - Project hiện được hard-code trong `index.html`; nội dung chatbot còn hard-code tên và mô tả project cũ, nên dễ lệch catalog đã xác minh.
@@ -48,4 +48,3 @@
 - `css/responsive.css`: chuẩn hóa breakpoint và hành vi mobile/focus/reduced-motion.
 - `js/main.js`: tách hoặc tinh gọn logic, đồng bộ project/chatbot, đánh giá robot/weather/random talk.
 - `js/script.js`: bỏ persistence/toggle theme và giữ các interaction cần thiết.
-

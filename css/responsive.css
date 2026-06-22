@@ -207,16 +207,15 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 /* High contrast mode */
 @media (prefers-contrast: high) {
   :root {
-    --primary-color: #8b4513;
-    --secondary-color: #654321;
-    --accent-color: #daa520;
-    --dark-color: #4a3429;
-    --text-primary: #000000;
-    --shadow-color: rgba(0, 0, 0, 0.5);
+    --color-text: #ffffff;
+    --color-text-muted: #d7e1e4;
+    --color-accent: #8ee8e1;
+    --color-border: #8ca1ab;
+    --color-border-strong: #c5d4da;
   }
   
   .card {
-    border: 2px solid var(--dark-color) !important;
+    border: 2px solid var(--color-border-strong) !important;
   }
 }
 
@@ -244,7 +243,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     bottom: 80px !important;
     left: auto !important;
     top: auto !important;
-    z-index: 10000 !important;
+    z-index: calc(var(--z-dialog) + 1) !important;
     transform: scale(0.72) !important;
     transform-origin: bottom right !important;
     visibility: visible !important;
@@ -263,7 +262,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     height: 70vh !important;
     max-height: none !important;
     border-radius: 18px !important;
-    z-index: 9999 !important;
+    z-index: var(--z-dialog) !important;
   }
 
   /* Chatbot panel khi mở — Chatbot panel when active */
@@ -283,7 +282,7 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
     top: auto !important;
     transform: translateX(-50%) scale(0.62) !important;
     transform-origin: bottom center !important;
-    z-index: 10001 !important;
+    z-index: calc(var(--z-dialog) + 2) !important;
   }
 
   /* Chatbot panel khi mở: giữ ở dưới — Chatbot stays at bottom when open */
@@ -309,18 +308,13 @@ Tối ưu hóa giao diện cho các thiết bị khác nhau
 }
 
 /* ============================================================
-   BACK TO TOP & DARK MODE TOGGLE MOBILE — Dịch chuyển các nút điều hướng
+   BACK TO TOP MOBILE
    ============================================================ */
 @media (max-width: 767.98px) {
   .back-to-top {
     right: 15px !important;
     top: 138px !important;
     bottom: auto !important;
-  }
-
-  .dark-mode-toggle {
-    right: 15px !important;
-    top: 82px !important;
   }
 }
 
