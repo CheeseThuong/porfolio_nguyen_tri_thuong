@@ -70,6 +70,7 @@ function escapeHtml(value) {
 
 document.addEventListener('DOMContentLoaded', function() {
   initTypingEffect();
+  window.PortfolioProjects?.init();
   
   const contactForm = document.getElementById('contactForm');
   const successMessage = document.getElementById('successMessage');
