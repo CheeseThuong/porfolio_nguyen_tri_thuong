@@ -8,6 +8,11 @@
 
     if (!contactForm) return;
 
+    // Initialize EmailJS if available (since inline initialization was removed for performance)
+    if (global.emailjs) {
+      global.emailjs.init("PU-XG9rPWqN8OwKZl");
+    }
+
     contactForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 

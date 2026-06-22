@@ -10,15 +10,12 @@
 
     // 2. Select elements that need reveal animations
     const revealElements = document.querySelectorAll(
-      '.section > .container > h2, .card, .project-card, .skill-meter, .toolkit-item, .timeline__item, #contactForm'
+      '.section > .container > h2, .project-card, #contactForm'
     );
 
     if (prefersReducedMotion || !supportsIntersectionObserver) {
       // If animations are disabled or observer not supported, immediately show everything
       revealElements.forEach((element) => element.classList.add('is-revealed'));
-      
-      const skillMeters = document.querySelectorAll('.skill-meter');
-      skillMeters.forEach((meter) => meter.classList.add('is-visible'));
       return;
     }
 
@@ -38,20 +35,6 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
 
     revealElements.forEach((element) => revealObserver.observe(element));
-
-    // 5. Separate Observer for Skill Meters progress bar animation
-    const skillMeters = document.querySelectorAll('.skill-meter');
-    if (skillMeters.length) {
-      const meterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-
-      skillMeters.forEach((meter) => meterObserver.observe(meter));
-    }
   }
 
   global.PortfolioReveal = Object.freeze({ init });

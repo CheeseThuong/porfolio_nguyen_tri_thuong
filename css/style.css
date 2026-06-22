@@ -20,8 +20,8 @@ CSS CUSTOM: TECHNICAL LIGHT PORTFOLIO STYLESHEET
   --color-text-muted: #475569;      /* Slate */
   --color-text-subtle: #64748b;
   
-  --color-accent: #0891b2;          /* Technical teal/cyan/blue */
-  --color-accent-strong: #0e7490;
+  --color-accent: #0e7490;          /* Technical teal/cyan/blue (darkened for WCAG AA) */
+  --color-accent-strong: #155e75;
   --color-on-accent: #ffffff;
   
   --color-border: #e2e8f0;          /* Light neutral border */
@@ -184,6 +184,11 @@ svg {
 
 .skip-link:focus {
   top: 20px;
+  outline: 3px solid var(--color-accent) !important;
+  outline-offset: 2px !important;
+}
+
+main:focus {
   outline: none;
 }
 
@@ -1117,7 +1122,6 @@ textarea.form-control {
   opacity: 0.045; /* Extremely subtle watermark */
   pointer-events: none;
   user-select: none;
-  filter: blur(0.5px);
 }
 
 /* Precise placement of each motif across the layout */

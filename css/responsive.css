@@ -103,20 +103,7 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
     padding: var(--space-4);
   }
 
-  /* Chatbot panel on mobile */
-  .chatbot-panel {
-    right: 12px;
-    left: 12px;
-    bottom: 80px;
-    width: auto;
-    height: 70dvh;
-    max-height: none;
-  }
 
-  .robot-pet {
-    right: 12px;
-    bottom: 12px;
-  }
 
   /* Back to top position adjustment */
   .back-to-top {
@@ -149,11 +136,7 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
     grid-template-columns: 1fr;
   }
 
-  .chatbot-panel {
-    right: 20px;
-    left: 20px;
-    width: auto;
-  }
+
 }
 
 /* ============================================================
@@ -251,8 +234,6 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
   .hero-premium__cta,
   .project-filter,
   .floating-control,
-  .robot-pet,
-  .chatbot-panel,
   #contactForm button,
   .site-background-art {
     display: none !important;

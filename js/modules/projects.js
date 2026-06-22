@@ -41,6 +41,8 @@
     link.href = url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
+    const screenReaderText = createElement('span', 'visually-hidden', ' (mở trong tab mới)');
+    link.append(screenReaderText);
     return link;
   }
 
@@ -58,6 +60,7 @@
     const visual = createElement('div', 'project-card__icon');
     visual.setAttribute('aria-hidden', 'true');
     const icon = createElement('i', categoryIcons[project.category] || 'fas fa-code');
+    icon.setAttribute('aria-hidden', 'true');
     visual.append(icon);
 
     const body = createElement('div', 'project-card__body');
