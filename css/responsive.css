@@ -1,446 +1,239 @@
 /*
-=============================
-RESPONSIVE CSS - NGUYỄN TRÍ THƯỢNG CV
-Tối ưu hóa giao diện cho các thiết bị khác nhau
-=============================
+============================================================
+RESPONSIVE CSS: TECHNICAL DARK PORTFOLIO
+============================================================
 */
 
-/* ========== MOBILE FIRST APPROACH ========== */
-
-/* Extra Small devices (phones, 576px and down) */
+/* ============================================================
+   1. BREAKPOINT: < 576px (Compact & Standard Mobile: 320px, 390px)
+   ============================================================ */
 @media (max-width: 575.98px) {
-  /* Hero Section */
-  .hero h1:not(.hero-premium__title) {
-    font-size: 2rem !important;
-    line-height: 1.2;
+  :root {
+    --text-display: clamp(2rem, 10vw, 3.25rem);
+    --text-xl: 1.5rem;
+    --text-lg: 1.1rem;
+    --text-base: 0.95rem;
+    --space-8: 1.5rem;
+    --space-12: 2rem;
+    --space-16: 3rem;
   }
-  
-  .hero p:not(.hero-premium__lead) {
-    font-size: 1rem !important;
-    margin-bottom: 1rem;
+
+  html {
+    scroll-padding-top: 5rem;
   }
-  
-  .hero .btn {
-    font-size: 0.9rem;
-    padding: 0.5rem 1.5rem;
-  }
-  
-  /* Avatar */
-  .avatar {
-    width: 150px !important;
-    height: 150px !important;
-  }
-  
-  /* Profile Section */
-  .profile-section {
-    padding: 40px 0 !important;
-  }
-  
-  .profile-card {
-    padding: 20px !important;
-    margin: 0 15px;
-  }
-  
-  /* Sections */
+
   .section {
-    padding: 40px 0 !important;
+    padding: 3rem 0;
   }
-  
-  /* Cards */
-  .card {
-    margin-bottom: 1rem;
+
+  .navbar {
+    padding: 0.5rem 0;
   }
-  
-  /* Social Links */
-  .social-links {
-    gap: 15px !important;
-  }
-  
-  .social-links a {
-    width: 45px !important;
-    height: 45px !important;
-    font-size: 18px !important;
-  }
-  
-  /* Table responsive */
-  .table-responsive {
-    font-size: 0.9rem;
-  }
-  
-  /* Navigation */
+
   .navbar-brand {
     font-size: 1.1rem;
-  }
-}
-
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-  .hero h1:not(.hero-premium__title) {
-    font-size: 2.5rem;
-  }
-  
-  .avatar {
-    width: 180px;
-    height: 180px;
-  }
-  
-  .profile-card {
-    padding: 30px;
-  }
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .hero h1:not(.hero-premium__title) {
-    font-size: 2.8rem;
-  }
-  
-  .profile-section {
-    padding: 60px 0;
-  }
-  
-  /* Stack columns on tablet */
-  .profile-card .row > div {
-    margin-bottom: 1rem;
-  }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-  /* Default styles already optimized for desktop */
-  
-  /* Enhanced hover effects for desktop */
-  .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 35px rgba(212, 165, 116, 0.3);
-  }
-  
-  .avatar:hover {
-    transform: scale(1.08);
-  }
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-  
-  .hero h1:not(.hero-premium__title) {
-    font-size: 3.5rem;
-  }
-  
-  .hero p {
-    font-size: 1.3rem;
-  }
-  
-  .profile-card {
-    padding: 50px;
-  }
-}
-
-/* ========== LANDSCAPE ORIENTATION ========== */
-@media (orientation: landscape) and (max-height: 500px) {
-  .hero {
-    height: auto;
-    min-height: 100vh;
-    padding: 2rem 0;
-  }
-  
-  .hero h1:not(.hero-premium__title) {
-    font-size: 2rem;
-  }
-  
-  .profile-section {
-    padding: 40px 0;
-  }
-}
-
-/* ========== PRINT STYLES ========== */
-@media print {
-  .navbar,
-  .social-links,
-  .btn,
-  .modal {
-    display: none !important;
-  }
-  
-  .hero {
-    height: auto;
-    background: none !important;
-    color: #000 !important;
-    text-shadow: none !important;
-  }
-  
-  .hero::before {
-    display: none;
-  }
-  
-  .profile-section {
-    background: none !important;
-    color: #000 !important;
-  }
-  
-  .profile-card {
-    background: white !important;
-    border: 1px solid #ccc !important;
-    box-shadow: none !important;
-  }
-  
-  body {
-    background: white !important;
-    color: #000 !important;
-  }
-  
-  .card {
-    border: 1px solid #ccc !important;
-    box-shadow: none !important;
-  }
-  
-  .section {
-    page-break-inside: avoid;
-  }
-}
-
-/* ========== ACCESSIBILITY IMPROVEMENTS ========== */
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  :root {
-    --color-text: #ffffff;
-    --color-text-muted: #d7e1e4;
-    --color-accent: #8ee8e1;
-    --color-border: #8ca1ab;
-    --color-border-strong: #c5d4da;
-  }
-  
-  .card {
-    border: 2px solid var(--color-border-strong) !important;
-  }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ============================================================
-   ROBOT PET & CHATBOT MOBILE — Override cuối cùng, ghi đè mọi rule cũ
-   Final mobile overrides for robot pet and chatbot panel
-   ============================================================ */
-@media (max-width: 767.98px) {
-  /* Robot: luôn hiển thị cố định góc phải — Robot: always fixed bottom-right */
-  #robotPet {
-    position: fixed !important;
-    right: 15px !important;
-    bottom: 80px !important;
-    left: auto !important;
-    top: auto !important;
-    z-index: calc(var(--z-dialog) + 1) !important;
-    transform: scale(0.72) !important;
-    transform-origin: bottom right !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
-  /* Chatbot panel: vị trí nền — Chatbot panel: base position (hidden) */
-  #chatbotPanel {
-    position: fixed !important;
-    left: 10px !important;
-    right: 10px !important;
-    bottom: 10px !important;
-    top: auto !important;
-    width: calc(100vw - 20px) !important;
-    height: 70vh !important;
-    max-height: none !important;
-    border-radius: 18px !important;
-    z-index: var(--z-dialog) !important;
-  }
-
-  /* Chatbot panel khi mở — Chatbot panel when active */
-  #chatbotPanel.active {
-    transform: scale(1) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-  }
-
-  /* Robot khi chatbot mở: di chuyển lên trên chatbot panel — Robot above chatbot when open */
-  body.chatbot-open #robotPet,
-  #robotPet.chatbot-open {
-    left: 50% !important;
-    right: auto !important;
-    bottom: calc(70vh + 8px) !important;
-    top: auto !important;
-    transform: translateX(-50%) scale(0.62) !important;
-    transform-origin: bottom center !important;
-    z-index: calc(var(--z-dialog) + 2) !important;
-  }
-
-  /* Chatbot panel khi mở: giữ ở dưới — Chatbot stays at bottom when open */
-  body.chatbot-open #chatbotPanel {
-    bottom: 10px !important;
-  }
-
-  /* Vùng tin nhắn: chiều cao đủ để hiển thị — Messages area height */
-  .chatbot-messages {
-    max-height: calc(70vh - 145px) !important;
-    overflow-y: auto !important;
-  }
-
-  /* Input area: chiều cao tối thiểu — Input area minimum height */
-  .chatbot-input-area {
-    min-height: 56px !important;
-  }
-
-  /* Input: font lớn hơn tránh zoom iOS — Input: larger font to prevent iOS zoom */
-  .chatbot-input {
-    font-size: 16px !important;
-  }
-}
-
-/* ============================================================
-   BACK TO TOP MOBILE
-   ============================================================ */
-@media (max-width: 767.98px) {
-  .back-to-top {
-    right: 15px !important;
-    top: 138px !important;
-    bottom: auto !important;
-  }
-}
-
-/* ============================================================
-   HỖ TRỢ KÉO THẢ ROBOT PET TRÊN MOBILE (MOBILE DRAG SUPPORT)
-   ============================================================ */
-@media (max-width: 767.98px) {
-  #robotPet {
-    touch-action: none;
-  }
-
-  #robotPet.is-positioned,
-  #robotPet.is-dragging {
-    right: auto !important;
-    bottom: auto !important;
-    transform: scale(0.72) !important;
-    transform-origin: top left !important;
-  }
-
-  #robotPet.is-dragging {
-    transition: none !important;
-  }
-}
-
-/* ============================================================
-   CURRENT LAYOUT STABILIZATION
-   Scoped overrides for the active portfolio layout. Keep these
-   after legacy responsive rules so PC/mobile behavior is predictable.
-   ============================================================ */
-@media (max-width: 767.98px) {
-  .navbar-brand {
-    max-width: calc(100vw - 126px);
+    max-width: 60%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .hero {
-    overflow: hidden;
-  }
-
-  .hero-premium__content {
-    text-align: center;
-  }
-
-  .hero .hero-premium__title {
-    width: 100%;
-    max-width: none;
-    margin-inline: auto;
-    font-size: 3.25rem !important;
-    line-height: 0.98;
-    letter-spacing: -0.052em;
-    overflow-wrap: normal;
-    text-wrap: nowrap;
-    white-space: nowrap;
-  }
-
-  .hero-premium__lead {
-    min-height: 0;
-    max-width: 38rem;
-    margin-inline: auto;
-    line-height: 1.55;
-    text-wrap: balance;
-  }
-
-  .hero-premium__eyebrow {
-    max-width: 100%;
+  /* Hero Section */
+  .hero-premium {
+    padding-top: 100px;
+    padding-bottom: 40px;
+    min-height: auto;
   }
 
   .hero-premium__cta {
-    justify-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-3);
   }
 
   .hero-premium__cta .btn {
-    width: min(100%, 14rem);
+    width: 100%;
+    min-height: 48px; /* Touch target safety */
   }
 
-  #robotPet {
-    z-index: calc(var(--layer-chat, 1050) + 1) !important;
+  .hero-premium__card {
+    padding: var(--space-4);
+    margin-top: var(--space-8);
   }
 
-  #chatbotPanel {
-    height: min(70dvh, calc(100dvh - 94px)) !important;
-    z-index: var(--layer-chat, 1050) !important;
+  /* Projects & Filtering */
+  .project-filter {
+    gap: var(--space-2);
+    padding-bottom: var(--space-2);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide scrollbar on Firefox */
   }
 
-  body.chatbot-open #robotPet,
-  #robotPet.chatbot-open {
-    bottom: calc(min(70dvh, calc(100dvh - 94px)) + 8px) !important;
-    z-index: calc(var(--layer-chat, 1050) + 1) !important;
+  .project-filter::-webkit-scrollbar {
+    display: none; /* Hide scrollbar on Chrome/Safari */
   }
 
-  .chatbot-messages {
-    max-height: calc(min(70dvh, calc(100dvh - 94px)) - 145px) !important;
+  .project-filter__button {
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: var(--text-xs);
+  }
+
+  .project-card__body {
+    padding: var(--space-4);
+  }
+
+  .project-card__details {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-1);
+    padding: var(--space-3);
+  }
+
+  .project-card__footer {
+    padding: var(--space-4);
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  /* Form */
+  #contactForm {
+    padding: var(--space-4);
+  }
+
+  /* Chatbot panel */
+  .chatbot-panel {
+    right: 12px;
+    left: 12px;
+    bottom: 80px;
+    width: auto;
+    height: 70dvh;
+    max-height: none;
+  }
+
+  .robot-pet {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  /* Back to top position adjustment */
+  .back-to-top {
+    right: 12px;
+    top: auto;
+    bottom: 80px;
   }
 }
 
-@media (max-width: 575.98px) {
-  .hero {
-    padding-top: 112px !important;
+/* ============================================================
+   2. BREAKPOINT: 576px to 767.98px (Large Mobile & Portrait Tablet)
+   ============================================================ */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  :root {
+    --text-display: clamp(3rem, 8vw, 4rem);
+    --text-xl: 1.75rem;
   }
 
-  .hero .hero-premium__title {
-    font-size: 2.85rem !important;
-    letter-spacing: -0.048em;
+  .hero-premium {
+    padding-top: 110px;
+    padding-bottom: 60px;
+    min-height: auto;
   }
 
-  .hero-premium__lead {
-    font-size: 1.04rem !important;
+  .hero-premium__card {
+    margin-top: var(--space-8);
+  }
+
+  .project-renderer--archive {
+    grid-template-columns: 1fr;
+  }
+
+  .chatbot-panel {
+    right: 20px;
+    left: 20px;
+    width: auto;
   }
 }
 
-@media (max-width: 390px) {
-  .hero .hero-premium__title {
-    font-size: 2.32rem !important;
+/* ============================================================
+   3. BREAKPOINT: 768px to 1023.98px (Tablets: 768px)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .hero-premium {
+    padding-top: 130px;
+    padding-bottom: 80px;
   }
 
-  .hero-premium__eyebrow {
-    font-size: 0.68rem;
-    letter-spacing: 0.13em;
-    padding-inline: 12px;
+  .hero-premium__card {
+    margin-top: var(--space-8);
+  }
+
+  .project-renderer--archive {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 340px) {
-  .hero .hero-premium__title {
-    font-size: 2.05rem !important;
+/* ============================================================
+   4. BREAKPOINT: 1024px to 1439.98px (Laptops & Standard Desktops: 1024px)
+   ============================================================ */
+@media (min-width: 1024px) {
+  .hero-premium .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-premium__content {
+    padding-right: var(--space-8);
+  }
+}
+
+/* ============================================================
+   5. BREAKPOINT: >= 1440px (Wide Screens: 1440px)
+   ============================================================ */
+@media (min-width: 1440px) {
+  .container {
+    max-width: var(--content-wide);
+  }
+}
+
+/* ============================================================
+   6. PRINT STYLES
+   ============================================================ */
+@media print {
+  body {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  .navbar,
+  .hero-premium__cta,
+  .project-filter,
+  .floating-control,
+  .robot-pet,
+  .chatbot-panel,
+  #contactForm button {
+    display: none !important;
+  }
+
+  .hero-premium,
+  .section {
+    padding: 2rem 0 !important;
+    min-height: auto !important;
+  }
+
+  .hero-premium__card,
+  .project-card,
+  .expertise-block,
+  #about aside {
+    background-color: #fff !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    color: #000 !important;
+  }
+
+  .project-card__details {
+    background-color: #f8f9fa !important;
+    border: 1px solid #ccc !important;
+    color: #000 !important;
   }
 }
