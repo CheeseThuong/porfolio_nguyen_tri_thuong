@@ -92,6 +92,15 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
     padding: var(--space-3);
   }
 
+  .project-card__meta {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .project-card__status {
+    grid-column: 2;
+    justify-self: start;
+  }
+
   .project-card__footer {
     padding: var(--space-4);
     flex-direction: column;
@@ -101,6 +110,11 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
   /* Form */
   #contactForm {
     padding: var(--space-4);
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
 
@@ -191,6 +205,10 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
 
   .hero-premium__card {
     margin-top: var(--space-8);
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
   }
 
   .project-renderer--archive {
