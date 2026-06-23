@@ -362,9 +362,10 @@
                   name="from_name"
                   autocomplete="name"
                   minlength="2"
-                  aria-describedby="name-help"
+                  aria-describedby="name-help name-error"
                   required>
                 <small id="name-help">Nhập ít nhất 2 ký tự.</small>
+                <small id="name-error" class="field-error" aria-live="polite" hidden></small>
               </div>
 
               <div class="mb-3">
@@ -375,9 +376,10 @@
                   id="email"
                   name="from_email"
                   autocomplete="email"
-                  aria-describedby="email-help"
+                  aria-describedby="email-help email-error"
                   required>
                 <small id="email-help">Dùng địa chỉ email bạn có thể nhận phản hồi.</small>
+                <small id="email-error" class="field-error" aria-live="polite" hidden></small>
               </div>
 
               <div class="mb-3">
@@ -388,9 +390,10 @@
                   name="message"
                   rows="6"
                   minlength="10"
-                  aria-describedby="message-help"
+                  aria-describedby="message-help message-error"
                   required></textarea>
                 <small id="message-help">Nêu ngắn gọn nội dung cần trao đổi, tối thiểu 10 ký tự.</small>
+                <small id="message-error" class="field-error" aria-live="polite" hidden></small>
               </div>
 
               <button type="submit" class="btn btn-primary">

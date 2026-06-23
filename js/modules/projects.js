@@ -123,7 +123,8 @@
     const filterHost = document.getElementById('projectFilters');
     const archiveHost = document.getElementById('projectArchive');
 
-    if (!featuredHost || !filterHost || !archiveHost) return;
+    if (!featuredHost || !filterHost || !archiveHost || filterHost.dataset.projectFiltersInitialized === 'true') return;
+    filterHost.dataset.projectFiltersInitialized = 'true';
 
     const featuredProjects = projects.filter((project) => project.featured).slice(0, 5);
     renderProjectList(featuredHost, featuredProjects, { featured: true });
@@ -152,14 +153,16 @@
       button.type = 'button';
       button.dataset.category = category.id;
       button.setAttribute('aria-pressed', String(category.id === activeCategory));
-      button.addEventListener('click', () => {
-        activeCategory = category.id;
-        renderArchive();
-      });
       filterFragment.append(button);
     });
 
     filterHost.replaceChildren(filterFragment);
+    filterHost.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-category]');
+      if (!button || !filterHost.contains(button)) return;
+      activeCategory = button.dataset.category;
+      renderArchive();
+    });
     renderArchive();
   }
 

@@ -1,110 +1,133 @@
 (function definePortfolioContact(global) {
   'use strict';
 
+  const emailConfig = Object.freeze({
+    publicKey: 'PU-XG9rPWqN8OwKZl',
+    serviceId: 'service_vhcqrve',
+    templateId: 'template_v0k8rw4'
+  });
+
   function init() {
     const contactForm = document.getElementById('contactForm');
+    if (!contactForm || contactForm.dataset.contactInitialized === 'true') return;
+    contactForm.dataset.contactInitialized = 'true';
+
     const successMessage = document.getElementById('successMessage');
     const formError = document.getElementById('formError');
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const submitLabel = submitButton?.querySelector('span');
+    const fields = [
+      { input: document.getElementById('name'), error: document.getElementById('name-error'), validate: (value) => value.length >= 2 ? '' : 'Nhập họ và tên với ít nhất 2 ký tự.' },
+      { input: document.getElementById('email'), error: document.getElementById('email-error'), validate: (value, input) => input.validity.valid && value ? '' : 'Nhập địa chỉ email hợp lệ.' },
+      { input: document.getElementById('message'), error: document.getElementById('message-error'), validate: (value) => value.length >= 10 ? '' : 'Lời nhắn cần có ít nhất 10 ký tự.' }
+    ].filter(({ input, error }) => input && error);
+    let isSubmitting = false;
+    let emailClientInitialized = false;
 
-    if (!contactForm) return;
-
-    // Initialize EmailJS if available (since inline initialization was removed for performance)
-    if (global.emailjs) {
-      global.emailjs.init("PU-XG9rPWqN8OwKZl");
+    function setMessage(element, message) {
+      if (!element) return;
+      element.textContent = message;
+      element.classList.toggle('d-none', !message);
     }
 
-    contactForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
+    function setMailtoFallback() {
+      if (!formError) return;
+      const emailLink = document.createElement('a');
+      emailLink.href = 'mailto:nguyentrithuong471@gmail.com';
+      emailLink.textContent = 'nguyentrithuong471@gmail.com';
+      formError.replaceChildren('Không thể gửi tự động vào lúc này. Gửi trực tiếp qua ', emailLink, '.');
+      formError.classList.remove('d-none');
+    }
 
-      // Reset feedback messages
-      if (successMessage) successMessage.classList.add('d-none');
-      if (formError) formError.classList.add('d-none');
+    function setFieldError(field, message) {
+      field.input.setAttribute('aria-invalid', String(Boolean(message)));
+      field.error.textContent = message;
+      field.error.hidden = !message;
+    }
 
-      // 1. Honeypot Spam Protection
+    function validateField(field) {
+      const message = field.validate(field.input.value.trim(), field.input);
+      setFieldError(field, message);
+      return !message;
+    }
+
+    function validateForm() {
+      const invalidField = fields.find((field) => !validateField(field));
+      return invalidField || null;
+    }
+
+    function setSubmitting(submitting) {
+      if (!submitButton) return;
+      submitButton.disabled = submitting;
+      submitButton.classList.toggle('is-loading', submitting);
+      if (submitLabel) submitLabel.textContent = submitting ? 'Đang gửi…' : 'Gửi lời nhắn';
+    }
+
+    function getEmailClient() {
+      if (!global.emailjs || typeof global.emailjs.init !== 'function' || typeof global.emailjs.send !== 'function') {
+        return null;
+      }
+
+      if (!emailConfig.publicKey || !emailConfig.serviceId || !emailConfig.templateId) return null;
+
+      if (!emailClientInitialized) {
+        global.emailjs.init(emailConfig.publicKey);
+        emailClientInitialized = true;
+      }
+
+      return global.emailjs;
+    }
+
+    fields.forEach((field) => {
+      field.input.addEventListener('blur', () => validateField(field));
+      field.input.addEventListener('input', () => {
+        if (field.input.getAttribute('aria-invalid') === 'true') validateField(field);
+      });
+    });
+
+    contactForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (isSubmitting) return;
+
+      setMessage(successMessage, '');
+      setMessage(formError, '');
+
       const honeypot = document.getElementById('honeypot');
-      if (honeypot && honeypot.value.trim() !== '') {
-        // Silently ignore submission to deceive spam bots, show fake success
-        if (successMessage) {
-          successMessage.classList.remove('d-none');
-          successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+      if (honeypot?.value.trim()) {
+        setMessage(successMessage, 'Tin nhắn đã được gửi. Cảm ơn bạn đã liên hệ.');
         contactForm.reset();
-        contactForm.classList.remove('was-validated');
+        fields.forEach((field) => setFieldError(field, ''));
         return;
       }
 
-      // 2. Field Validation
-      if (!contactForm.checkValidity()) {
-        contactForm.classList.add('was-validated');
-        if (formError) {
-          formError.textContent = 'Vui lòng kiểm tra lại các trường bắt buộc.';
-          formError.classList.remove('d-none');
-        }
-        contactForm.querySelector(':invalid')?.focus();
+      const invalidField = validateForm();
+      if (invalidField) {
+        setMessage(formError, 'Vui lòng kiểm tra lại các trường được đánh dấu.');
+        invalidField.input.focus();
         return;
       }
 
-      // 3. Double Submit Guard & Loading State
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const submitLabel = submitBtn ? submitBtn.querySelector('span') : null;
-      const originalLabel = submitLabel ? submitLabel.textContent : 'Gửi lời nhắn';
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.classList.add('is-loading');
-      }
-      if (submitLabel) {
-        submitLabel.textContent = 'Đang gửi...';
-      }
-
-      const nameVal = document.getElementById('name').value.trim();
-      const emailVal = document.getElementById('email').value.trim();
-      const messageVal = document.getElementById('message').value.trim();
+      isSubmitting = true;
+      setSubmitting(true);
 
       try {
-        // 4. EmailJS Submission
-        if (!global.emailjs) {
-          throw new Error('EmailJS library is not available');
-        }
+        const emailClient = getEmailClient();
+        if (!emailClient) throw new Error('EMAIL_SERVICE_UNAVAILABLE');
 
-        await global.emailjs.send("service_vhcqrve", "template_v0k8rw4", {
-          name: nameVal,
-          email: emailVal,
-          message: messageVal,
+        await emailClient.send(emailConfig.serviceId, emailConfig.templateId, {
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          message: document.getElementById('message').value.trim()
         });
 
-        // Success State
-        if (successMessage) {
-          successMessage.classList.remove('d-none');
-          successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        setMessage(successMessage, 'Tin nhắn đã được gửi. Cảm ơn bạn đã liên hệ.');
         contactForm.reset();
-        contactForm.classList.remove('was-validated');
-
-      } catch (error) {
-        // 5. Fallback to mailto redirection if EmailJS fails/blocked
-        console.error('Mail delivery service error occurred.'); // Do not log sensitive user inputs
-
-        const subject = encodeURIComponent(`Liên hệ từ Portfolio - ${nameVal}`);
-        const body = encodeURIComponent(`${messageVal}\n\n---\nEmail liên hệ: ${emailVal}`);
-        const mailtoLink = `mailto:nguyentrithuong471@gmail.com?subject=${subject}&body=${body}`;
-
-        // Redirect user to their default mail client
-        global.location.href = mailtoLink;
-
-        if (formError) {
-          formError.textContent = 'Hệ thống gửi thư tự động gặp sự cố. Trình gửi mail của bạn đã được mở để gửi trực tiếp.';
-          formError.classList.remove('d-none');
-        }
+        fields.forEach((field) => setFieldError(field, ''));
+      } catch {
+        setMailtoFallback();
       } finally {
-        // Reset button loading state
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('is-loading');
-        }
-        if (submitLabel) {
-          submitLabel.textContent = originalLabel;
-        }
+        isSubmitting = false;
+        setSubmitting(false);
       }
     });
   }

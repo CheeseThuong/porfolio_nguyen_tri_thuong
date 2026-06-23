@@ -3,123 +3,146 @@
 
   function getHashTarget(hash) {
     if (!hash || hash === '#') return null;
+
     try {
-      const id = decodeURIComponent(hash.slice(1));
-      return document.getElementById(id) || document.querySelector(hash);
+      return document.getElementById(decodeURIComponent(hash.slice(1)));
     } catch {
       return null;
     }
   }
 
   function init() {
-    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const supportsIntersectionObserver = 'IntersectionObserver' in window;
+    if (document.documentElement.dataset.navigationInitialized === 'true') return;
+    document.documentElement.dataset.navigationInitialized = 'true';
 
-    // 1. Back to Top Button
+    const prefersReducedMotion = global.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const nav = document.querySelector('.navbar');
+    const menu = document.getElementById('navbarNav');
+    const menuToggle = document.querySelector('.navbar-toggler');
+    const navLinks = [...document.querySelectorAll('.nav-link[href^="#"]')];
+    const sections = navLinks
+      .map((link) => getHashTarget(link.getAttribute('href')))
+      .filter(Boolean);
+
     const backToTop = document.createElement('button');
     backToTop.className = 'floating-control back-to-top';
     backToTop.type = 'button';
     backToTop.setAttribute('aria-label', 'Về đầu trang');
     backToTop.innerHTML = '<i class="fas fa-arrow-up" aria-hidden="true"></i>';
-    document.body.appendChild(backToTop);
+    document.body.append(backToTop);
+
+    let activeSectionId = null;
+    let scrollFrame = 0;
+
+    function setActiveSection(sectionId, { replaceHash = false } = {}) {
+      if (sectionId === activeSectionId && !replaceHash) return;
+
+      activeSectionId = sectionId;
+      navLinks.forEach((link) => {
+        const isActive = link.getAttribute('href') === `#${sectionId}`;
+        link.classList.toggle('active', isActive);
+        if (isActive) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+
+      if (!replaceHash) return;
+
+      const nextHash = sectionId ? `#${sectionId}` : '#top';
+      if (global.location.hash !== nextHash) {
+        global.history.replaceState(null, '', nextHash);
+      }
+    }
+
+    function getSectionInView() {
+      const headerOffset = (nav?.offsetHeight || 0) + 24;
+      const scrollPosition = global.scrollY + headerOffset;
+      let currentSection = null;
+
+      sections.forEach((section) => {
+        if (section.offsetTop <= scrollPosition) currentSection = section;
+      });
+
+      return currentSection;
+    }
+
+    function updateScrollState({ replaceHash = true } = {}) {
+      const isPastScrollThreshold = global.scrollY > 420;
+      backToTop.classList.toggle('is-visible', isPastScrollThreshold);
+      nav?.classList.toggle('navbar-scrolled', global.scrollY > 32);
+
+      const currentSection = getSectionInView();
+      setActiveSection(currentSection?.id ?? null, { replaceHash });
+    }
+
+    function scheduleScrollUpdate() {
+      if (scrollFrame) return;
+      scrollFrame = global.requestAnimationFrame(() => {
+        scrollFrame = 0;
+        updateScrollState();
+      });
+    }
+
+    function closeMobileMenu({ restoreFocus = false } = {}) {
+      if (!menu?.classList.contains('show')) return;
+
+      if (global.bootstrap?.Collapse) {
+        const collapse = global.bootstrap.Collapse.getInstance(menu)
+          || new global.bootstrap.Collapse(menu, { toggle: false });
+        if (restoreFocus) {
+          menu.addEventListener('hidden.bs.collapse', () => menuToggle?.focus({ preventScroll: true }), { once: true });
+        }
+        collapse.hide();
+      } else {
+        menu.classList.remove('show');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) menuToggle?.focus({ preventScroll: true });
+      }
+    }
 
     backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      global.history.pushState(null, '', '#top');
+      setActiveSection(null);
+      global.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     });
 
-    // 2. Navbar Scrolled and Back to Top Observer
-    const nav = document.querySelector('.navbar');
-    const hero = document.querySelector('.hero');
+    global.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
+    global.addEventListener('resize', scheduleScrollUpdate, { passive: true });
 
-    if (supportsIntersectionObserver) {
-      if (hero) {
-        const heroObserver = new IntersectionObserver(([entry]) => {
-          backToTop.classList.toggle('is-visible', !entry.isIntersecting);
-          if (nav) {
-            nav.classList.toggle('navbar-scrolled', !entry.isIntersecting);
-          }
-        }, { threshold: 0.15 });
-        heroObserver.observe(hero);
-      } else {
-        // Fallback if no hero element
-        window.addEventListener('scroll', () => {
-          const scrolled = window.scrollY > 100;
-          backToTop.classList.toggle('is-visible', scrolled);
-          if (nav) {
-            nav.classList.toggle('navbar-scrolled', scrolled);
-          }
-        }, { passive: true });
-      }
-    } else {
-      // Fallback for browsers without IntersectionObserver
-      window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY > 100;
-        backToTop.classList.toggle('is-visible', scrolled);
-        if (nav) {
-          nav.classList.toggle('navbar-scrolled', scrolled);
-        }
-      }, { passive: true });
-    }
-
-    // 3. Scroll Spy (Active Links)
-    const navLinks = [...document.querySelectorAll('.nav-link[href^="#"]')];
-    const trackedSections = navLinks
-      .map((link) => getHashTarget(link.getAttribute('href')))
-      .filter(Boolean);
-
-    if (trackedSections.length && supportsIntersectionObserver) {
-      const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          navLinks.forEach((link) => {
-            const isActive = link.getAttribute('href') === `#${entry.target.id}`;
-            link.classList.toggle('active', isActive);
-            if (isActive) {
-              link.setAttribute('aria-current', 'page');
-            } else {
-              link.removeAttribute('aria-current');
-            }
-          });
-        });
-      }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-
-      trackedSections.forEach((section) => sectionObserver.observe(section));
-    }
-
-    // 4. Navigation Links Click and Mobile Menu Collapse
     navLinks.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        const hash = link.getAttribute('href');
-        const target = getHashTarget(hash);
+      link.addEventListener('click', () => {
+        const target = getHashTarget(link.getAttribute('href'));
+        if (!target) return;
 
-        if (target) {
-          // If reveal module is active, force reveal target section elements
-          target.querySelectorAll('.js-reveal').forEach((element) => {
-            element.classList.add('is-revealed');
-          });
-        }
-
-        // Collapse bootstrap menu if open
-        const menu = document.getElementById('navbarNav');
-        if (menu?.classList.contains('show') && window.bootstrap?.Collapse) {
-          const bsCollapse = window.bootstrap.Collapse.getInstance(menu) || new window.bootstrap.Collapse(menu, { toggle: false });
-          bsCollapse.hide();
-        }
+        setActiveSection(target.id);
+        target.querySelectorAll('.js-reveal').forEach((element) => element.classList.add('is-revealed'));
+        closeMobileMenu({ restoreFocus: true });
       });
     });
 
-    // 5. Handle Initial Hash or Page Reload Offset
-    if (window.location.hash) {
-      const initialTarget = getHashTarget(window.location.hash);
-      if (initialTarget) {
-        setTimeout(() => {
-          initialTarget.scrollIntoView({ behavior: 'smooth' });
-          initialTarget.querySelectorAll('.js-reveal').forEach((element) => {
-            element.classList.add('is-revealed');
-          });
-        }, 100);
-      }
-    }
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMobileMenu({ restoreFocus: true });
+    });
+
+    global.matchMedia?.('(min-width: 992px)').addEventListener?.('change', (event) => {
+      if (event.matches) closeMobileMenu();
+    });
+
+    global.addEventListener('hashchange', () => {
+      const target = getHashTarget(global.location.hash);
+      setActiveSection(target?.id ?? null);
+      global.requestAnimationFrame(() => updateScrollState({ replaceHash: false }));
+    });
+
+    global.addEventListener('popstate', () => {
+      const target = getHashTarget(global.location.hash);
+      setActiveSection(target?.id ?? null);
+      global.requestAnimationFrame(() => updateScrollState({ replaceHash: false }));
+    });
+
+    global.requestAnimationFrame(() => updateScrollState({ replaceHash: !global.location.hash }));
   }
 
   global.PortfolioNavigation = Object.freeze({ init });

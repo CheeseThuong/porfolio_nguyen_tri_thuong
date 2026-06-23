@@ -956,6 +956,15 @@ textarea.form-control {
   margin-top: 4px;
 }
 
+.field-error {
+  color: var(--color-error) !important;
+  font-weight: 600;
+}
+
+.field-error[hidden] {
+  display: none;
+}
+
 .mb-3 {
   margin-bottom: var(--space-6);
 }
