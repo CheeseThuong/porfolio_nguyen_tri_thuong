@@ -33,6 +33,7 @@
 
     let activeSectionId = null;
     let scrollFrame = 0;
+    let pendingHashId = null;
 
     function setActiveSection(sectionId, { replaceHash = false } = {}) {
       if (sectionId === activeSectionId && !replaceHash) return;
@@ -57,7 +58,8 @@
     }
 
     function getSectionInView() {
-      const headerOffset = (nav?.offsetHeight || 0) + 24;
+      const scrollPaddingTop = Number.parseFloat(global.getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const headerOffset = Math.max(scrollPaddingTop, nav?.offsetHeight || 0);
       const scrollPosition = global.scrollY + headerOffset;
       let currentSection = null;
 
@@ -74,6 +76,10 @@
       nav?.classList.toggle('navbar-scrolled', global.scrollY > 32);
 
       const currentSection = getSectionInView();
+      if (pendingHashId) {
+        setActiveSection(pendingHashId);
+        return;
+      }
       setActiveSection(currentSection?.id ?? null, { replaceHash });
     }
 
@@ -88,13 +94,19 @@
     function closeMobileMenu({ restoreFocus = false } = {}) {
       if (!menu?.classList.contains('show')) return;
 
+      menuToggle?.setAttribute('aria-expanded', 'false');
+
       if (global.bootstrap?.Collapse) {
         const collapse = global.bootstrap.Collapse.getInstance(menu)
           || new global.bootstrap.Collapse(menu, { toggle: false });
-        if (restoreFocus) {
-          menu.addEventListener('hidden.bs.collapse', () => menuToggle?.focus({ preventScroll: true }), { once: true });
-        }
+        menu.addEventListener('hidden.bs.collapse', () => {
+          menuToggle?.setAttribute('aria-expanded', 'false');
+          if (restoreFocus) menuToggle?.focus({ preventScroll: true });
+        }, { once: true });
         collapse.hide();
+        menu.classList.remove('show');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) menuToggle?.focus({ preventScroll: true });
       } else {
         menu.classList.remove('show');
         menuToggle?.setAttribute('aria-expanded', 'false');
@@ -116,33 +128,55 @@
         const target = getHashTarget(link.getAttribute('href'));
         if (!target) return;
 
+        pendingHashId = target.id;
         setActiveSection(target.id);
         target.querySelectorAll('.js-reveal').forEach((element) => element.classList.add('is-revealed'));
         closeMobileMenu({ restoreFocus: true });
       });
     });
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeMobileMenu({ restoreFocus: true });
-    });
+    function handleEscape(event) {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      closeMobileMenu({ restoreFocus: true });
+    }
+
+    document.addEventListener('keydown', handleEscape, { capture: true });
+    menuToggle?.addEventListener('keydown', handleEscape);
+    menu?.addEventListener('keydown', handleEscape);
 
     global.matchMedia?.('(min-width: 992px)').addEventListener?.('change', (event) => {
       if (event.matches) closeMobileMenu();
     });
 
-    global.addEventListener('hashchange', () => {
+    function synchronizeHashTarget() {
       const target = getHashTarget(global.location.hash);
+      pendingHashId = target?.id ?? null;
       setActiveSection(target?.id ?? null);
-      global.requestAnimationFrame(() => updateScrollState({ replaceHash: false }));
-    });
 
-    global.addEventListener('popstate', () => {
-      const target = getHashTarget(global.location.hash);
-      setActiveSection(target?.id ?? null);
-      global.requestAnimationFrame(() => updateScrollState({ replaceHash: false }));
-    });
+      if (!target) {
+        global.requestAnimationFrame(() => updateScrollState({ replaceHash: false }));
+        return;
+      }
 
-    global.requestAnimationFrame(() => updateScrollState({ replaceHash: !global.location.hash }));
+      global.requestAnimationFrame(() => {
+        target.scrollIntoView({ block: 'start', behavior: 'instant' });
+        global.requestAnimationFrame(() => {
+          pendingHashId = null;
+          updateScrollState({ replaceHash: false });
+        });
+      });
+    }
+
+    global.addEventListener('hashchange', synchronizeHashTarget);
+
+    global.addEventListener('popstate', synchronizeHashTarget);
+
+    if (global.location.hash) {
+      synchronizeHashTarget();
+    } else {
+      global.requestAnimationFrame(() => updateScrollState({ replaceHash: true }));
+    }
   }
 
   global.PortfolioNavigation = Object.freeze({ init });

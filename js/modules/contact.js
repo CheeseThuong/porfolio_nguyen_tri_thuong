@@ -52,8 +52,8 @@
     }
 
     function validateForm() {
-      const invalidField = fields.find((field) => !validateField(field));
-      return invalidField || null;
+      const invalidFields = fields.filter((field) => !validateField(field));
+      return invalidFields[0] || null;
     }
 
     function setSubmitting(submitting) {

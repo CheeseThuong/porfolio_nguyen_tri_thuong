@@ -1,0 +1,499 @@
+- generic [active] [ref=e1]:
+  - link "Bỏ qua đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic:
+    - img
+    - img
+    - img
+    - img
+    - img
+    - img
+    - img
+    - img:
+      - generic: Esc
+    - img
+  - banner [ref=e3]:
+    - navigation "Điều hướng chính" [ref=e4]:
+      - generic [ref=e5]:
+        - link "Nguyễn Trí Thượng, về đầu trang" [ref=e6] [cursor=pointer]:
+          - /url: "#top"
+          - text: Nguyễn Trí Thượng
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Dự án" [ref=e10] [cursor=pointer]:
+              - /url: "#work"
+          - listitem [ref=e11]:
+            - link "Năng lực" [ref=e12] [cursor=pointer]:
+              - /url: "#expertise"
+          - listitem [ref=e13]:
+            - link "Giới thiệu" [ref=e14] [cursor=pointer]:
+              - /url: "#about"
+          - listitem [ref=e15]:
+            - link "Liên hệ" [ref=e16] [cursor=pointer]:
+              - /url: "#contact"
+          - listitem [ref=e17]:
+            - link "GitHub (mở trong tab mới)" [ref=e18] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong
+              - text: GitHub
+              - generic [ref=e19]: (mở trong tab mới)
+    - generic "Nguyễn Trí Thượng" [ref=e20]:
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - paragraph [ref=e24]: AI/ML developer
+          - heading "Nguyễn Trí Thượng" [level=1] [ref=e25]
+          - paragraph [ref=e26]: AI / Machine Learning / Applied Software
+          - paragraph [ref=e27]: Sinh viên ngành Trí tuệ nhân tạo xây dựng hệ thống nhận dạng tiếng nói, retrieval chatbot, mô hình dự đoán và API phục vụ ứng dụng.
+          - generic "Liên kết chính" [ref=e28]:
+            - link "Xem dự án" [ref=e29] [cursor=pointer]:
+              - /url: "#work"
+            - link "GitHub (mở trong tab mới)" [ref=e30] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong
+              - text: GitHub
+              - generic [ref=e31]: (mở trong tab mới)
+        - complementary "Tóm tắt kỹ thuật" [ref=e32]:
+          - heading "Tóm tắt kỹ thuật" [level=2] [ref=e33]: NTT / Tóm tắt kỹ thuật
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - term [ref=e36]: Trọng tâm AI
+              - definition [ref=e37]: Speech recognition, NLP retrieval và predictive modeling.
+            - generic [ref=e38]:
+              - term [ref=e39]: Xây dựng
+              - definition [ref=e40]: Python, PyTorch, Hugging Face, Flask và FastAPI.
+            - generic [ref=e41]:
+              - term [ref=e42]: Thực hành delivery
+              - definition [ref=e43]: Testing, Docker và GitHub Actions qua các project lab thực hành.
+  - main [ref=e44]:
+    - region "Dự án tiêu biểu" [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - heading "Dự án tiêu biểu" [level=2] [ref=e48]
+          - paragraph [ref=e49]: Một số dự án tiêu biểu về xử lý tiếng nói, truy xuất tri thức và mô hình dự đoán.
+        - list "Danh sách dự án tiêu biểu" [ref=e50]:
+          - listitem [ref=e51]:
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - generic [ref=e55]: 
+                - generic [ref=e56]: Speech & NLP
+                - generic [ref=e57]: Research project
+              - heading "VietASR Pro" [level=3] [ref=e58]
+              - paragraph [ref=e59]: Hệ thống nhận dạng tiếng nói tiếng Việt dùng Wav2Vec 2.0, PyTorch và Hugging Face, kèm Flask demo và FastAPI API.
+              - paragraph [ref=e60]: "Best WER: 13.31%. Metric được công bố trong README của repository."
+              - list "Công nghệ của VietASR Pro" [ref=e61]:
+                - listitem [ref=e62]: Python
+                - listitem [ref=e63]: PyTorch
+                - listitem [ref=e64]: Wav2Vec 2.0
+                - listitem [ref=e65]: Hugging Face
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e67] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/Vietnamese-asr
+              - text: Xem repository
+              - generic [ref=e68]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e69]:
+            - generic [ref=e70]:
+              - generic [ref=e71]:
+                - generic [ref=e73]: 
+                - generic [ref=e74]: RAG & AI Applications
+                - generic [ref=e75]: Prototype
+              - heading "TBD RAG Chatbot" [level=3] [ref=e76]
+              - paragraph [ref=e77]: Hybrid RAG local-first cho tra cứu tuyển sinh, kết hợp frontend React với FastAPI, ChromaDB và Gemini.
+              - paragraph [ref=e78]: Repository mô tả citations, ingest, query rewriting và safe fallback.
+              - list "Công nghệ của TBD RAG Chatbot" [ref=e79]:
+                - listitem [ref=e80]: React
+                - listitem [ref=e81]: TypeScript
+                - listitem [ref=e82]: Vite
+                - listitem [ref=e83]: FastAPI
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e85] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/TBD-RAG-Chatbot
+              - text: Xem repository
+              - generic [ref=e86]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e87]:
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - generic [ref=e91]: 
+                - generic [ref=e92]: Machine Learning
+                - generic [ref=e93]: Academic project
+              - heading "Sentiment Analysis RNN/LSTM/BERT" [level=3] [ref=e94]
+              - paragraph [ref=e95]: Project so sánh RNN, LSTM và BERT cho bài toán sentiment analysis trên IMDB 50K.
+              - paragraph [ref=e96]: Repository dùng IMDB 50K, PyTorch, Hugging Face và cung cấp Kaggle notebook.
+              - list "Công nghệ của Sentiment Analysis RNN/LSTM/BERT" [ref=e97]:
+                - listitem [ref=e98]: Python
+                - listitem [ref=e99]: PyTorch
+                - listitem [ref=e100]: Hugging Face
+                - listitem [ref=e101]: RNN
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e103] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/sentiment-analysis-rnn-lstm-bert
+              - text: Xem repository
+              - generic [ref=e104]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - generic [ref=e109]: 
+                - generic [ref=e110]: Machine Learning
+                - generic [ref=e111]: Academic project
+              - heading "Fish Pond Water Level Prediction" [level=3] [ref=e112]
+              - paragraph [ref=e113]: Ứng dụng dự đoán mực nước ao cá bằng Linear, Ridge và Polynomial Regression với giao diện Streamlit.
+              - paragraph [ref=e114]: Repository dùng scikit-learn, Streamlit và dataset mô phỏng gồm 800 samples.
+              - list "Công nghệ của Fish Pond Water Level Prediction" [ref=e115]:
+                - listitem [ref=e116]: Python
+                - listitem [ref=e117]: scikit-learn
+                - listitem [ref=e118]: Linear Regression
+                - listitem [ref=e119]: Ridge
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e121] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/Predicting-water-levels-using-Linear-Regression
+              - text: Xem repository
+              - generic [ref=e122]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e123]:
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - generic [ref=e127]: 
+                - generic [ref=e128]: Full-stack Systems
+                - generic [ref=e129]: Prototype
+              - heading "Interpretation of the I Ching" [level=3] [ref=e130]
+              - paragraph [ref=e131]: Prototype ứng dụng lập quẻ với React 19, TypeScript và khả năng export kết quả dưới dạng PNG/SVG.
+              - paragraph [ref=e132]: AI Oracle và Decision Scorer hiện là mock; nhiều dữ liệu vẫn ở trạng thái TODO.
+              - list "Công nghệ của Interpretation of the I Ching" [ref=e133]:
+                - listitem [ref=e134]: React 19
+                - listitem [ref=e135]: TypeScript
+                - listitem [ref=e136]: Vite
+                - listitem [ref=e137]: Vitest
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e139] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/Interpretation-of-the-I-Ching
+              - text: Xem repository
+              - generic [ref=e140]: (mở trong tab mới)
+              - text: ↗
+    - region "Kho dự án" [ref=e141]:
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - heading "Kho dự án" [level=2] [ref=e144]
+          - paragraph [ref=e145]: Danh mục dự án theo Speech & NLP, RAG & AI Applications, Machine Learning, Full-stack Systems và DevOps & Labs.
+        - group "Bộ lọc dự án" [ref=e146]:
+          - button "Tất cả (11)" [pressed] [ref=e147] [cursor=pointer]
+          - button "Speech & NLP (2)" [ref=e148] [cursor=pointer]
+          - button "RAG & AI Applications (1)" [ref=e149] [cursor=pointer]
+          - button "Machine Learning (2)" [ref=e150] [cursor=pointer]
+          - button "Full-stack Systems (3)" [ref=e151] [cursor=pointer]
+          - button "DevOps & Labs (3)" [ref=e152] [cursor=pointer]
+        - list "Kho dự án, 11 kết quả" [ref=e153]:
+          - listitem [ref=e154]:
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - generic [ref=e158]: 
+                - generic [ref=e159]: Speech & NLP
+                - generic [ref=e160]: Research project
+              - heading "VietASR Pro" [level=3] [ref=e161]
+              - paragraph [ref=e162]: Hệ thống nhận dạng tiếng nói tiếng Việt dùng Wav2Vec 2.0, PyTorch và Hugging Face, kèm Flask demo và FastAPI API.
+              - list "Công nghệ của VietASR Pro" [ref=e163]:
+                - listitem [ref=e164]: Python
+                - listitem [ref=e165]: PyTorch
+                - listitem [ref=e166]: Wav2Vec 2.0
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e168] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/Vietnamese-asr
+              - text: Xem repository
+              - generic [ref=e169]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e170]:
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - generic [ref=e174]: 
+                - generic [ref=e175]: RAG & AI Applications
+                - generic [ref=e176]: Prototype
+              - heading "TBD RAG Chatbot" [level=3] [ref=e177]
+              - paragraph [ref=e178]: Hybrid RAG local-first cho tra cứu tuyển sinh, kết hợp frontend React với FastAPI, ChromaDB và Gemini.
+              - list "Công nghệ của TBD RAG Chatbot" [ref=e179]:
+                - listitem [ref=e180]: React
+                - listitem [ref=e181]: TypeScript
+                - listitem [ref=e182]: Vite
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e184] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/TBD-RAG-Chatbot
+              - text: Xem repository
+              - generic [ref=e185]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e186]:
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - generic [ref=e190]: 
+                - generic [ref=e191]: Machine Learning
+                - generic [ref=e192]: Academic project
+              - heading "Sentiment Analysis RNN/LSTM/BERT" [level=3] [ref=e193]
+              - paragraph [ref=e194]: Project so sánh RNN, LSTM và BERT cho bài toán sentiment analysis trên IMDB 50K.
+              - list "Công nghệ của Sentiment Analysis RNN/LSTM/BERT" [ref=e195]:
+                - listitem [ref=e196]: Python
+                - listitem [ref=e197]: PyTorch
+                - listitem [ref=e198]: Hugging Face
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e200] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/sentiment-analysis-rnn-lstm-bert
+              - text: Xem repository
+              - generic [ref=e201]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e202]:
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e206]: 
+                - generic [ref=e207]: Machine Learning
+                - generic [ref=e208]: Academic project
+              - heading "Fish Pond Water Level Prediction" [level=3] [ref=e209]
+              - paragraph [ref=e210]: Ứng dụng dự đoán mực nước ao cá bằng Linear, Ridge và Polynomial Regression với giao diện Streamlit.
+              - list "Công nghệ của Fish Pond Water Level Prediction" [ref=e211]:
+                - listitem [ref=e212]: Python
+                - listitem [ref=e213]: scikit-learn
+                - listitem [ref=e214]: Linear Regression
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e216] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/Predicting-water-levels-using-Linear-Regression
+              - text: Xem repository
+              - generic [ref=e217]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e218]:
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e222]: 
+                - generic [ref=e223]: Speech & NLP
+                - generic [ref=e224]: Academic project
+              - heading "BotChat Support Students TBD" [level=3] [ref=e225]
+              - paragraph [ref=e226]: Retrieval chatbot hỗ trợ sinh viên bằng đối sánh văn bản truyền thống và giao diện desktop Tkinter.
+              - list "Công nghệ của BotChat Support Students TBD" [ref=e227]:
+                - listitem [ref=e228]: Python
+                - listitem [ref=e229]: TF-IDF
+                - listitem [ref=e230]: Cosine Similarity
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e232] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/BotChat-Support-Students-TBD
+              - text: Xem repository
+              - generic [ref=e233]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e234]:
+            - generic [ref=e235]:
+              - generic [ref=e236]:
+                - generic [ref=e238]: 
+                - generic [ref=e239]: Full-stack Systems
+                - generic [ref=e240]: Prototype
+              - heading "Interpretation of the I Ching" [level=3] [ref=e241]
+              - paragraph [ref=e242]: Prototype ứng dụng lập quẻ với React 19, TypeScript và khả năng export kết quả dưới dạng PNG/SVG.
+              - list "Công nghệ của Interpretation of the I Ching" [ref=e243]:
+                - listitem [ref=e244]: React 19
+                - listitem [ref=e245]: TypeScript
+                - listitem [ref=e246]: Vite
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e248] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/Interpretation-of-the-I-Ching
+              - text: Xem repository
+              - generic [ref=e249]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e250]:
+            - generic [ref=e251]:
+              - generic [ref=e252]:
+                - generic [ref=e254]: 
+                - generic [ref=e255]: Full-stack Systems
+                - generic [ref=e256]: Academic project
+              - heading "TBD Bank" [level=3] [ref=e257]
+              - paragraph [ref=e258]: Ứng dụng ngân hàng xây dựng với ASP.NET Core 9, Entity Framework Core, Identity và Clean Architecture.
+              - list "Công nghệ của TBD Bank" [ref=e259]:
+                - listitem [ref=e260]: ASP.NET Core 9
+                - listitem [ref=e261]: Entity Framework Core
+                - listitem [ref=e262]: Identity
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e264] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/TBD-Bank
+              - text: Xem repository
+              - generic [ref=e265]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e266]:
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - generic [ref=e270]: 
+                - generic [ref=e271]: Full-stack Systems
+                - generic [ref=e272]: Academic project
+              - heading "KPI Grading System" [level=3] [ref=e273]
+              - paragraph [ref=e274]: Hệ thống quản lý KPI giảng viên với authentication, dashboard và luồng reporting.
+              - list "Công nghệ của KPI Grading System" [ref=e275]:
+                - listitem [ref=e276]: Node.js
+                - listitem [ref=e277]: Express
+                - listitem [ref=e278]: MongoDB
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e280] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/KPI-GRADING-SYSTEM
+              - text: Xem repository
+              - generic [ref=e281]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e282]:
+            - generic [ref=e283]:
+              - generic [ref=e284]:
+                - generic [ref=e286]: 
+                - generic [ref=e287]: DevOps & Labs
+                - generic [ref=e288]: Lab
+              - heading "Flask CI/CD App" [level=3] [ref=e289]
+              - paragraph [ref=e290]: Flask application dùng làm bài thực hành CI/CD từ kiểm thử đến container và triển khai VPS.
+              - list "Công nghệ của Flask CI/CD App" [ref=e291]:
+                - listitem [ref=e292]: Flask
+                - listitem [ref=e293]: pytest
+                - listitem [ref=e294]: Docker
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e296] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/flask-cicd-app
+              - text: Xem repository
+              - generic [ref=e297]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e298]:
+            - generic [ref=e299]:
+              - generic [ref=e300]:
+                - generic [ref=e302]: 
+                - generic [ref=e303]: DevOps & Labs
+                - generic [ref=e304]: Lab
+              - heading "Student GitHub Actions Lab" [level=3] [ref=e305]
+              - paragraph [ref=e306]: Node.js lab tập trung vào workflow GitHub Actions cho build, test và artifact.
+              - list "Công nghệ của Student GitHub Actions Lab" [ref=e307]:
+                - listitem [ref=e308]: Node.js
+                - listitem [ref=e309]: Jest
+                - listitem [ref=e310]: GitHub Actions
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e312] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/student-github-actions-lab
+              - text: Xem repository
+              - generic [ref=e313]: (mở trong tab mới)
+              - text: ↗
+          - listitem [ref=e314]:
+            - generic [ref=e315]:
+              - generic [ref=e316]:
+                - generic [ref=e318]: 
+                - generic [ref=e319]: DevOps & Labs
+                - generic [ref=e320]: Lab
+              - heading "Student Docker DevOps Lab" [level=3] [ref=e321]
+              - paragraph [ref=e322]: DevOps lab được giữ trong project archive và chưa dùng làm case study chi tiết.
+              - list "Công nghệ của Student Docker DevOps Lab" [ref=e323]:
+                - listitem [ref=e324]: Chưa mô tả sâu
+            - link "Xem repository (mở trong tab mới) ↗" [ref=e326] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong/student-docker-devops-lab
+              - text: Xem repository
+              - generic [ref=e327]: (mở trong tab mới)
+              - text: ↗
+    - region "Năng lực chuyên môn" [ref=e328]:
+      - generic [ref=e329]:
+        - generic [ref=e330]:
+          - heading "Năng lực chuyên môn" [level=2] [ref=e331]
+          - paragraph [ref=e332]: Năng lực được mô tả bằng project đã thực hiện, không dùng phần trăm tự đánh giá.
+        - generic [ref=e333]:
+          - article [ref=e334]:
+            - heading "Speech, NLP và retrieval" [level=3] [ref=e335]
+            - paragraph [ref=e336]: VietASR Pro là bằng chứng cho pipeline nhận dạng tiếng Việt với Wav2Vec 2.0; TBD RAG Chatbot và BotChat Support Students TBD thể hiện hai hướng retrieval khác nhau.
+            - list "Project bằng chứng cho Speech, NLP và retrieval" [ref=e337]:
+              - listitem [ref=e338]:
+                - link "VietASR Pro (mở trong tab mới) ↗" [ref=e339] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/Vietnamese-asr
+                  - text: VietASR Pro
+                  - generic [ref=e340]: (mở trong tab mới)
+                  - text: ↗
+              - listitem [ref=e341]:
+                - link "TBD RAG Chatbot (mở trong tab mới) ↗" [ref=e342] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/TBD-RAG-Chatbot
+                  - text: TBD RAG Chatbot
+                  - generic [ref=e343]: (mở trong tab mới)
+                  - text: ↗
+              - listitem [ref=e344]:
+                - link "BotChat Support Students TBD (mở trong tab mới) ↗" [ref=e345] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/BotChat-Support-Students-TBD
+                  - text: BotChat Support Students TBD
+                  - generic [ref=e346]: (mở trong tab mới)
+                  - text: ↗
+          - article [ref=e347]:
+            - heading "Modeling và experimentation" [level=3] [ref=e348]
+            - paragraph [ref=e349]: Các project sentiment analysis và dự đoán mực nước thể hiện việc so sánh mô hình, làm việc với dataset và đưa kết quả vào notebook hoặc ứng dụng Streamlit.
+            - list "Project bằng chứng cho modeling và experimentation" [ref=e350]:
+              - listitem [ref=e351]:
+                - link "Sentiment Analysis RNN/LSTM/BERT (mở trong tab mới) ↗" [ref=e352] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/sentiment-analysis-rnn-lstm-bert
+                  - text: Sentiment Analysis RNN/LSTM/BERT
+                  - generic [ref=e353]: (mở trong tab mới)
+                  - text: ↗
+              - listitem [ref=e354]:
+                - link "Fish Pond Water Level Prediction (mở trong tab mới) ↗" [ref=e355] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/Predicting-water-levels-using-Linear-Regression
+                  - text: Fish Pond Water Level Prediction
+                  - generic [ref=e356]: (mở trong tab mới)
+                  - text: ↗
+          - article [ref=e357]:
+            - heading "Applied software và delivery" [level=3] [ref=e358]
+            - paragraph [ref=e359]: TBD Bank và KPI Grading System cung cấp bằng chứng về backend/web application; Flask CI/CD App cùng GitHub Actions Lab thể hiện thực hành test, container và CI.
+            - list "Project bằng chứng cho applied software và delivery" [ref=e360]:
+              - listitem [ref=e361]:
+                - link "TBD Bank (mở trong tab mới) ↗" [ref=e362] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/TBD-Bank
+                  - text: TBD Bank
+                  - generic [ref=e363]: (mở trong tab mới)
+                  - text: ↗
+              - listitem [ref=e364]:
+                - link "KPI Grading System (mở trong tab mới) ↗" [ref=e365] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/KPI-GRADING-SYSTEM
+                  - text: KPI Grading System
+                  - generic [ref=e366]: (mở trong tab mới)
+                  - text: ↗
+              - listitem [ref=e367]:
+                - link "Flask CI/CD App (mở trong tab mới) ↗" [ref=e368] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/flask-cicd-app
+                  - text: Flask CI/CD App
+                  - generic [ref=e369]: (mở trong tab mới)
+                  - text: ↗
+              - listitem [ref=e370]:
+                - link "Student GitHub Actions Lab (mở trong tab mới) ↗" [ref=e371] [cursor=pointer]:
+                  - /url: https://github.com/CheeseThuong/student-github-actions-lab
+                  - text: Student GitHub Actions Lab
+                  - generic [ref=e372]: (mở trong tab mới)
+                  - text: ↗
+    - region "Giới thiệu" [ref=e373]:
+      - generic [ref=e374]:
+        - heading "Giới thiệu" [level=2] [ref=e376]
+        - generic [ref=e377]:
+          - article [ref=e378]:
+            - heading "Hướng phát triển" [level=3] [ref=e379]
+            - paragraph [ref=e380]: Tôi phát triển năng lực AI/ML từ modeling đến phần mềm ứng dụng, ưu tiên các project có code, phương pháp và bằng chứng triển khai rõ ràng.
+            - paragraph [ref=e381]: Hướng phát triển hiện tại gồm nhận dạng tiếng nói, NLP/retrieval, mô hình dự đoán và các API phục vụ sản phẩm.
+            - paragraph [ref=e382]: Phù hợp để trao đổi về project AI/ML, học tập kỹ thuật và cơ hội cộng tác liên quan đến phần mềm ứng dụng.
+          - complementary "Thông tin học tập" [ref=e383]:
+            - heading "Thông tin học tập" [level=3] [ref=e384]
+            - paragraph [ref=e385]:
+              - strong [ref=e386]: Đại học Thái Bình Dương
+            - paragraph [ref=e387]: Ngành Trí tuệ nhân tạo
+            - paragraph [ref=e388]: Nha Trang, Việt Nam
+    - region "Liên hệ" [ref=e389]:
+      - generic [ref=e390]:
+        - heading "Liên hệ" [level=2] [ref=e392]
+        - generic [ref=e393]:
+          - generic [ref=e394]:
+            - paragraph [ref=e395]: Trao đổi về project, học tập hoặc cơ hội phù hợp. Mình sẽ phản hồi qua email khi nhận được tin nhắn.
+            - link "nguyentrithuong471@gmail.com" [ref=e396] [cursor=pointer]:
+              - /url: mailto:nguyentrithuong471@gmail.com
+            - link "GitHub (mở trong tab mới)" [ref=e397] [cursor=pointer]:
+              - /url: https://github.com/CheeseThuong
+              - text: GitHub
+              - generic [ref=e398]: ↗
+              - generic [ref=e399]: (mở trong tab mới)
+          - generic [ref=e401]:
+            - paragraph [ref=e402]: Các trường đều bắt buộc. Dùng email bạn có thể nhận phản hồi.
+            - generic [ref=e403]:
+              - generic [ref=e404]: Họ và tên
+              - textbox "Họ và tên" [ref=e405]
+              - generic [ref=e406]: Nhập ít nhất 2 ký tự.
+            - generic [ref=e407]:
+              - generic [ref=e408]: Email
+              - textbox "Email" [ref=e409]
+              - generic [ref=e410]: Dùng địa chỉ email bạn có thể nhận phản hồi.
+            - generic [ref=e411]:
+              - generic [ref=e412]: Lời nhắn
+              - textbox "Lời nhắn" [ref=e413]
+              - generic [ref=e414]: Nêu ngắn gọn nội dung cần trao đổi, tối thiểu 10 ký tự.
+            - button "Gửi lời nhắn" [ref=e415] [cursor=pointer]:
+              - generic [ref=e416]: Gửi lời nhắn
+  - contentinfo [ref=e417]:
+    - generic [ref=e418]:
+      - paragraph [ref=e419]:
+        - strong [ref=e420]: Nguyễn Trí Thượng
+        - text: · AI/ML developer in training
+      - navigation "Điều hướng cuối trang" [ref=e421]:
+        - link "Email" [ref=e422] [cursor=pointer]:
+          - /url: mailto:nguyentrithuong471@gmail.com
+        - link "GitHub (mở trong tab mới)" [ref=e423] [cursor=pointer]:
+          - /url: https://github.com/CheeseThuong
+          - text: GitHub
+          - generic [ref=e424]: (mở trong tab mới)
+        - link "LinkedIn (mở trong tab mới)" [ref=e425] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/tri-thuong-nguyen-5264b62ba/
+          - text: LinkedIn
+          - generic [ref=e426]: (mở trong tab mới)
+        - link "Về đầu trang" [ref=e427] [cursor=pointer]:
+          - /url: "#top"
+      - paragraph [ref=e428]: © 2026 Nguyễn Trí Thượng
