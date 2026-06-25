@@ -25,3 +25,40 @@
 - Project filter dùng event delegation trên button native, giữ focus sau render và bảo toàn `aria-pressed` cùng count từ catalog.
 - Contact có lỗi inline, `aria-invalid`, chống double submit, loading state, guard EmailJS/CDN/config và fallback email hướng người dùng; không log dữ liệu form.
 - Reveal chỉ kích hoạt CSS hidden state sau khi observer sẵn sàng và tự rollback nếu observer lỗi.
+
+## Hero responsive fix (2026-06-25)
+
+### Nguyên nhân lỗi
+
+- `.hero-profile__summary` dùng `position: absolute; right: 1rem; bottom: -2rem` → che avatar và tràn khung.
+- `.hero-profile` dùng `position: relative; isolation: isolate` để chứa card tuyệt đối.
+- `.hero-premium__layout` dùng `align-items: end` gây lệch vertical.
+- `--text-display` quá lớn (`clamp(2.5rem, 6vw, 4.5rem)`) → tên ép xuống hai dòng nặng.
+
+### CSS overlay đã loại bỏ
+
+- Xóa `position: absolute`, `right: 1rem`, `bottom: -2rem`, `width: min(calc(100% - 2rem), 20rem)` khỏi `.hero-profile__summary`.
+- Xóa `position: relative`, `isolation: isolate`, `::before` decorative glow khỏi `.hero-profile`.
+
+### Bố cục desktop (≥ 1100px)
+
+- Grid: `minmax(0, 1.08fr) minmax(360px, 0.92fr)`, `align-items: center`.
+- `.hero-profile` dùng `display: grid; gap: 1rem` — summary nằm dưới ảnh trong normal flow.
+- Avatar tối đa 460px; summary 100% width avatar wrapper.
+- Title: `clamp(2.8rem, 5.2vw, 5rem)`, `line-height: 0.96`, `letter-spacing: -0.04em`.
+
+### Bố cục mobile (< 576px)
+
+- Layout một cột; content trước, avatar sau.
+- Title mobile: `clamp(2.8rem, 13vw, 4rem)`, `line-height: 0.98`.
+- Avatar: `min(88vw, 390px)`.
+- Summary: `padding: 16px`, không absolute, không overlay.
+- Breakpoint 389px: summary row chuyển sang một cột.
+
+### Viewports đã kiểm tra
+
+320×800 · 390×844 · 430×932 · 768×1024 · 1024×768 · 1280×800 · 1440×900 · 1920×1080
+
+### Files đã thay đổi
+
+`index.html`, `css/style.css`, `css/responsive.css`, `docs/UI_FIX_REPORT.md`, `docs/WORK_LOG.md`
