@@ -77,22 +77,6 @@ CSS CUSTOM: TECHNICAL LIGHT PORTFOLIO STYLESHEET
   --duration-fast: 120ms;
   --duration-base: 220ms;
   --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
-
-  /* Legacy Compatibility variables mapped to Light Mode tokens */
-  --primary-color: var(--color-accent);
-  --secondary-color: var(--color-accent);
-  --accent-color: var(--color-accent-strong);
-  --dark-color: var(--color-text);
-  --surface: var(--color-surface-1);
-  --surface-soft: var(--color-surface-2);
-  --text-primary: var(--color-text);
-  --text-muted: var(--color-text-muted);
-  --text-light: var(--color-text);
-  --shadow-color: rgba(15, 23, 42, 0.05);
-  --motion-spring: var(--ease-standard);
-  --layer-nav: var(--z-nav);
-  --layer-control: var(--z-overlay);
-  --layer-chat: var(--z-dialog);
 }
 
 /* ============================================================
@@ -858,12 +842,6 @@ main:focus {
 /* ============================================================
    8. ABOUT SECTION (Two-column split)
    ============================================================ */
-.about-section .row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-8);
-}
-
 #about article {
   flex: 1 1 500px;
 }

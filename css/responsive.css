@@ -113,12 +113,6 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
     padding: var(--space-4);
   }
 
-  .project-card__details {
-    grid-template-columns: 1fr;
-    row-gap: var(--space-1);
-    padding: var(--space-3);
-  }
-
   .project-card__meta {
     grid-template-columns: auto minmax(0, 1fr);
   }
@@ -329,9 +323,4 @@ RESPONSIVE CSS: TECHNICAL LIGHT PORTFOLIO
     color: #000 !important;
   }
 
-  .project-card__details {
-    background-color: #f8f9fa !important;
-    border: 1px solid #ccc !important;
-    color: #000 !important;
-  }
 }
